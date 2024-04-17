@@ -40,14 +40,18 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(sceneName);
     }
-    
-    public void Loadasync(string sceneName)
+    public void LoadSceneAdditive(string sceneName)
     {
-        SceneManager.LoadSceneAsync(sceneName);
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
     }
-    
-    public void UnloadSceneAsync(string sceneName)
+    public void UnloadScene(string sceneName)
     {
         SceneManager.UnloadSceneAsync(sceneName);
     }
+    
+    public void RealoadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    
 }
