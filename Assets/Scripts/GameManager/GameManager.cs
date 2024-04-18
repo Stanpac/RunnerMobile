@@ -1,11 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Lean.Touch;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 /*
  * This script is responsible for managing the game.
@@ -16,9 +14,13 @@ public class GameManager : MonoBehaviour
     
     [SerializeField, BoxGroup("References")] private GameObject _startMenu;
     [SerializeField, BoxGroup("Scene In Start Menu"), Scene] private string[] _scenes;
+
+    public GameObject _currentPlayer { get; set; }
     
-    private GameObject _player;
-    private LeanTouch _leanTouch;
+    //Manager for the game
+    public ActionManager actionManager;
+    public UIManager uiManager;
+    public InputManager inputManager;
     
     private void Awake()
     {
@@ -29,11 +31,9 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         
-        // Find Lean Touch in the scene or add it if it doesn't exist
-        _leanTouch = FindObjectOfType<LeanTouch>();
-        if (_leanTouch == null) {
-            _leanTouch = gameObject.AddComponent<LeanTouch>();
-        }
+        // Instantiate All the Managers for the game
+        actionManager = gameObject.AddComponent<ActionManager>();
+        uiManager = gameObject.AddComponent<UIManager>();
     }
 
     public void Load(string sceneName)

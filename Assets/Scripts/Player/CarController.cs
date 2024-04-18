@@ -23,7 +23,6 @@ public struct Wheel
 /*------------------- End Struct / enum -------------------*/
 public class CarController : MonoBehaviour
 {
-    /*------------------- End Struct / enum -------------------*/
     /*------------------- public / SerializeField variable -------------------*/
     
     [SerializeField, BoxGroup("Acceleration")] private float _maxAcceleration = 30.0f;
