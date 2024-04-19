@@ -12,6 +12,7 @@ public class ActionManager : MonoBehaviour
     public Action OnPlayerDeath;
     public Action OnLastFingerUp;
     public Action OnFirstFingerDown;
+    public Action<GameState, GameState> OnGameStateChange;
     
     public void PlayerDeath()
     {
@@ -27,4 +28,10 @@ public class ActionManager : MonoBehaviour
     {
         OnFirstFingerDown?.Invoke();
     }
+    
+    public void GameStateChange(GameState PreviousGameState ,GameState NewGameState)
+    {
+        OnGameStateChange?.Invoke(PreviousGameState, NewGameState);
+    }
+    
 }

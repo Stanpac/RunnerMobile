@@ -1,91 +1,102 @@
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 
+[Serializable]
+public struct Tile
+{
+    public GameObject TilePrefab;
+}
+
 /*
- * This script is responsible for generating the tiles that make up the terrain.
- * It instantiates the tiles in the scene 
+ * This script is responsible for generating the tiles
+ * And manage there movement
  */
+// TODO : Move all the variable in a scriptable object
 public class TileGenerator : MonoBehaviour
 {
-    [SerializeField] Tile[] Tiles;
-    [SerializeField] float DistanceStartGeneration;
+    /*------------------- public / SerializeField variable -------------------*/
     
-    [SerializeField] int TilesToAvoid = 1;
-    [SerializeField] List<int> PreviousIndex;
-    [SerializeField] float TerrainSpeed;
+    public Tile[] _tiles;
+    public float _distanceoOfGeneration;
     
-    private Vector3 Pos;
-    private int i;
+    public float _speed;
+    [Tag] public String _groundTag;
     
-    private Tile PreviousTile;
-    private Renderer previousRend;
-    private Renderer NextRend;
+    /*------------------- End public / SerializeField variable -------------------*/
+    /*------------------- Private Variables -------------------*/
+    
+    private Vector3 _PlayerPosition = new Vector3(0, 0, 0);
+    private Quaternion _PlayerRotation = Quaternion.identity;
+    private Vector3 _groundDirection;
+    private GameObject _previousTile;
+    private GameObject _CurrentPlayerInstance;
+    private List<GameObject> _AllTiles;
+    
+    /*------------------- End Private Variables -------------------*/
 
+    private void Awake()
+    {
+        _CurrentPlayerInstance = Instantiate<GameObject>(GameManager.instance._currentPlayerPrefab, _PlayerPosition, _PlayerRotation);
+        GameManager.instance.camera.target = _CurrentPlayerInstance.transform;
+        _AllTiles = new List<GameObject>();
+    }
+    
     private void Start()
     {
-        i = Random.Range(0, Tiles.Length);
-        SpawnTile(new Vector3(0, transform.position.y, DistanceStartGeneration));
+        float Offset = _CurrentPlayerInstance.GetComponentInChildren<Renderer>().bounds.extents.y + _tiles[0].TilePrefab.GetComponentInChildren<Renderer>().bounds.extents.y + 0.1f;
+        GenerateTile( _PlayerPosition + new Vector3(0,-Offset, 0), 0);
+        
+        while (_previousTile.transform.position.z < _distanceoOfGeneration) {
+            Vector3 pos = _previousTile.transform.position;
+            pos.z += _previousTile.GetComponentInChildren<Renderer>().bounds.extents.z;
+            GenerateTile(pos , UnityEngine.Random.Range(0, _tiles.Length));
+        } 
     }
 
     private void Update()
     {
-        if (previousRend == null ) return;
+        _groundDirection = CalculateMovementDirection();
+        MoveTheTiles();
         
-        float d = PreviousTile.transform.position.z + previousRend.bounds.extents.z - (TerrainSpeed * Time.deltaTime);
-        Pos = new Vector3(0, transform.position.y, d);
-
-        if (d < DistanceStartGeneration)
-        {
-            SpawnTile(Pos);
+        if (_previousTile.transform.position.z < _distanceoOfGeneration) {
+            Vector3 pos = _previousTile.transform.position;
+            pos.z += _previousTile.GetComponentInChildren<Renderer>().bounds.extents.z;
+            GenerateTile(pos, UnityEngine.Random.Range(0, _tiles.Length));
         }
     }
     
-    
-    void SpawnTile(Vector3 Point)
+    private void MoveTheTiles()
     {
-        Vector3 pos = Point;
-        pos.z += Tiles[i].GetComponentInChildren<Renderer>().bounds.extents.z;
-
-        PreviousTile = Instantiate(Tiles[i], pos, Quaternion.identity, transform);
-        PreviousIndex.Add(i);
-
-        PreviousTile.GetComponent<Tile>().Speed = TerrainSpeed;
-        PreviousTile.GetComponent<Tile>().Distance = DistanceStartGeneration;
-        previousRend = PreviousTile.GetComponentInChildren<Renderer>();
-
-        if (PreviousIndex.Count > TilesToAvoid)
+        if (_AllTiles == null) return;
+        for (int i = 0; i < _AllTiles.Count; i++)
         {
-            PreviousIndex.RemoveAt(0);
+            _AllTiles[i].transform.position += _groundDirection * (_speed / 100);
         }
+    }
+    
+    private Vector3 CalculateMovementDirection()
+    {
+        Vector3 _direction = _CurrentPlayerInstance.transform.forward * Time.deltaTime;
         
-        if (Tiles.Length > 1)
-        {
-            while (PreviousIndex.Contains(i))
-            {
-                i = Random.Range(0, Tiles.Length);
+        RaycastHit hit;
+        if (Physics.Raycast(_CurrentPlayerInstance.transform.position, -transform.up + _direction, out hit, 10f)) {
+            if (hit.collider.gameObject.CompareTag(_groundTag))  {
+                _direction = Vector3.ProjectOnPlane(_direction, hit.normal).normalized;
+            } else {
+                Debug.LogError("Ground not found", this);
             }
         }
-        else
-            i = Random.Range(0, Tiles.Length);
 
-        NextRend = Tiles[i].GetComponentInChildren<Renderer>();
-
+        return -_direction;
     }
     
-    private void OnDrawGizmos()
+    private void GenerateTile(Vector3 pos, int index)
     {
-        if (NextRend == null) return;
-                
-        Vector3 pos = Pos;
-        pos.z += NextRend.bounds.extents.z;
-        
-        Gizmos.color = UnityEngine.Color.red;
-        Gizmos.DrawWireSphere(Pos, .2f);
-        Gizmos.DrawWireCube(pos, NextRend.bounds.size);
-        Gizmos.color = UnityEngine.Color.green;
-        pos = new Vector3(0, 0, DistanceStartGeneration + NextRend.bounds.extents.z);
-        Gizmos.DrawWireCube(pos, NextRend.bounds.size);
+        Vector3 position = pos;
+        position.z += _tiles[index].TilePrefab.GetComponentInChildren<Renderer>().bounds.extents.z;
+        _previousTile = Instantiate<GameObject>(_tiles[index].TilePrefab, position, Quaternion.identity, transform);
+        _AllTiles.Add(_previousTile);
     }
 }

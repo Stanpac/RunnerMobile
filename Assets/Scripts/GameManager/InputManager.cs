@@ -38,7 +38,7 @@ public class InputManager : MonoBehaviour
 
     private void HandleFingerUpdate(LeanFinger finger)
     {
-        throw new NotImplementedException();
+        // handle finger update
     }
 
     private void OnEnable()

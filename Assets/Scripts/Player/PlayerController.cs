@@ -6,6 +6,9 @@ using UnityEngine;
 
 /*------------------- Struct / enum -------------------*/
 /*------------------- End Struct / enum -------------------*/
+/*
+ * This script is responsible for managing the player.
+ */
 public class PlayerController : MonoBehaviour
 {
     /*------------------- public / SerializeField variable -------------------*/
