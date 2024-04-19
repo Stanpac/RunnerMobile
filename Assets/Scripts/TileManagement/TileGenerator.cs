@@ -96,7 +96,7 @@ public class TileGenerator : MonoBehaviour
         Vector3 _direction = _CurrentPlayerInstance.transform.forward * Time.deltaTime;
         
         RaycastHit hit;
-        if (Physics.Raycast(_CurrentPlayerInstance.transform.position + transform.up, -transform.up  + _direction, out hit, 10f)) {
+        if (Physics.Raycast(_CurrentPlayerInstance.transform.position + Vector3.up, -transform.up  + _direction, out hit, 10f)) {
             if (hit.collider.gameObject.CompareTag(_groundTag))  {
                 _direction = Vector3.ProjectOnPlane(_direction, hit.normal).normalized;
             } else {
