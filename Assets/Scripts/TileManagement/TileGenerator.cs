@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
+using Lean.Touch;
 using UnityEngine;
 
 [Serializable]
@@ -24,6 +25,9 @@ public class TileGenerator : MonoBehaviour
     public float _speed;
     [Tag] public String _groundTag;
     
+    public float AngleMaxrotation = 45;
+    public float TimeForMaxRotation = 1f;
+    
     /*------------------- End public / SerializeField variable -------------------*/
     /*------------------- Private Variables -------------------*/
     
@@ -33,6 +37,9 @@ public class TileGenerator : MonoBehaviour
     private GameObject _previousTile;
     private GameObject _CurrentPlayerInstance;
     private List<GameObject> _AllTiles;
+    private float RotationAngle = 0;
+    private bool FingerOnScreen = false;
+    private LeanFinger _Currentfinger;
     
     /*------------------- End Private Variables -------------------*/
 
@@ -40,33 +47,41 @@ public class TileGenerator : MonoBehaviour
     {
         _CurrentPlayerInstance = Instantiate<GameObject>(GameManager.instance._currentPlayerPrefab, _PlayerPosition, _PlayerRotation);
         GameManager.instance.camera.target = _CurrentPlayerInstance.transform;
+        GameManager.instance.tileGenerator = this;
         _AllTiles = new List<GameObject>();
+        Camera.main.GetComponent<CameraFollow>().target = _CurrentPlayerInstance.transform;
+        GameManager.instance.actionManager.OnFingerDown += OnFingerDown;
+        GameManager.instance.actionManager.OnFirstFingerDown += OnFingerDown;
+        GameManager.instance.actionManager.OnLastFingerUp += OnLastFingerUp;
+        
+        RotationAngle = 0;
     }
-    
+
     private void Start()
     {
-        float Offset = _CurrentPlayerInstance.GetComponentInChildren<Renderer>().bounds.extents.y + _tiles[0].TilePrefab.GetComponentInChildren<Renderer>().bounds.extents.y + 0.1f;
+        float Offset =  _tiles[0].TilePrefab.GetComponentInChildren<Renderer>().bounds.extents.y + 0.1f;
         GenerateTile( _PlayerPosition + new Vector3(0,-Offset, 0), 0);
         
         while (_previousTile.transform.position.z < _distanceoOfGeneration) {
             Vector3 pos = _previousTile.transform.position;
             pos.z += _previousTile.GetComponentInChildren<Renderer>().bounds.extents.z;
-            GenerateTile(pos , UnityEngine.Random.Range(0, _tiles.Length));
+            GenerateTile(pos , UnityEngine.Random.Range(1, _tiles.Length));
         } 
     }
 
     private void Update()
     {
         _groundDirection = CalculateMovementDirection();
+        _groundDirection = CalculateRotation();
         MoveTheTiles();
-        
+        _CurrentPlayerInstance.GetComponent<PlayerController>().SetRotation(Quaternion.LookRotation(-_groundDirection));
         if (_previousTile.transform.position.z < _distanceoOfGeneration) {
             Vector3 pos = _previousTile.transform.position;
             pos.z += _previousTile.GetComponentInChildren<Renderer>().bounds.extents.z;
-            GenerateTile(pos, UnityEngine.Random.Range(0, _tiles.Length));
+            GenerateTile(pos, UnityEngine.Random.Range(1, _tiles.Length));
         }
     }
-    
+
     private void MoveTheTiles()
     {
         if (_AllTiles == null) return;
@@ -81,7 +96,7 @@ public class TileGenerator : MonoBehaviour
         Vector3 _direction = _CurrentPlayerInstance.transform.forward * Time.deltaTime;
         
         RaycastHit hit;
-        if (Physics.Raycast(_CurrentPlayerInstance.transform.position, -transform.up + _direction, out hit, 10f)) {
+        if (Physics.Raycast(_CurrentPlayerInstance.transform.position + transform.up, -transform.up  + _direction, out hit, 10f)) {
             if (hit.collider.gameObject.CompareTag(_groundTag))  {
                 _direction = Vector3.ProjectOnPlane(_direction, hit.normal).normalized;
             } else {
@@ -92,11 +107,41 @@ public class TileGenerator : MonoBehaviour
         return -_direction;
     }
     
+    private Vector3 CalculateRotation()
+    {
+       float rotation = RotationAngle;
+       
+       if (FingerOnScreen) {
+           if (_Currentfinger.ScreenPosition.x > Screen.width / 2) {
+               rotation =  Mathf.Clamp(rotation + Time.deltaTime / TimeForMaxRotation * AngleMaxrotation, -AngleMaxrotation, AngleMaxrotation);
+           } else {
+               rotation =  Mathf.Clamp(rotation - Time.deltaTime / TimeForMaxRotation * AngleMaxrotation, -AngleMaxrotation, AngleMaxrotation);
+           }
+       } 
+       
+       RotationAngle = rotation;
+       return  Quaternion.AngleAxis(rotation, Vector3.up) * _groundDirection;
+    }
+    
     private void GenerateTile(Vector3 pos, int index)
     {
         Vector3 position = pos;
         position.z += _tiles[index].TilePrefab.GetComponentInChildren<Renderer>().bounds.extents.z;
         _previousTile = Instantiate<GameObject>(_tiles[index].TilePrefab, position, Quaternion.identity, transform);
         _AllTiles.Add(_previousTile);
+    }
+    
+    private void OnFingerDown(LeanFinger finger)
+    {
+        FingerOnScreen = true;
+        if (_Currentfinger == null || !_Currentfinger.Set) {
+            _Currentfinger = finger;
+        }
+    }
+    
+    private void OnLastFingerUp(LeanFinger obj)
+    {
+       FingerOnScreen = false;
+       _Currentfinger = null;
     }
 }

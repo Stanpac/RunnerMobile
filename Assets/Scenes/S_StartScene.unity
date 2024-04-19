@@ -476,7 +476,6 @@ MonoBehaviour:
   _startMenuButton: {fileID: 1321472642}
   _GameUI: {fileID: 254937532}
   _MenuButton: {fileID: 789741791}
-  _WheelController: {fileID: 780432708}
 --- !u!1 &436825435
 GameObject:
   m_ObjectHideFlags: 0
@@ -799,7 +798,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &780432709
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1450,6 +1449,7 @@ GameObject:
   - component: {fileID: 1426153592}
   - component: {fileID: 1426153591}
   - component: {fileID: 1426153594}
+  - component: {fileID: 1426153595}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -1545,6 +1545,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveOffset: {x: 0, y: 8, z: -8}
   rotOffset: {x: 0, y: 0, z: 10}
+--- !u!114 &1426153595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426153590}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f615ec5979728eb4293f5f1be11e43b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  moveSmoothness: 0
+  rotSmoothness: 0
+  moveOffset: {x: 0, y: 0, z: 0}
+  rotOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &1807912535
 GameObject:
   m_ObjectHideFlags: 0
@@ -1759,8 +1776,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1440, y: 2999}
+  m_AnchoredPosition: {x: 0, y: 102}
+  m_SizeDelta: {x: 1284, y: 2535}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1878114471
 MonoBehaviour:
@@ -1854,6 +1871,7 @@ GameObject:
   - component: {fileID: 1904458359}
   - component: {fileID: 1904458358}
   - component: {fileID: 1904458357}
+  - component: {fileID: 1904458360}
   m_Layer: 0
   m_Name: Press To Select
   m_TagString: Untagged
@@ -1959,6 +1977,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1904458360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1904458356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fc98219a83dff145947365dc914d06e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tapThreshold: 0.2
+  swipeThreshold: 100
+  referenceDpi: 200
+  guiLayers:
+    serializedVersion: 2
+    m_Bits: 32
+  useTouch: 1
+  useHover: 1
+  useMouse: 1
+  useSimulator: 1
+  disableMouseEmulation: 1
+  recordFingers: 1
+  recordThreshold: 5
+  recordLimit: 10
 --- !u!1 &2065602294
 GameObject:
   m_ObjectHideFlags: 0
@@ -1969,6 +2013,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2065602295}
   - component: {fileID: 2065602296}
+  - component: {fileID: 2065602297}
   m_Layer: 0
   m_Name: ManagerHandle
   m_TagString: Untagged
@@ -2009,6 +2054,19 @@ MonoBehaviour:
   - sceneType: 1
     scene: S_NewProtoScene
   camera: {fileID: 1426153594}
+--- !u!114 &2065602297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2065602294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfd4711e1a584d7db15548874fe1f7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _CurrentSaveData: {fileID: 11400000, guid: 14656989f32d49448afb42b583221a6e, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

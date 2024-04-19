@@ -17,6 +17,6 @@ public class SaveDataManager : MonoBehaviour
 
     public void Load()
     {
-        _CurrentSaveData = AssetDatabase.LoadAssetAtPath<SaveData>("Assets/ScriptableObject/SaveData/Start/StartData.asset");
+        //_CurrentSaveData = AssetDatabase.LoadAssetAtPath<SaveData>("Assets/ScriptableObject/SaveData/Start/StartData.asset");
     }
 }

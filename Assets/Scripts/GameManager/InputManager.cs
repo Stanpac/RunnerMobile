@@ -23,7 +23,7 @@ public class InputManager : MonoBehaviour
     {
         fingers.Remove(finger);
         if (fingers.Count == 0) {
-            GameManager.instance.actionManager.LastFingerUp();
+            GameManager.instance.actionManager.LastFingerUp( finger);
         }
     }
 
@@ -31,9 +31,12 @@ public class InputManager : MonoBehaviour
     {
         if (finger.StartedOverGui) return;
         if (fingers.Count == 0) {
-            GameManager.instance.actionManager.FirstFingerDown();
+            GameManager.instance.actionManager.FirstFingerDown(finger);
+        } else {
+            GameManager.instance.actionManager.FingerDown(finger);
         }
         fingers.Add(finger);
+        
     }
 
     private void HandleFingerUpdate(LeanFinger finger)

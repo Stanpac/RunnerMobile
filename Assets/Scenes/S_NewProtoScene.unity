@@ -417,13 +417,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tiles:
+  - TilePrefab: {fileID: 6494651431551532920, guid: c709ea214ba35b54ab058403da2a56a2,
+      type: 3}
   - TilePrefab: {fileID: 4331630708034018898, guid: 13b94d1a0c6e8964b86eae3c558202ae,
       type: 3}
   - TilePrefab: {fileID: 6494651431551532920, guid: 99ec9850350963d43a9a20181a431ff6,
       type: 3}
   _distanceoOfGeneration: 100
-  _speed: 20
+  _speed: 15
   _groundTag: Ground
+  AngleMaxrotation: 45
+  TimeForMaxRotation: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

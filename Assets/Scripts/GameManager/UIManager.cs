@@ -1,7 +1,7 @@
 ﻿using System;
 using NaughtyAttributes;
-using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine;
 
 /*
  * This script is responsible for managing the UI in the game.
@@ -14,7 +14,7 @@ public class UIManager : MonoBehaviour
 
      [SerializeField, BoxGroup("Gameplay")] private GameObject _GameUI;
      [SerializeField, BoxGroup("Gameplay")] private GameObject _MenuButton;
-     [SerializeField, BoxGroup("Gameplay")] private GameObject _WheelController;
+     //[SerializeField, BoxGroup("Gameplay")] private GameObject _WheelController;
 
      private void Awake()
      {
@@ -40,7 +40,7 @@ public class UIManager : MonoBehaviour
      {
          _GameUI.SetActive(active);
          _MenuButton.SetActive(active);
-         _WheelController.SetActive(active);
+         //_WheelController.SetActive(active);
      }
      
      private void GameStateChange(GameState PreviousGameState ,GameState NewGameState)

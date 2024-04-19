@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
     public SaveDataManager saveDataManager {get; private set;}
     public GameStateManager gameStateManager {get; private set;}
     
+    public TileGenerator tileGenerator {get; set;}
+    
     
     private void Awake()
     {
@@ -52,7 +54,7 @@ public class GameManager : MonoBehaviour
         // Instantiate All the Managers for the game
         actionManager = gameObject.AddComponent<ActionManager>();
         inputManager = gameObject.AddComponent<InputManager>();
-        saveDataManager = gameObject.AddComponent<SaveDataManager>();
+        saveDataManager = GetComponent<SaveDataManager>();
         gameStateManager = gameObject.AddComponent<GameStateManager>();
 
         uiManager = FindObjectOfType<UIManager>();
