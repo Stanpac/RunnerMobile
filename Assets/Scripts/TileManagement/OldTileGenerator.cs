@@ -7,7 +7,7 @@ using UnityEngine;
  * This script is responsible for generating the tiles that make up the terrain.
  * It instantiates the tiles in the scene 
  */
-public class TileGenerator : MonoBehaviour
+public class OldTileGenerator : MonoBehaviour
 {
     [SerializeField] Tile[] Tiles;
     [SerializeField] float DistanceStartGeneration;
@@ -23,7 +23,7 @@ public class TileGenerator : MonoBehaviour
     private Renderer previousRend;
     private Renderer NextRend;
 
-    private void Start()
+    /* private void Start()
     {
         i = Random.Range(0, Tiles.Length);
         SpawnTile(new Vector3(0, transform.position.y, DistanceStartGeneration));
@@ -87,5 +87,5 @@ public class TileGenerator : MonoBehaviour
         Gizmos.color = UnityEngine.Color.green;
         pos = new Vector3(0, 0, DistanceStartGeneration + NextRend.bounds.extents.z);
         Gizmos.DrawWireCube(pos, NextRend.bounds.size);
-    }
+    }*/
 }
