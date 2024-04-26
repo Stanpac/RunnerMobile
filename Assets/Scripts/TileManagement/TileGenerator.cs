@@ -50,6 +50,8 @@ public class TileGenerator : MonoBehaviour
         GameManager.instance.tileGenerator = this;
         _AllTiles = new List<GameObject>();
         Camera.main.GetComponent<CameraFollow>().target = _CurrentPlayerInstance.transform;
+        
+        // Event  
         GameManager.instance.actionManager.OnFingerDown += OnFingerDown;
         GameManager.instance.actionManager.OnFirstFingerDown += OnFingerDown;
         GameManager.instance.actionManager.OnLastFingerUp += OnLastFingerUp;
@@ -75,6 +77,7 @@ public class TileGenerator : MonoBehaviour
         _groundDirection = CalculateRotation();
         MoveTheTiles();
         _CurrentPlayerInstance.GetComponent<PlayerController>().SetRotation(Quaternion.LookRotation(-_groundDirection));
+        
         if (_previousTile.transform.position.z < _distanceoOfGeneration) {
             Vector3 pos = _previousTile.transform.position;
             pos.z += _previousTile.GetComponentInChildren<Renderer>().bounds.extents.z;
