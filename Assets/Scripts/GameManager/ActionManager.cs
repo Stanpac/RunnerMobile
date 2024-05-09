@@ -16,7 +16,7 @@ public class ActionManager : MonoBehaviour
     public Action<LeanFinger> OnFirstFingerDown;
     public Action<LeanFinger> OnFingerDown;
     public Action<GameState, GameState> OnGameStateChange;
-    //
+    
     public void PlayerDeath()
     {
         OnPlayerDeath?.Invoke();

@@ -18,8 +18,8 @@ public class UIManager : MonoBehaviour
 
      private void Awake()
      {
-         _startMenuButton.GetComponent<Button>().onClick.AddListener(() => GameManager.instance.gameStateManager.SetGameState(GameState.Game));
-         _MenuButton.GetComponent<Button>().onClick.AddListener(() => GameManager.instance.gameStateManager.SetGameState(GameState.StartMenu));
+         _startMenuButton.GetComponent<Button>().onClick.AddListener(() => GameManager.instance.StartGame());
+         _MenuButton.GetComponent<Button>().onClick.AddListener(() => GameManager.instance.ReturnToMainMenu());
      }
 
      private void Start()
@@ -45,8 +45,7 @@ public class UIManager : MonoBehaviour
      
      private void GameStateChange(GameState PreviousGameState ,GameState NewGameState)
      {
-            switch (PreviousGameState)
-            {
+            switch (PreviousGameState) {
                 case GameState.StartMenu:
                     SetStartMenuActive(false);
                     break;
@@ -61,8 +60,7 @@ public class UIManager : MonoBehaviour
                     throw new ArgumentOutOfRangeException();
             }
 
-            switch (NewGameState)
-            {
+            switch (NewGameState) {
                 case GameState.StartMenu:
                     SetStartMenuActive(true);
                     break;

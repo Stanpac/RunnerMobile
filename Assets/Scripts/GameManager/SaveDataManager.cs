@@ -1,6 +1,7 @@
 ﻿using ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 /*
@@ -8,7 +9,7 @@ using UnityEngine;
  */
 public class SaveDataManager : MonoBehaviour
 {
-    public SaveData _CurrentSaveData;
+    [FormerlySerializedAs("_CurrentSaveData")] public SO_Save currentSoSave;
     
     public void Save()
     {
