@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a5047574c9c43169591a7b390651fb6, type: 3}
   m_Name: SceneData
   m_EditorClassIdentifier: 
-  _scenes: []
+  _scenes:
+  - eSceneType: 0
+    scene: S_StartScene
+  - eSceneType: 1
+    scene: S_NewProtoScene

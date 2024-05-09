@@ -2017,7 +2017,7 @@ GameObject:
   m_Layer: 0
   m_Name: ManagerHandle
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -2030,7 +2030,7 @@ Transform:
   m_GameObject: {fileID: 2065602294}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.7728243, y: 1.5100532, z: 51.9}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2048,12 +2048,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b714d2b552e3ba4b923fb96550eba06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scenes:
-  - sceneType: 0
-    scene: S_StartScene
-  - sceneType: 1
-    scene: S_NewProtoScene
   camera: {fileID: 1426153594}
+  _ScenesData: {fileID: 11400000, guid: 995491403d722874f8b3974859f85987, type: 2}
 --- !u!114 &2065602297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2066,7 +2062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfd4711e1a584d7db15548874fe1f7d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _CurrentSaveData: {fileID: 11400000, guid: 14656989f32d49448afb42b583221a6e, type: 2}
+  currentSoSave: {fileID: 11400000, guid: 14656989f32d49448afb42b583221a6e, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
