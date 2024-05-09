@@ -15,7 +15,7 @@ public struct Tile
  * And manage there movement
  */
 // TODO : Move all the variable in a scriptable object
-public class TileGenerator : MonoBehaviour
+public class TileManager : MonoBehaviour
 {
     /*------------------- public / SerializeField variable -------------------*/
     
@@ -23,7 +23,9 @@ public class TileGenerator : MonoBehaviour
     public float _distanceoOfGeneration;
     
     public float _speed;
-    [Tag] public String _groundTag;
+    
+    [Tag] 
+    public String _groundTag;
     
     public float AngleMaxrotation = 45;
     public float TimeForMaxRotation = 1f;
@@ -31,11 +33,8 @@ public class TileGenerator : MonoBehaviour
     /*------------------- End public / SerializeField variable -------------------*/
     /*------------------- Private Variables -------------------*/
     
-    private Vector3 _PlayerPosition = new Vector3(0, 0, 0);
-    private Quaternion _PlayerRotation = Quaternion.identity;
     private Vector3 _groundDirection;
     private GameObject _previousTile;
-    private GameObject _CurrentPlayerInstance;
     private List<GameObject> _AllTiles;
     private float RotationAngle = 0;
     private bool FingerOnScreen = false;
@@ -45,22 +44,20 @@ public class TileGenerator : MonoBehaviour
 
     private void Awake()
     {
-        _CurrentPlayerInstance = Instantiate<GameObject>(GameManager.instance._currentPlayerPrefab, _PlayerPosition, _PlayerRotation);
-        GameManager.instance.camera.target = _CurrentPlayerInstance.transform;
-        GameManager.instance.tileGenerator = this;
+        GameManager.instance.TileManager = this;
         _AllTiles = new List<GameObject>();
-        Camera.main.GetComponent<CameraFollow>().target = _CurrentPlayerInstance.transform;
+        
+        // Event  
         GameManager.instance.actionManager.OnFingerDown += OnFingerDown;
         GameManager.instance.actionManager.OnFirstFingerDown += OnFingerDown;
         GameManager.instance.actionManager.OnLastFingerUp += OnLastFingerUp;
-        
         RotationAngle = 0;
     }
 
     private void Start()
     {
         float Offset =  _tiles[0].TilePrefab.GetComponentInChildren<Renderer>().bounds.extents.y + 0.1f;
-        GenerateTile( _PlayerPosition + new Vector3(0,-Offset, 0), 0);
+        GenerateTile( GameManager.instance.playerManager._CurrentPlayerController.transform.position + new Vector3(0,-Offset, 0), 0);
         
         while (_previousTile.transform.position.z < _distanceoOfGeneration) {
             Vector3 pos = _previousTile.transform.position;
@@ -74,7 +71,8 @@ public class TileGenerator : MonoBehaviour
         _groundDirection = CalculateMovementDirection();
         _groundDirection = CalculateRotation();
         MoveTheTiles();
-        _CurrentPlayerInstance.GetComponent<PlayerController>().SetRotation(Quaternion.LookRotation(-_groundDirection));
+        GameManager.instance.playerManager._CurrentPlayerController.GetComponent<PlayerController>().SetRotation(Quaternion.LookRotation(-_groundDirection));
+        
         if (_previousTile.transform.position.z < _distanceoOfGeneration) {
             Vector3 pos = _previousTile.transform.position;
             pos.z += _previousTile.GetComponentInChildren<Renderer>().bounds.extents.z;
@@ -93,10 +91,10 @@ public class TileGenerator : MonoBehaviour
     
     private Vector3 CalculateMovementDirection()
     {
-        Vector3 _direction = _CurrentPlayerInstance.transform.forward * Time.deltaTime;
+        Vector3 _direction =  GameManager.instance.playerManager._CurrentPlayerController.transform.forward * Time.deltaTime;
         
         RaycastHit hit;
-        if (Physics.Raycast(_CurrentPlayerInstance.transform.position + Vector3.up, -transform.up  + _direction, out hit, 10f)) {
+        if (Physics.Raycast( GameManager.instance.playerManager._CurrentPlayerController.transform.position + Vector3.up, -transform.up  + _direction, out hit, 10f)) {
             if (hit.collider.gameObject.CompareTag(_groundTag))  {
                 _direction = Vector3.ProjectOnPlane(_direction, hit.normal).normalized;
             } else {
