@@ -6,9 +6,7 @@ using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/*
- * This script is responsible for managing the game.
- */
+// This script is responsible for managing the game.
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;

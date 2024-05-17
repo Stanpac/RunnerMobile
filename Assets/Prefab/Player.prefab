@@ -59,11 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4b4bc1caed5bf4cb592a06e2880b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stability: 0
-  _maxStability: 1
-  _minStability: -1
-  _stabilityRegen: 0.1
-  _CanRegen: 1
+  _SO_Stability: {fileID: 11400000, guid: 8d8437647b7191f4084b5327fc9cb83f, type: 2}
 --- !u!1 &608574279817800518
 GameObject:
   m_ObjectHideFlags: 0

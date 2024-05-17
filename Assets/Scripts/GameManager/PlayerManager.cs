@@ -3,16 +3,14 @@
 
 public class PlayerManager : MonoBehaviour
 {
-    /*------------------- public / SerializeField variable -------------------*/
     [SerializeField] 
     public PlayerController _CurrentPlayerController;
+    
     
     [SerializeField] 
     public GameObject _currentPlayerPrefab { get; set; }
     
-    /*------------------- End public / SerializeField variable -------------------*/
-    /*------------------- Private Variables -------------------*/
-    /*------------------- End Private Variables -------------------*/
+   
     
     private void Awake()
     {

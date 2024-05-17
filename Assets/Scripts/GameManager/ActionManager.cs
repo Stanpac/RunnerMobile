@@ -16,6 +16,7 @@ public class ActionManager : MonoBehaviour
     public Action<LeanFinger> OnFirstFingerDown;
     public Action<LeanFinger> OnFingerDown;
     public Action<GameState, GameState> OnGameStateChange;
+    public Action <float> OnStabilityChange;
     
     public void PlayerDeath()
     {
@@ -40,6 +41,11 @@ public class ActionManager : MonoBehaviour
     public void GameStateChange(GameState PreviousGameState ,GameState NewGameState)
     {
         OnGameStateChange?.Invoke(PreviousGameState, NewGameState);
+    }
+    
+    public void StabilityChange(float stability)
+    {
+        OnStabilityChange?.Invoke(stability);
     }
     
 }

@@ -2,13 +2,9 @@
 using System.Collections.Generic;
 using NaughtyAttributes;
 using Lean.Touch;
+using ScriptableObjects;
 using UnityEngine;
 
-[Serializable]
-public struct Tile
-{
-    public GameObject TilePrefab;
-}
 
 /*
  * This script is responsible for generating the tiles
@@ -17,7 +13,8 @@ public struct Tile
 // TODO : Move all the variable in a scriptable object
 public class TileManager : MonoBehaviour
 {
-    /*------------------- public / SerializeField variable -------------------*/
+    [SerializeField]
+    private SO_TileManager _tileManager;
     
     public Tile[] _tiles;
     public float _distanceoOfGeneration;
@@ -30,17 +27,15 @@ public class TileManager : MonoBehaviour
     public float AngleMaxrotation = 45;
     public float TimeForMaxRotation = 1f;
     
-    /*------------------- End public / SerializeField variable -------------------*/
-    /*------------------- Private Variables -------------------*/
-    
+    // Private variable
     private Vector3 _groundDirection;
+    private float RotationAngle = 0;
+    
     private GameObject _previousTile;
     private List<GameObject> _AllTiles;
-    private float RotationAngle = 0;
+    
     private bool FingerOnScreen = false;
     private LeanFinger _Currentfinger;
-    
-    /*------------------- End Private Variables -------------------*/
 
     private void Awake()
     {
@@ -53,7 +48,7 @@ public class TileManager : MonoBehaviour
         GameManager.instance.actionManager.OnLastFingerUp += OnLastFingerUp;
         RotationAngle = 0;
     }
-
+    
     private void Start()
     {
         float Offset =  _tiles[0].TilePrefab.GetComponentInChildren<Renderer>().bounds.extents.y + 0.1f;
@@ -142,4 +137,10 @@ public class TileManager : MonoBehaviour
        FingerOnScreen = false;
        _Currentfinger = null;
     }
+}
+
+[Serializable]
+public struct Tile
+{
+    public GameObject TilePrefab;
 }
