@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     // Scriptable Object for the game
     [SerializeField] 
     private SO_Scenes _ScenesData;
-    
+    private Stability _stability;
     
     private void Awake()
     {
