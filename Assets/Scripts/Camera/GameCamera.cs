@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 
+
 public class GameCamera : MonoBehaviour
 { 
     public Transform target {get; set;}
@@ -14,7 +15,7 @@ public class GameCamera : MonoBehaviour
     {
         LookAtTarget();
     }
-
+    
     private void LookAtTarget()
     {
         if (target == null) return;

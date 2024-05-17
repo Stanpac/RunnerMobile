@@ -6,9 +6,7 @@ using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/*
- * This script is responsible for managing the game.
- */
+// This script is responsible for managing the game.
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
@@ -29,7 +27,7 @@ public class GameManager : MonoBehaviour
     // Scriptable Object for the game
     [SerializeField] 
     private SO_Scenes _ScenesData;
-    
+    private Stability _stability;
     
     private void Awake()
     {
