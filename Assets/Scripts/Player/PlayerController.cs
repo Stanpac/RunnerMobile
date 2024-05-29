@@ -14,4 +14,5 @@ public class PlayerController : MonoBehaviour
     {
         CarModel.rotation = Quaternion.Lerp(CarModel.rotation, rotation, Time.deltaTime * 10f);
     }
+    
 }
