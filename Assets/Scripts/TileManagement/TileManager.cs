@@ -28,14 +28,14 @@ public class TileManager : MonoBehaviour
     public float TimeForMaxRotation = 1f;
     
     // Private variable
-    private Vector3 _groundDirection;
-    private float RotationAngle = 0;
+    //private Vector3 _groundDirection;
+    //private float RotationAngle = 0;
     
     private GameObject _previousTile;
     private List<GameObject> _AllTiles;
     
-    private bool FingerOnScreen = false;
-    private LeanFinger _Currentfinger;
+    //private bool FingerOnScreen = false;
+    //private LeanFinger _Currentfinger;
 
     private void Awake()
     {
@@ -124,19 +124,19 @@ public class TileManager : MonoBehaviour
         _AllTiles.Add(_previousTile);
     }
     
-    private void OnFingerDown(LeanFinger finger)
-    {
-        FingerOnScreen = true;
-        if (_Currentfinger == null || !_Currentfinger.Set) {
-            _Currentfinger = finger;
-        }
-    }
-    
-    private void OnLastFingerUp(LeanFinger obj)
-    {
-       FingerOnScreen = false;
-       _Currentfinger = null;
-    }
+    // private void OnFingerDown(LeanFinger finger)
+    // {
+    //     FingerOnScreen = true;
+    //     if (_Currentfinger == null || !_Currentfinger.Set) {
+    //         _Currentfinger = finger;
+    //     }
+    // }
+    //
+    // private void OnLastFingerUp(LeanFinger obj)
+    // {
+    //    FingerOnScreen = false;
+    //    _Currentfinger = null;
+    // }
 }
 
 [Serializable]

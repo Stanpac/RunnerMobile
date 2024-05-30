@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dfefb4297f14e8fa9a50b32bcf1b8b6, type: 3}
   m_Name: SO_RaycastSuspension
   m_EditorClassIdentifier: 
-  suspensionRestDist: 1
-  springStrength: 100
-  springDamper: 15
+  suspensionRestDist: 0.5
+  springStrength: 200
+  springDamper: 30
   tireGripFactor: 0.5
   tireMass: 1
   CarSpeed: 5
@@ -24,48 +24,30 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5
-      inSlope: 0.21455488
-      outSlope: 0.21455488
-      tangentMode: 0
+      value: 1
+      inSlope: -0.010607911
+      outSlope: 0.0039586034
+      tangentMode: 65
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.09449057
+      outWeight: 0.12900962
     - serializedVersion: 3
-      time: 0.35
-      value: 1
-      inSlope: 0.0029741488
-      outSlope: 0.0029741488
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.119901896
-    - serializedVersion: 3
-      time: 0.7
-      value: 1
-      inSlope: 0.016171224
-      outSlope: 0.016171224
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.04368254
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.97
-      value: 0.35
-      inSlope: -0.2102809
-      outSlope: -0.2102809
-      tangentMode: 0
+      time: 0.69768065
+      value: 1.0027618
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 0
-      inSlope: -19.709696
-      outSlope: -19.709696
+      value: -0.0040283203
+      inSlope: -10.016982
+      outSlope: -10.016982
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.122578114
+      inWeight: 0.016695132
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
