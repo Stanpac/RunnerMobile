@@ -7,11 +7,14 @@ using UnityEngine.SceneManagement;
 
 public class MySceneManager : MonoBehaviour
 {
-    public SO_Scenes _ScenesData {get; set;}
+
+    public SO_Scenes _ScenesData; //{get; private set;}
     
     private void Awake()
     {
+        _ScenesData = Resources.Load<SO_Scenes>("SO_Scenes");
     }
+    
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
@@ -33,7 +36,7 @@ public class MySceneManager : MonoBehaviour
     public bool loadGameScene()
     {
         foreach (FSceneData sceneData in _ScenesData._scenes) {
-            if (sceneData.eSceneType == ESceneType.EST_Game) {
+            if (sceneData.SceneType == ESceneType.EST_Game) {
                 LoadSceneAdditive(sceneData.scene);
                 return true;
             }
@@ -44,7 +47,7 @@ public class MySceneManager : MonoBehaviour
     public void UnloadGameScene()
     {
         foreach (FSceneData sceneData in _ScenesData._scenes) {
-            if (sceneData.eSceneType == ESceneType.EST_Game) {
+            if (sceneData.SceneType == ESceneType.EST_Game) {
                 UnloadScene(sceneData.scene);
             }
         }

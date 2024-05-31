@@ -14,14 +14,15 @@ namespace ScriptableObjects
     [Serializable]
     public struct FSceneData
     {
-        [FormerlySerializedAs("sceneType")] public ESceneType eSceneType;
+        public ESceneType SceneType;
         [Scene] public string scene;
     }
     
-    [CreateAssetMenu(fileName = "SO_Scenes", menuName = "ScriptableObject/Scenes", order = 0)]
+    [CreateAssetMenu(fileName = "SO_Scenes", menuName = "ScriptableObjects/Scenes", order = 0)]
     public class SO_Scenes : ScriptableObject
     {
         [SerializeField, BoxGroup("Scene")] 
+        [Tooltip("The scenes of the game")]
         public FSceneData[] _scenes;
     }
 }

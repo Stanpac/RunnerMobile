@@ -13,34 +13,35 @@ public class RaycastSuspension : MonoBehaviour
     [SerializeField, BoxGroup("Debug"), EnableIf("DebugMode")] Transform tireTransform;
     [SerializeField, BoxGroup("Debug"), EnableIf("DebugMode")] Transform carTransform;
     
-    [BoxGroup("Data Settings")]
-    [SerializeField] private SO_RaycastSuspension raycastSuspensionData;
-    
-    // TODO : Speed need to be set by the player controller i think ? 
+    [BoxGroup("Data Settings"), Label("Raycast Suspension Data")]
+    [SerializeField] private SO_RaycastSuspension Data;
     
     private bool rayDidHit;
     private RaycastHit tireRay;
-
+    
+    private float SpeedFactor = 1.0f;
+    private float CarTopSpeed = 100f;
+    private AnimationCurve PowerCurve = null;
+    
+    public void SetUpSpeedFactor(float speedFactor, float carTopSpeed, AnimationCurve powerCurve)
+    {
+        SpeedFactor = speedFactor;
+        CarTopSpeed = carTopSpeed;
+        PowerCurve = powerCurve;
+    }
+    
     private void Awake()
     {
+        Data = Resources.Load<SO_RaycastSuspension>("SO_RaycastSuspension");
+        
         tireTransform = GetComponent<Transform>();
         carRigidbody = GetComponentInParent<Rigidbody>();
         carTransform = carRigidbody.gameObject.transform;
     }
 
-    private void Start()
-    {
-        
-    }
-
-    private void Update()
-    {
-        
-    }
-
     private void FixedUpdate()
     {
-        if (Physics.Raycast(tireTransform.position, -tireTransform.up, out tireRay, raycastSuspensionData.suspensionRestDist + 0.1f))  {
+        if (Physics.Raycast(tireTransform.position, -tireTransform.up, out tireRay, Data.suspensionRestDist + 0.1f))  {
             rayDidHit = true;
         } else {
             rayDidHit = false;
@@ -63,7 +64,7 @@ public class RaycastSuspension : MonoBehaviour
             Vector3 tireWorldVel = carRigidbody.GetPointVelocity(tireTransform.position);
             
             // calculate offset from the raycast 
-            float offset = raycastSuspensionData.suspensionRestDist - tireRay.distance;
+            float offset = Data.suspensionRestDist - tireRay.distance;
             
             // calculate velocity along the spring direction
             // note that springDir is a unit vector, so this returns the magnitude of tireWorldVel
@@ -71,7 +72,7 @@ public class RaycastSuspension : MonoBehaviour
             float vel = Vector3.Dot(springDir, tireWorldVel);
             
             // Calculate the magnitude of the dampened spring force !
-            float force = (offset * raycastSuspensionData.springStrength) - (vel * raycastSuspensionData.springDamper);
+            float force = (offset * Data.springStrength) - (vel * Data.springDamper);
             
             // apply the force at the location of this tire in the direction 
             // of the suspension 
@@ -99,17 +100,17 @@ public class RaycastSuspension : MonoBehaviour
             float steeringVel = Vector3.Dot(steeringDir, tireWorldVel);
             
             // the change in velocity that we're looking for is -steeringVel * gripFactor
-            float desiredChange = -steeringVel * raycastSuspensionData.tireGripFactor;
+            float desiredChange = -steeringVel * Data.tireGripFactor;
             
             // turn change in velocity into a accelration (acceleration = change in vel / time)
             // this will produce the accelartion necessary to change the velocity by the desiredvelChange in 1 physics step
             float desiredAccel = desiredChange / Time.fixedDeltaTime;
             
             // Force = Mass * Acceleration, so multiply by the mass of the tire and apply as a force !
-            carRigidbody.AddForceAtPosition(steeringDir * raycastSuspensionData.tireMass * desiredAccel, tireTransform.position);
+            carRigidbody.AddForceAtPosition(steeringDir * Data.tireMass * desiredAccel, tireTransform.position);
             
             if (DebugMode) 
-            Debug.DrawRay(tireTransform.position, (steeringDir * raycastSuspensionData.tireMass * desiredAccel).normalized , Color.red);
+            Debug.DrawRay(tireTransform.position, (steeringDir * Data.tireMass * desiredAccel).normalized , Color.red);
         }
     }
 
@@ -121,16 +122,16 @@ public class RaycastSuspension : MonoBehaviour
             Vector3 accelDir = tireTransform.forward;
             
             // Acceleration torque
-            if (raycastSuspensionData.CarSpeed > 0.0f) {
+            if (SpeedFactor > 0.0f) {
                 
                 // forward speed of the car (in the direction of driving)
                 float carspeed = Vector3.Dot(carTransform.forward, carRigidbody.velocity);
                 
-                // normlized car speed
-                float normalizedSpeed =  Mathf.Clamp01(Mathf.Abs((carspeed ) / raycastSuspensionData.carTopSpeed));
+                // normalized car speed
+                float normalizedSpeed =  Mathf.Clamp01(Mathf.Abs((carspeed ) / CarTopSpeed));
                 
                 // Available torque 
-                float availableTorque = raycastSuspensionData.powerCurve.Evaluate(normalizedSpeed) * raycastSuspensionData.CarSpeed;
+                float availableTorque = (PowerCurve != null ? PowerCurve.Evaluate(normalizedSpeed) : CarTopSpeed) * SpeedFactor;
                 
                 carRigidbody.AddForceAtPosition(accelDir * availableTorque, tireTransform.position);
                 

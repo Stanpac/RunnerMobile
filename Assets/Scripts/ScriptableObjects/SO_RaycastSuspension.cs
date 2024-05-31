@@ -3,31 +3,28 @@ using UnityEngine;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "SO_RaycastSuspension", menuName = "ScriptableObject/RaycastSuspension", order = 0)]
+    [CreateAssetMenu(fileName = "SO_RaycastSuspension", menuName = "ScriptableObjects/RaycastSuspension", order = 0)]
     public class SO_RaycastSuspension : ScriptableObject
     {
-        [BoxGroup("Suspension Settings")]
-        public float suspensionRestDist = 0.5f;
+        [SerializeField, BoxGroup("Suspension Settings")]
+        [Tooltip("The distance from the tire to the ground.")]
+        public float suspensionRestDist = 0.4f;
         
-        [BoxGroup("Suspension Settings")]
-        public float springStrength = 100f;
+        [SerializeField, BoxGroup("Suspension Settings")]
+        [Tooltip("The strength of the spring.")]
+        public float springStrength = 200f;
         
-        [BoxGroup("Suspension Settings")]
-        public float springDamper = 15f;
+        [SerializeField, BoxGroup("Suspension Settings")]
+        [Tooltip("The damping of the spring.")]
+        public float springDamper = 30f;
     
-        [BoxGroup("Steering Settings")]
+        [SerializeField, BoxGroup("Steering Settings")]
+        [Tooltip("The Grip of the tire.")]
         public float tireGripFactor = 0.5f;
         
-        [BoxGroup("Steering Settings")]
-        public float tireMass = 10f;
-    
-        [BoxGroup("Acceleration Settings")]
-        public float CarSpeed = 0.0f;
+        [SerializeField, BoxGroup("Steering Settings")]
+        [Tooltip(" The mass of the tire.")]
+        public float tireMass = 1f;
         
-        [BoxGroup("Acceleration Settings")]
-        public float carTopSpeed = 10f;
-        
-        [BoxGroup("Acceleration Settings")]
-        public AnimationCurve powerCurve;
     }
 }

@@ -1228,11 +1228,50 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7112361200019964721, guid: 2c9126dedfb62354c9b24fba7b56b866,
+        type: 3}
+      propertyPath: _WheelsToRotate.Wheels.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7112361200019964721, guid: 2c9126dedfb62354c9b24fba7b56b866,
+        type: 3}
+      propertyPath: _WheelsToRotate.Wheels.Array.data[0]
+      value: 
+      objectReference: {fileID: 737083888}
+    - target: {fileID: 7112361200019964721, guid: 2c9126dedfb62354c9b24fba7b56b866,
+        type: 3}
+      propertyPath: _WheelsToRotate.Wheels.Array.data[1]
+      value: 
+      objectReference: {fileID: 737083887}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c9126dedfb62354c9b24fba7b56b866, type: 3}
+--- !u!114 &737083887 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4880756959424967256, guid: 2c9126dedfb62354c9b24fba7b56b866,
+    type: 3}
+  m_PrefabInstance: {fileID: 737083886}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d93efc9ebb8355a43a053682e183f680, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &737083888 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1707627931852572705, guid: 2c9126dedfb62354c9b24fba7b56b866,
+    type: 3}
+  m_PrefabInstance: {fileID: 737083886}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d93efc9ebb8355a43a053682e183f680, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &933186039
 Mesh:
   m_ObjectHideFlags: 0
