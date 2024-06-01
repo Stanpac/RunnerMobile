@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
     [BoxGroup("Camera")] 
     public GameCamera camera;
     
+    [SerializeField, BoxGroup("StartParameters")]
+    private float StartImpulsionForce = 10;
+    
     //Manager for the game
     public ActionManager actionManager {get; private set;}
     public UIManager uiManager {get; private set;}
@@ -24,10 +27,6 @@ public class GameManager : MonoBehaviour
     public PlayerManager playerManager {get; private set;}
     public TileManager TileManager {get; set;}
     
-    // Scriptable Object for the game
-    [SerializeField] 
-    private SO_Scenes _ScenesData;
-    private Stability _stability;
     
     private void Awake()
     {
@@ -45,7 +44,6 @@ public class GameManager : MonoBehaviour
         gameStateManager = gameObject.AddComponent<GameStateManager>();
         
         mySceneManager = gameObject.AddComponent<MySceneManager>();
-        mySceneManager._ScenesData = _ScenesData;
         
         playerManager = gameObject.AddComponent<PlayerManager>();
         uiManager = FindObjectOfType<UIManager>();
@@ -60,9 +58,10 @@ public class GameManager : MonoBehaviour
         // Idee : Menu Demarage du jeu  avec la voiture qu'on va jouer,
         // Ecran de demarrage au debut histoire de tous charger avant 
         // Au start fade du menu, mouvement de Camera et hop ça start le jeu
-        playerManager.InstantiatePlayer(Vector3.zero, Quaternion.identity);
         if (mySceneManager.loadGameScene()) { 
             gameStateManager.SetGameState(GameState.Game);
+            playerManager.InstantiatePlayer(Vector3.up * 2, Quaternion.identity);
+            playerManager.GiveStartImpulsionToPlayer(Vector3.forward, StartImpulsionForce);
         } else {
             Debug.LogError("Game Scene not found");
         }

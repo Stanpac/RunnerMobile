@@ -13,7 +13,7 @@ public class Stability : MonoBehaviour
     private SO_Stability _SO_Stability;
     
     // Private Variables
-    private Transform _CarModel;
+    private Transform _CarTransform;
     
     private float _stability = 0;
     private float _maxStability = 1;
@@ -27,9 +27,12 @@ public class Stability : MonoBehaviour
     
     private Coroutine _StopRegenStabilityCoroutine;
     
+    
     private void Awake()
     {
-        _CarModel = GetComponent<PlayerController>().CarModel;
+        _SO_Stability = Resources.Load<SO_Stability>("SO_Stability");
+        
+        _CarTransform = GetComponent<PlayerController>().transform;
         ResetStability();
     }
 

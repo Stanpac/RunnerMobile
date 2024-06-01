@@ -6,11 +6,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] 
     public PlayerController _CurrentPlayerController;
     
-    
     [SerializeField] 
     public GameObject _currentPlayerPrefab { get; set; }
-    
-   
     
     private void Awake()
     {
@@ -40,5 +37,15 @@ public class PlayerManager : MonoBehaviour
         
         _CurrentPlayerController = Instantiate<GameObject>(_currentPlayerPrefab, position, rotation).GetComponent<PlayerController>();
         GameManager.instance.camera.target = _CurrentPlayerController.transform;
+    }
+    
+    public void GiveStartImpulsionToPlayer(Vector3 direction, float force)
+    {
+        if (_CurrentPlayerController == null) {
+            Debug.LogError("No Player to give impulsion");
+            return;
+        }
+        
+        _CurrentPlayerController.GetComponent<Rigidbody>().AddForce(direction * force, ForceMode.Impulse);
     }
 } 

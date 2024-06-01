@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a5047574c9c43169591a7b390651fb6, type: 3}
-  m_Name: SceneData
+  m_Name: SO_Scenes
   m_EditorClassIdentifier: 
   _scenes:
-  - eSceneType: 0
+  - SceneType: 0
     scene: S_StartScene
-  - eSceneType: 1
+  - SceneType: 1
     scene: S_NewProtoScene
