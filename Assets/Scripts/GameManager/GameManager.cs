@@ -5,17 +5,18 @@ using NaughtyAttributes;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 // This script is responsible for managing the game.
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
+    public static GameManager _instance;
     
-    [BoxGroup("Camera")] 
-    public GameCamera camera;
+    [FormerlySerializedAs("camera")] [BoxGroup("Camera")] 
+    public GameCamera _camera;
     
-    [SerializeField, BoxGroup("StartParameters")]
-    private float StartImpulsionForce = 10;
+    [FormerlySerializedAs("StartImpulsionForce")] [SerializeField, BoxGroup("StartParameters")]
+    private float _startImpulsionForce = 10;
     
     //Manager for the game
     public ActionManager actionManager {get; private set;}
@@ -25,14 +26,13 @@ public class GameManager : MonoBehaviour
     public GameStateManager gameStateManager {get; private set;}
     public MySceneManager mySceneManager {get; private set;}
     public PlayerManager playerManager {get; private set;}
-    public TileManager TileManager {get; set;}
-    
+    public TileManager tileManager {get; set;}
     
     private void Awake()
     {
         // Singleton Pattern instance
-        if (instance == null) {
-            instance = this;
+        if (_instance == null) {
+            _instance = this;
         } else  {
             Destroy(gameObject);
         }
@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
         uiManager = FindObjectOfType<UIManager>();
         
         // load the save data
-        playerManager._currentPlayerPrefab = saveDataManager.currentSoSave.Player;
+        playerManager._currentPlayerPrefab = saveDataManager._currentSoSave.player;
     }
     
     public void StartGame()
@@ -59,9 +59,9 @@ public class GameManager : MonoBehaviour
         // Ecran de demarrage au debut histoire de tous charger avant 
         // Au start fade du menu, mouvement de Camera et hop ça start le jeu
         if (mySceneManager.loadGameScene()) { 
-            gameStateManager.SetGameState(GameState.Game);
+            gameStateManager.SetGameState(EGameState.GS_Game);
             playerManager.InstantiatePlayer(Vector3.up * 2, Quaternion.identity);
-            playerManager.GiveStartImpulsionToPlayer(Vector3.forward, StartImpulsionForce);
+            playerManager.GiveStartImpulsionToPlayer(Vector3.forward, _startImpulsionForce);
         } else {
             Debug.LogError("Game Scene not found");
         }
@@ -75,6 +75,6 @@ public class GameManager : MonoBehaviour
     public void ReturnToMainMenu()
     {
         mySceneManager.UnloadGameScene();
-        gameStateManager.SetGameState(GameState.StartMenu);
+        gameStateManager.SetGameState(EGameState.GS_StartMenu);
     }
 }

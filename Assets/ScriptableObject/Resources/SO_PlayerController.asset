@@ -12,31 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e10cfd814c84362bb70f49dd3fa9834, type: 3}
   m_Name: SO_PlayerController
   m_EditorClassIdentifier: 
-  SpeedFactor: 1
-  carTopSpeed: 100
-  powerCurve:
+  _speedFactor: 5
+  _carTopSpeed: 100
+  _powerCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.008544922
-      value: 4.9961395
-      inSlope: 0.034110337
-      outSlope: 0.034110337
-      tangentMode: 0
+      time: -0.005525355
+      value: 5
+      inSlope: -0.061268676
+      outSlope: -0.0036872777
+      tangentMode: 1
       weightedMode: 2
       inWeight: 0
       outWeight: 1
     - serializedVersion: 3
-      time: 1.0033569
-      value: 1
-      inSlope: -12.580116
-      outSlope: -12.580116
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.05915846
+      time: 1
+      value: 0.008376326
+      inSlope: -96.519684
+      outSlope: -27.898844
+      tangentMode: 1
+      weightedMode: 1
+      inWeight: 0.022546822
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  AngleMaxrotation: 45
+  AngleMaxRotation: 45
   TimeForMaxRotation: 1

@@ -3,16 +3,16 @@ using NaughtyAttributes;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 
 public class MySceneManager : MonoBehaviour
 {
-
-    public SO_Scenes _ScenesData; //{get; private set;}
+    public SO_Scenes _scenesData; 
     
     private void Awake()
     {
-        _ScenesData = Resources.Load<SO_Scenes>("SO_Scenes");
+        _scenesData = Resources.Load<SO_Scenes>("SO_Scenes");
     }
     
     public void LoadScene(string sceneName)
@@ -35,7 +35,7 @@ public class MySceneManager : MonoBehaviour
     
     public bool loadGameScene()
     {
-        foreach (FSceneData sceneData in _ScenesData._scenes) {
+        foreach (FSceneData sceneData in _scenesData.scenes) {
             if (sceneData.SceneType == ESceneType.EST_Game) {
                 LoadSceneAdditive(sceneData.scene);
                 return true;
@@ -46,7 +46,7 @@ public class MySceneManager : MonoBehaviour
     
     public void UnloadGameScene()
     {
-        foreach (FSceneData sceneData in _ScenesData._scenes) {
+        foreach (FSceneData sceneData in _scenesData.scenes) {
             if (sceneData.SceneType == ESceneType.EST_Game) {
                 UnloadScene(sceneData.scene);
             }

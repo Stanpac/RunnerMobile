@@ -474,8 +474,8 @@ MonoBehaviour:
   _startMenu: {fileID: 575006710}
   _startMenuFond: {fileID: 1838066851}
   _startMenuButton: {fileID: 1321472642}
-  _GameUI: {fileID: 254937532}
-  _MenuButton: {fileID: 789741791}
+  _gameUI: {fileID: 254937532}
+  _menuButton: {fileID: 789741791}
 --- !u!1 &436825435
 GameObject:
   m_ObjectHideFlags: 0
@@ -1542,8 +1542,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 567ef13ba801de0419071e21a58a6948, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveOffset: {x: 0, y: 8, z: -8}
-  rotOffset: {x: 0, y: 0, z: 10}
+  _moveOffset: {x: 0, y: 0, z: 0}
+  _rotOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &1807912535
 GameObject:
   m_ObjectHideFlags: 0
@@ -1759,7 +1759,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 102}
-  m_SizeDelta: {x: 1170, y: 2289}
+  m_SizeDelta: {x: 1284, y: 2535}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1878114471
 MonoBehaviour:
@@ -2030,8 +2030,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b714d2b552e3ba4b923fb96550eba06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 1426153594}
-  StartImpulsionForce: 100
+  _camera: {fileID: 1426153594}
+  _startImpulsionForce: 100
 --- !u!114 &2065602297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2044,7 +2044,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfd4711e1a584d7db15548874fe1f7d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSoSave: {fileID: 11400000, guid: 14656989f32d49448afb42b583221a6e, type: 2}
+  _currentSoSave: {fileID: 11400000, guid: 14656989f32d49448afb42b583221a6e, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

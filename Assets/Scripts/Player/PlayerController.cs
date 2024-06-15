@@ -12,32 +12,32 @@ using UnityEngine.Serialization;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField, BoxGroup("Data Settings"), Label("Player Controller Data")]
-    private SO_PlayerController Data;
+    private SO_PlayerController _data;
     
     [SerializeField, BoxGroup("Wheels")]
     WheelsToRotate _WheelsToRotate;
     
     private RaycastSuspension[] _Wheels;
     
-    private float RotationAngle = 0;
+    private float _RotationAngle = 0;
     
-    private bool FingerOnScreen = false;
+    private bool _FingerOnScreen = false;
     private LeanFinger _Currentfinger;
     
     private void Awake()
     {
-        Data = Resources.Load<SO_PlayerController>("SO_PlayerController");
+        _data = Resources.Load<SO_PlayerController>("SO_PlayerController");
         
         // Event  
-        GameManager.instance.actionManager.OnFingerDown += OnFingerDown;
-        GameManager.instance.actionManager.OnFirstFingerDown += OnFingerDown;
-        GameManager.instance.actionManager.OnLastFingerUp += OnLastFingerUp;
+        GameManager._instance.actionManager.OnFingerDown += OnFingerDown;
+        GameManager._instance.actionManager.OnFirstFingerDown += OnFingerDown;
+        GameManager._instance.actionManager.OnLastFingerUp += OnLastFingerUp;
         
-        RotationAngle = 0;
+        _RotationAngle = 0;
         
         _Wheels = GetComponentsInChildren<RaycastSuspension>();
         foreach (var wheel in _Wheels) {
-            wheel.SetUpSpeedFactor(Data.SpeedFactor, Data.carTopSpeed, Data.powerCurve);
+            wheel.SetUpSpeedFactor(_data.speedFactor, _data.carTopSpeed, _data.powerCurve);
         }
     }
 
@@ -49,25 +49,25 @@ public class PlayerController : MonoBehaviour
 
     private float CalculateRotation()
     {
-        float rotation = RotationAngle;
+        float rotation = _RotationAngle;
        
-        if (FingerOnScreen) {
+        if (_FingerOnScreen) {
             if (_Currentfinger.ScreenPosition.x > Screen.width / 2) {
-                rotation =  Mathf.Clamp(rotation + Time.deltaTime / Data.TimeForMaxRotation * Data.AngleMaxRotation, -Data.AngleMaxRotation, Data.AngleMaxRotation);
+                rotation =  Mathf.Clamp(rotation + Time.deltaTime / _data.timeForMaxRotation * _data.angleMaxRotation, -_data.angleMaxRotation, _data.angleMaxRotation);
             } else {
-                rotation =  Mathf.Clamp(rotation - Time.deltaTime / Data.TimeForMaxRotation * Data.AngleMaxRotation, -Data.AngleMaxRotation, Data.AngleMaxRotation);
+                rotation =  Mathf.Clamp(rotation - Time.deltaTime / _data.timeForMaxRotation * _data.angleMaxRotation, -_data.angleMaxRotation, _data.angleMaxRotation);
             }
         } else {
-           rotation = Mathf.Lerp(rotation, 0, Time.deltaTime / Data.TimeForMaxRotation);  
+           rotation = Mathf.Lerp(rotation, 0, Time.deltaTime / _data.timeForMaxRotation);  
         }
        
-        RotationAngle = rotation;
-        return RotationAngle;
+        _RotationAngle = rotation;
+        return _RotationAngle;
     }
     
     private void OnFingerDown(LeanFinger finger)
     {
-        FingerOnScreen = true;
+        _FingerOnScreen = true;
         if (_Currentfinger == null || !_Currentfinger.Set) {
             _Currentfinger = finger;
         }
@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
     
     private void OnLastFingerUp(LeanFinger obj)
     {
-        FingerOnScreen = false;
+        _FingerOnScreen = false;
         _Currentfinger = null;
         
     }

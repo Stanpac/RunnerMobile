@@ -1,5 +1,6 @@
 ﻿using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ScriptableObjects
 {
@@ -8,19 +9,19 @@ namespace ScriptableObjects
     {
         [SerializeField, BoxGroup("Regen")]
         [Tooltip(" The rate in sec at which the stability of the player regenerates")]
-        public float _stabilityRegen = 0.1f;
+        public float stabilityRegen = 0.1f;
         
         [SerializeField, BoxGroup("Regen"), MinValue(0)]
         [Tooltip("The time in sec without Change of Stability after what the stability starts to regenerate")]
-        public float _stabilityRegenStopTime = 1;
+        public float stabilityRegenStopTime = 1;
         
         [SerializeField, BoxGroup("Instability"), Range(0, 1)]
         [Tooltip(" The minimum Force to apply to the stability to Start the Timer _StabilityRegenStop")]
-        public float _stabilityForce = 0.2f;
+        public float stabilityForce = 0.2f;
         
         [SerializeField, BoxGroup("Instability"),Range(0, 1)] 
         [Tooltip("The % at which the stability is outside the limit and the player is considered unstable")]
-        public float _instabilityThreshold = 0.8f;
+        public float instabilityThreshold = 0.8f;
     }
     
 }

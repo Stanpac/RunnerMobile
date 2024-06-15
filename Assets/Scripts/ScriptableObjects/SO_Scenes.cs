@@ -23,6 +23,6 @@ namespace ScriptableObjects
     {
         [SerializeField, BoxGroup("Scene")] 
         [Tooltip("The scenes of the game")]
-        public FSceneData[] _scenes;
+        public FSceneData[] scenes;
     }
 }

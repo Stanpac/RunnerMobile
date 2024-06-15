@@ -7,43 +7,50 @@ using UnityEngine.Serialization;
 
 public class CameraFollow : MonoBehaviour
 {
-    [SerializeField, BoxGroup("Target")] public Transform target;
+    [SerializeField, BoxGroup("Target")] 
+    public Transform _target;
     
-    [SerializeField, BoxGroup("Smoothness")] float moveSmoothness;
-    [SerializeField, BoxGroup("Smoothness")] float rotSmoothness;
+    [SerializeField, BoxGroup("Smoothness")] 
+    float _moveSmoothness;
+    
+    [SerializeField, BoxGroup("Smoothness")] 
+    float _rotSmoothness;
 
-    [SerializeField, BoxGroup("Offset")] Vector3 moveOffset;
-    [SerializeField, BoxGroup("Offset")] Vector3 rotOffset;
+    [SerializeField, BoxGroup("Offset")] 
+    Vector3 _moveOffset;
+    
+    [SerializeField, BoxGroup("Offset")]
+    Vector3 _rotOffset;
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         FollowTarget();
     }
 
-    void FollowTarget()
+    private void FollowTarget()
     {
         HandleMovement();
         HandleRotation();
     }
 
-    void HandleMovement()
+    private void HandleMovement()
     {
         Vector3 targetPos = new Vector3();
-        if (target == null)  return;
+        if (_target == null)  return;
         
-        targetPos = target.TransformPoint(moveOffset);
+        targetPos = _target.TransformPoint(_moveOffset);
 
-        transform.position = Vector3.Lerp(transform.position, targetPos, moveSmoothness * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, targetPos, _moveSmoothness * Time.deltaTime);
     }
 
-    void HandleRotation()
+    private void HandleRotation()
     {
-        if (target == null) return;
-        var direction = target.position - transform.position;
+        if (_target == null) return;
+        var direction = _target.position - transform.position;
         var rotation = new Quaternion();
 
-        rotation = Quaternion.LookRotation(direction + rotOffset, Vector3.up);
+        rotation = Quaternion.LookRotation(direction + _rotOffset, Vector3.up);
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotSmoothness * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, _rotSmoothness * Time.deltaTime);
     }
 }
