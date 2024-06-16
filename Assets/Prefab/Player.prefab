@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 626db4af4347e9a4bbbfe8523f64a0d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Data: {fileID: 11400000, guid: f4bad4123f0c2c14787bb69906921bf7, type: 2}
+  _data: {fileID: 11400000, guid: f4bad4123f0c2c14787bb69906921bf7, type: 2}
   _WheelsToRotate:
     Wheels:
     - {fileID: 4880756959424967256}
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4b4bc1caed5bf4cb592a06e2880b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _SO_Stability: {fileID: 11400000, guid: 8d8437647b7191f4084b5327fc9cb83f, type: 2}
+  _data: {fileID: 11400000, guid: 8d8437647b7191f4084b5327fc9cb83f, type: 2}
 --- !u!54 &128735983606419666
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -190,11 +190,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d93efc9ebb8355a43a053682e183f680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebugMode: 0
-  carRigidbody: {fileID: 0}
-  tireTransform: {fileID: 0}
-  carTransform: {fileID: 0}
-  Data: {fileID: 11400000, guid: d758c70135a280b42895ab1ea4d67bab, type: 2}
+  _debugMode: 0
+  _carRigidbody: {fileID: 0}
+  _tireTransform: {fileID: 0}
+  _carTransform: {fileID: 0}
+  _data: {fileID: 0}
 --- !u!1 &3903902268003325856
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,11 +239,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d93efc9ebb8355a43a053682e183f680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebugMode: 0
-  carRigidbody: {fileID: 0}
-  tireTransform: {fileID: 0}
-  carTransform: {fileID: 0}
-  Data: {fileID: 11400000, guid: d758c70135a280b42895ab1ea4d67bab, type: 2}
+  _debugMode: 0
+  _carRigidbody: {fileID: 0}
+  _tireTransform: {fileID: 0}
+  _carTransform: {fileID: 0}
+  _data: {fileID: 0}
 --- !u!1 &4530653826144091652
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,11 +321,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d93efc9ebb8355a43a053682e183f680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebugMode: 0
-  carRigidbody: {fileID: 0}
-  tireTransform: {fileID: 0}
-  carTransform: {fileID: 0}
-  Data: {fileID: 11400000, guid: d758c70135a280b42895ab1ea4d67bab, type: 2}
+  _debugMode: 0
+  _carRigidbody: {fileID: 0}
+  _tireTransform: {fileID: 0}
+  _carTransform: {fileID: 0}
+  _data: {fileID: 0}
 --- !u!1 &6398534519044663303
 GameObject:
   m_ObjectHideFlags: 0
@@ -427,11 +427,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d93efc9ebb8355a43a053682e183f680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebugMode: 0
-  carRigidbody: {fileID: 0}
-  tireTransform: {fileID: 0}
-  carTransform: {fileID: 0}
-  Data: {fileID: 11400000, guid: d758c70135a280b42895ab1ea4d67bab, type: 2}
+  _debugMode: 0
+  _carRigidbody: {fileID: 0}
+  _tireTransform: {fileID: 0}
+  _carTransform: {fileID: 0}
+  _data: {fileID: 0}
 --- !u!1001 &7108668934633052662
 PrefabInstance:
   m_ObjectHideFlags: 0

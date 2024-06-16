@@ -22,13 +22,13 @@ public class TileManager : MonoBehaviour
     private void Reset()
     {
         if (_data == null)
-        _data = Resources.Load<SO_TileManager>("SO_TileManager");
+            _data = Resources.Load<SO_TileManager>("SO_TileManager");
     }
 
     private void Awake()
     {
         if (_data == null)
-        _data = Resources.Load<SO_TileManager>("SO_TileManager");
+            _data = Resources.Load<SO_TileManager>("SO_TileManager");
         
         GameManager._instance.tileManager = this;
         _allTiles = new List<GameObject>();

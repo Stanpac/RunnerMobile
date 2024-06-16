@@ -37,7 +37,8 @@ public class PlayerManager : MonoBehaviour
         }
         
         _currentPlayerController = Instantiate<GameObject>(_currentPlayerPrefab, position, rotation).GetComponent<PlayerController>();
-        GameManager._instance._camera._target = _currentPlayerController.transform;
+        GameManager._instance._virtualCamera.LookAt = _currentPlayerController.transform;
+        GameManager._instance._virtualCamera.Follow = _currentPlayerController.transform;
     }
     
     public void GiveStartImpulsionToPlayer(Vector3 direction, float force)

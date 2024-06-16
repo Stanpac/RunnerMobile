@@ -43,13 +43,13 @@ public class RaycastSuspension : MonoBehaviour
     private void Reset()
     {
         if (_data == null)
-        _data = Resources.Load<SO_RaycastSuspension>("SO_RaycastSuspension");
+            _data = Resources.Load<SO_RaycastSuspension>("SO_RaycastSuspension");
     }
 
     private void Awake()
     {
         if (_data == null)
-        _data = Resources.Load<SO_RaycastSuspension>("SO_RaycastSuspension");
+            _data = Resources.Load<SO_RaycastSuspension>("SO_RaycastSuspension");
         
         _tireTransform = GetComponent<Transform>();
         _carRigidbody = GetComponentInParent<Rigidbody>();

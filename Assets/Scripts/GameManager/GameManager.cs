@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using NaughtyAttributes;
 using ScriptableObjects;
 using UnityEngine;
@@ -12,10 +13,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager _instance;
     
-    [FormerlySerializedAs("camera")] [BoxGroup("Camera")] 
-    public GameCamera _camera;
+    [BoxGroup("Camera")] 
+    public CinemachineVirtualCamera _virtualCamera;
     
-    [FormerlySerializedAs("StartImpulsionForce")] [SerializeField, BoxGroup("StartParameters")]
+    [SerializeField, BoxGroup("StartParameters")]
     private float _startImpulsionForce = 10;
     
     //Manager for the game

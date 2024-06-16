@@ -49,7 +49,6 @@ public class Stability : MonoBehaviour
         }
         
         _stability = Mathf.Clamp(_stability, _minStability, _maxStability);
-        
         CheckifUnstable();
         if (_previousStability != _stability) {
             GameManager._instance.actionManager.StabilityChange(_stability);

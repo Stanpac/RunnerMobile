@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e10cfd814c84362bb70f49dd3fa9834, type: 3}
   m_Name: SO_PlayerController
   m_EditorClassIdentifier: 
-  _speedFactor: 5
-  _carTopSpeed: 100
-  _powerCurve:
+  speedFactor: 1
+  carTopSpeed: 100
+  powerCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -38,5 +38,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  AngleMaxRotation: 45
-  TimeForMaxRotation: 1
+  angleMaxRotation: 45
+  timeForMaxRotation: 1
