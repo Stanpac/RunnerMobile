@@ -5,34 +5,35 @@ using NaughtyAttributes;
 using ScriptableObjects;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 // This script is responsible for managing the stability of the player.
 public class Stability : MonoBehaviour
 {
     [SerializeField]
-    private SO_Stability _SO_Stability;
+    private SO_Stability _data;
     
     // Private Variables
-    private Transform _CarTransform;
+    private Transform _carTransform;
     
     private float _stability = 0;
     private float _maxStability = 1;
     private float _minStability = -1;
     private float _previousStability = 0;
     
-    private float _StabilityWeightMultiplicator = 1;
+    private float _stabilityWeightMultiplicator = 1;
     
-    private bool _CanRegen = true;
-    private bool _IsUnstable = false;
+    private bool _regenarate = true;
+    private bool _unstable = false;
     
-    private Coroutine _StopRegenStabilityCoroutine;
+    private Coroutine _stopRegenStabilityCoroutine;
     
     
     private void Awake()
     {
-        _SO_Stability = Resources.Load<SO_Stability>("SO_Stability");
+        _data = Resources.Load<SO_Stability>("SO_Stability");
         
-        _CarTransform = GetComponent<PlayerController>().transform;
+        _carTransform = GetComponent<PlayerController>().transform;
         ResetStability();
     }
 
@@ -43,31 +44,30 @@ public class Stability : MonoBehaviour
     
     private void Update()
     {
-        if (_CanRegen) {
+        if (_regenarate) {
             RegenStability();
         }
         
         _stability = Mathf.Clamp(_stability, _minStability, _maxStability);
-        
         CheckifUnstable();
         if (_previousStability != _stability) {
-            GameManager.instance.actionManager.StabilityChange(_stability);
+            GameManager._instance.actionManager.StabilityChange(_stability);
         }
         _previousStability = _stability;
     }
     
     private void CheckifUnstable()
     {
-        if (_stability > _SO_Stability._instabilityThreshold || _stability < -_SO_Stability._instabilityThreshold) {
-            _IsUnstable = true;
+        if (_stability > _data.instabilityThreshold || _stability < -_data.instabilityThreshold) {
+            _unstable = true;
         } else {
-            _IsUnstable = false;
+            _unstable = false;
         }
     }
     
     private void RegenStability()
     {
-        float stabilityregen = _SO_Stability._stabilityRegen * Time.deltaTime * 1/_StabilityWeightMultiplicator;
+        float stabilityregen = _data.stabilityRegen * Time.deltaTime * 1/_stabilityWeightMultiplicator;
         if (_stability < 0) {
             AddStability(stabilityregen, true, true);
         } else if (_stability > 0) {
@@ -77,7 +77,7 @@ public class Stability : MonoBehaviour
     
     public void ImpactStability(float value, EStabilityImpactSide side)
     {
-        if (value > _SO_Stability._stabilityForce) {
+        if (value > _data.stabilityForce) {
             StartTimerForRegenStability();
         }
         
@@ -111,17 +111,17 @@ public class Stability : MonoBehaviour
     
     private IEnumerator StopRegenStability(float time)
     {
-        _CanRegen = false;
+        _regenarate = false;
         yield return new WaitForSeconds(time);
-        _CanRegen = true;
+        _regenarate = true;
     }
     
     private void StartTimerForRegenStability()
     {
-        if (_StopRegenStabilityCoroutine != null) {
-            StopCoroutine(_StopRegenStabilityCoroutine);
+        if (_stopRegenStabilityCoroutine != null) {
+            StopCoroutine(_stopRegenStabilityCoroutine);
         }
-        _StopRegenStabilityCoroutine = StartCoroutine(StopRegenStability(_SO_Stability._stabilityRegenStopTime));
+        _stopRegenStabilityCoroutine = StartCoroutine(StopRegenStability(_data.stabilityRegenStopTime));
     }
 }
 

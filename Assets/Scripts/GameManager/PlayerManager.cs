@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] 
-    public PlayerController _CurrentPlayerController;
+    public PlayerController _currentPlayerController;
     
     [SerializeField] 
     public GameObject _currentPlayerPrefab { get; set; }
@@ -31,21 +32,22 @@ public class PlayerManager : MonoBehaviour
             return;
         }
         
-        if (_CurrentPlayerController != null) {
-            Destroy(_CurrentPlayerController.gameObject);
+        if (_currentPlayerController != null) {
+            Destroy(_currentPlayerController.gameObject);
         }
         
-        _CurrentPlayerController = Instantiate<GameObject>(_currentPlayerPrefab, position, rotation).GetComponent<PlayerController>();
-        GameManager.instance.camera.target = _CurrentPlayerController.transform;
+        _currentPlayerController = Instantiate<GameObject>(_currentPlayerPrefab, position, rotation).GetComponent<PlayerController>();
+        GameManager._instance._virtualCamera.LookAt = _currentPlayerController.transform;
+        GameManager._instance._virtualCamera.Follow = _currentPlayerController.transform;
     }
     
     public void GiveStartImpulsionToPlayer(Vector3 direction, float force)
     {
-        if (_CurrentPlayerController == null) {
+        if (_currentPlayerController == null) {
             Debug.LogError("No Player to give impulsion");
             return;
         }
         
-        _CurrentPlayerController.GetComponent<Rigidbody>().AddForce(direction * force, ForceMode.Impulse);
+        _currentPlayerController.GetComponent<Rigidbody>().AddForce(direction * force, ForceMode.Impulse);
     }
 } 

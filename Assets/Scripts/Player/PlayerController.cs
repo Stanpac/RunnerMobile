@@ -12,72 +12,79 @@ using UnityEngine.Serialization;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField, BoxGroup("Data Settings"), Label("Player Controller Data")]
-    private SO_PlayerController Data;
+    private SO_PlayerController _data;
     
-    [SerializeField, BoxGroup("Wheels")]
-    WheelsToRotate _WheelsToRotate;
+    [FormerlySerializedAs("_WheelsToRotate")] [SerializeField, BoxGroup("Wheels")]
+    WheelsToRotate _wheelsToRotate;
     
-    private RaycastSuspension[] _Wheels;
+    private RaycastSuspension[] _wheels;
     
-    private float RotationAngle = 0;
+    private float _rotationAngle = 0;
     
-    private bool FingerOnScreen = false;
-    private LeanFinger _Currentfinger;
+    private bool _fingerOnScreen = false;
+    private LeanFinger _currentfinger;
     
+    
+    private void Reset()
+    {
+        if (_data == null)
+            _data = Resources.Load<SO_PlayerController>("SO_PlayerController");
+    }
+
     private void Awake()
     {
-        Data = Resources.Load<SO_PlayerController>("SO_PlayerController");
+        if (_data == null) 
+            _data = Resources.Load<SO_PlayerController>("SO_PlayerController");
         
         // Event  
-        GameManager.instance.actionManager.OnFingerDown += OnFingerDown;
-        GameManager.instance.actionManager.OnFirstFingerDown += OnFingerDown;
-        GameManager.instance.actionManager.OnLastFingerUp += OnLastFingerUp;
+        GameManager._instance.actionManager.OnFingerDown += OnFingerDown;
+        GameManager._instance.actionManager.OnFirstFingerDown += OnFingerDown;
+        GameManager._instance.actionManager.OnLastFingerUp += OnLastFingerUp;
         
-        RotationAngle = 0;
+        _rotationAngle = 0;
         
-        _Wheels = GetComponentsInChildren<RaycastSuspension>();
-        foreach (var wheel in _Wheels) {
-            wheel.SetUpSpeedFactor(Data.SpeedFactor, Data.carTopSpeed, Data.powerCurve);
+        _wheels = GetComponentsInChildren<RaycastSuspension>();
+        foreach (var wheel in _wheels) {
+            wheel.SetUpSpeedFactor(_data.speedFactor, _data.carTopSpeed, _data.powerCurve);
         }
     }
 
     private void Update()
     {
         float rotation = CalculateRotation();
-        _WheelsToRotate.RotateWheels(rotation);
+        _wheelsToRotate.RotateWheels(rotation);
     }
 
     private float CalculateRotation()
     {
-        float rotation = RotationAngle;
+        float rotation = _rotationAngle;
        
-        if (FingerOnScreen) {
-            if (_Currentfinger.ScreenPosition.x > Screen.width / 2) {
-                rotation =  Mathf.Clamp(rotation + Time.deltaTime / Data.TimeForMaxRotation * Data.AngleMaxRotation, -Data.AngleMaxRotation, Data.AngleMaxRotation);
+        if (_fingerOnScreen) {
+            if (_currentfinger.ScreenPosition.x > Screen.width / 2) {
+                rotation =  Mathf.Clamp(rotation + Time.deltaTime / _data.timeForMaxRotation * _data.angleMaxRotation, -_data.angleMaxRotation, _data.angleMaxRotation);
             } else {
-                rotation =  Mathf.Clamp(rotation - Time.deltaTime / Data.TimeForMaxRotation * Data.AngleMaxRotation, -Data.AngleMaxRotation, Data.AngleMaxRotation);
+                rotation =  Mathf.Clamp(rotation - Time.deltaTime / _data.timeForMaxRotation * _data.angleMaxRotation, -_data.angleMaxRotation, _data.angleMaxRotation);
             }
         } else {
-           rotation = Mathf.Lerp(rotation, 0, Time.deltaTime / Data.TimeForMaxRotation);  
+           rotation = Mathf.Lerp(rotation, 0, Time.deltaTime / _data.timeForMaxRotation);  
         }
        
-        RotationAngle = rotation;
-        return RotationAngle;
+        _rotationAngle = rotation;
+        return _rotationAngle;
     }
     
     private void OnFingerDown(LeanFinger finger)
     {
-        FingerOnScreen = true;
-        if (_Currentfinger == null || !_Currentfinger.Set) {
-            _Currentfinger = finger;
+        _fingerOnScreen = true;
+        if (_currentfinger == null || !_currentfinger.Set) {
+            _currentfinger = finger;
         }
     }
     
     private void OnLastFingerUp(LeanFinger obj)
     {
-        FingerOnScreen = false;
-        _Currentfinger = null;
-        
+        _fingerOnScreen = false;
+        _currentfinger = null;
     }
 }
 

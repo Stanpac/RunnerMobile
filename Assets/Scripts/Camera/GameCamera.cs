@@ -2,26 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public class GameCamera : MonoBehaviour
 { 
-    public Transform target {get; set;}
+    public Transform _target {get; set;}
     
-    [SerializeField, BoxGroup("Offset")] Vector3 moveOffset;
-    [SerializeField, BoxGroup("Offset")] Vector3 rotOffset;
+    [SerializeField, BoxGroup("Offset")] Vector3 _moveOffset;
+    [SerializeField, BoxGroup("Offset")] Vector3 _rotOffset;
     
-    void Update()
+    private void Update()
     {
         LookAtTarget();
     }
     
     private void LookAtTarget()
     {
-        if (target == null) return;
-        Vector3 targetPos = target.TransformPoint(moveOffset);
+        if (_target == null) return;
+        Vector3 targetPos = _target.TransformPoint(_moveOffset);
         transform.position = targetPos;
-        transform.LookAt(target.position + rotOffset);
+        transform.LookAt(_target.position + _rotOffset);
     }
     
 }

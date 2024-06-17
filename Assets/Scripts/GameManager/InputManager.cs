@@ -9,7 +9,7 @@ public class InputManager : MonoBehaviour
     public LeanTouch _leanTouch { get; private set; }
     
     [NonSerialized]
-    private List<LeanFinger> fingers = new List<LeanFinger>();
+    private List<LeanFinger> _fingers = new List<LeanFinger>();
     private void Awake()
     {
         // Find Lean Touch in the scene or add it if it doesn't exist
@@ -21,21 +21,21 @@ public class InputManager : MonoBehaviour
     
     private void HandleFingerUp(LeanFinger finger)
     {
-        fingers.Remove(finger);
-        if (fingers.Count == 0) {
-            GameManager.instance.actionManager.LastFingerUp( finger);
+        _fingers.Remove(finger);
+        if (_fingers.Count == 0) {
+            GameManager._instance.actionManager.LastFingerUp( finger);
         }
     }
 
     private void HandleFingerDown(LeanFinger finger)
     {
         if (finger.StartedOverGui) return;
-        if (fingers.Count == 0) {
-            GameManager.instance.actionManager.FirstFingerDown(finger);
+        if (_fingers.Count == 0) {
+            GameManager._instance.actionManager.FirstFingerDown(finger);
         } else {
-            GameManager.instance.actionManager.FingerDown(finger);
+            GameManager._instance.actionManager.FingerDown(finger);
         }
-        fingers.Add(finger);
+        _fingers.Add(finger);
         
     }
 

@@ -1,28 +1,26 @@
 ﻿using UnityEngine;
 
-/*------------------- Struct / enum -------------------*/
-public enum GameState
-{
-    StartMenu,
-    Game,
-    Pause,
-    GameOver,
-}
-
-/*------------------- End Struct / enum -------------------*/
 public class GameStateManager : MonoBehaviour
 {
-    public GameState CurrentGameState { get; private set; }
+    public EGameState CurrentGameState { get; private set; }
     
     private void Awake()
     {
-        SetGameState(GameState.StartMenu);
+        SetGameState(EGameState.GS_StartMenu);
     }
     
-    public void SetGameState(GameState gameState)
+    public void SetGameState(EGameState gameState)
     {
-        GameState previousGameState = CurrentGameState;
+        EGameState previousGameState = CurrentGameState;
         CurrentGameState = gameState;
-        GameManager.instance.actionManager.GameStateChange(previousGameState,gameState);
+        GameManager._instance.actionManager.GameStateChange(previousGameState,gameState);
     }
+}
+
+public enum EGameState
+{
+    GS_StartMenu,
+    GS_Game,
+    GS_Pause,
+    GS_GameOver,
 }

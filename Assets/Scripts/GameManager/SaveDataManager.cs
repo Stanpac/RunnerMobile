@@ -4,12 +4,10 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 
-/*
- * This script is responsible for managing the save data.
- */
+
 public class SaveDataManager : MonoBehaviour
 {
-    [FormerlySerializedAs("_CurrentSaveData")] public SO_Save currentSoSave;
+    public SO_Save _currentSoSave;
     
     public void Save()
     {
