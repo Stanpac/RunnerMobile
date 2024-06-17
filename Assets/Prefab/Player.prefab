@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _data: {fileID: 11400000, guid: f4bad4123f0c2c14787bb69906921bf7, type: 2}
-  _WheelsToRotate:
+  _wheelsToRotate:
     Wheels:
     - {fileID: 4880756959424967256}
     - {fileID: 1707627931852572705}
@@ -190,7 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d93efc9ebb8355a43a053682e183f680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _debugMode: 0
+  _debugMode: 1
   _carRigidbody: {fileID: 0}
   _tireTransform: {fileID: 0}
   _carTransform: {fileID: 0}
@@ -239,7 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d93efc9ebb8355a43a053682e183f680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _debugMode: 0
+  _debugMode: 1
   _carRigidbody: {fileID: 0}
   _tireTransform: {fileID: 0}
   _carTransform: {fileID: 0}
@@ -321,7 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d93efc9ebb8355a43a053682e183f680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _debugMode: 0
+  _debugMode: 1
   _carRigidbody: {fileID: 0}
   _tireTransform: {fileID: 0}
   _carTransform: {fileID: 0}
@@ -427,7 +427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d93efc9ebb8355a43a053682e183f680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _debugMode: 0
+  _debugMode: 1
   _carRigidbody: {fileID: 0}
   _tireTransform: {fileID: 0}
   _carTransform: {fileID: 0}
