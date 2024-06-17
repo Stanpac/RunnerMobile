@@ -6,6 +6,7 @@ using Lean.Touch;
 using NaughtyAttributes;
 using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 
 // This script is responsible for managing the player.
@@ -24,6 +25,8 @@ public class PlayerController : MonoBehaviour
     private bool _fingerOnScreen = false;
     private LeanFinger _currentfinger;
     
+    public float _rotationFactorMultiplicator  = 10;
+    private float _rotationFactor = 0;
     
     private void Reset()
     {
@@ -51,7 +54,10 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        float PreviousRotation = _rotationAngle;
         float rotation = CalculateRotation();
+        
+        CalculateRotationFactorThisFrame(PreviousRotation, rotation);
         _wheelsToRotate.RotateWheels(rotation);
     }
 
@@ -68,9 +74,18 @@ public class PlayerController : MonoBehaviour
         } else {
            rotation = Mathf.Lerp(rotation, 0, Time.deltaTime / _data.timeForMaxRotation);  
         }
-       
+        
         _rotationAngle = rotation;
         return _rotationAngle;
+    }
+    
+    private void CalculateRotationFactorThisFrame(float PreviousRotation, float CurrentRotation)
+    {
+        if (_fingerOnScreen) {
+            _rotationFactor = CurrentRotation - PreviousRotation;
+        } else {
+            _rotationFactor = Mathf.Lerp(_rotationFactor, 0, Time.deltaTime / _data.timeForMaxRotation);
+        }
     }
     
     private void OnFingerDown(LeanFinger finger)
@@ -85,6 +100,11 @@ public class PlayerController : MonoBehaviour
     {
         _fingerOnScreen = false;
         _currentfinger = null;
+    }
+    
+    public float GetRotationForStability()
+    {
+        return Mathf.Clamp(_rotationFactor * _rotationFactorMultiplicator, -1, 1);
     }
 }
 

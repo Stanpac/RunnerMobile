@@ -22,6 +22,11 @@ namespace ScriptableObjects
         [SerializeField, BoxGroup("Instability"),Range(0, 1)] 
         [Tooltip("The % at which the stability is outside the limit and the player is considered unstable")]
         public float instabilityThreshold = 0.8f;
+        
+        [SerializeField, BoxGroup("Instability"), Range(0, 1)]
+        [Tooltip("The % at which the stability is outside the limit and the player is considered unstable")]
+        public float stabilityWeightMultiplicator = 1;
+        
     }
     
 }

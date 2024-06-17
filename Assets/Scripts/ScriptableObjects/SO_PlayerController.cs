@@ -24,6 +24,10 @@ namespace ScriptableObjects
         public float angleMaxRotation = 45;
         
         [SerializeField, BoxGroup("Rotation Settings")]
+        [Tooltip("The min rotation of the car that impact stability. (need to be lower than angleMaxRotation)")]
+        public float angleMinforStabilityImpact = 30;
+        
+        [SerializeField, BoxGroup("Rotation Settings")]
         [Tooltip("The time for the wheels to reach AngleMaxrotation")]
         public float timeForMaxRotation = 1f;
     }
