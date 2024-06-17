@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SO_PlayerController
   m_EditorClassIdentifier: 
   speedFactor: 1
-  carTopSpeed: 100
+  carTopSpeed: 150
   powerCurve:
     serializedVersion: 2
     m_Curve:
@@ -27,8 +27,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 1
     - serializedVersion: 3
-      time: 1
-      value: 0.008376326
+      time: 0.99664307
+      value: 0.0460045
       inSlope: -96.519684
       outSlope: -27.898844
       tangentMode: 1
@@ -39,4 +39,4 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   angleMaxRotation: 45
-  timeForMaxRotation: 1
+  timeForMaxRotation: 0.8
