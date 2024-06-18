@@ -10,9 +10,12 @@ public class MySceneManager : MonoBehaviour
 {
     public SO_Scenes _scenesData; 
     
+    
+    private string _dataPath => "ScriptableObject/SO_Scenes";
+    
     private void Awake()
     {
-        _scenesData = Resources.Load<SO_Scenes>("SO_Scenes");
+        _scenesData = Resources.Load<SO_Scenes>(_dataPath);
     }
     
     public void LoadScene(string sceneName)

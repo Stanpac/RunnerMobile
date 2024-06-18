@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca5a0cbc223f4e26bafe76ed00602d47, type: 3}
   m_Name: SO_TileManager
   m_EditorClassIdentifier: 
-  tiles:
-  - TilePrefab: {fileID: 6494651431551532920, guid: c709ea214ba35b54ab058403da2a56a2,
-      type: 3}
-  startTile:
-  - TilePrefab: {fileID: 6494651431551532920, guid: c709ea214ba35b54ab058403da2a56a2,
-      type: 3}
   distanceoOfGeneration: 100
+  tileManualManagement: 0
+  allTiles:
+  - {fileID: 7198397052481469354, guid: d009254ea744b5148aeb43d1c135a32d, type: 3}
+  startTile:
+  - {fileID: 7198397052481469354, guid: 1be41d6d26c42d944a2daea58c64832e, type: 3}
+  lowLevelTiles:
+  - {fileID: 7198397052481469354, guid: d009254ea744b5148aeb43d1c135a32d, type: 3}
+  mediumLevelTiles: []
+  hardLevelTiles: []

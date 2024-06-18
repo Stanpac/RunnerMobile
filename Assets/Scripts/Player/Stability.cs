@@ -29,10 +29,11 @@ public class Stability : MonoBehaviour
     
     private Coroutine _stopRegenStabilityCoroutine;
     
+    private string _dataPath => "ScriptableObject/SO_Stability";
     
     private void Awake()
     {
-        _data = Resources.Load<SO_Stability>("SO_Stability");
+        _data = Resources.Load<SO_Stability>(_dataPath);
         
         _carTransform = GetComponent<PlayerController>().transform;
         _playerController = GetComponent<PlayerController>();

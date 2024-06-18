@@ -28,16 +28,18 @@ public class PlayerController : MonoBehaviour
     public float _rotationFactorMultiplicator  = 10;
     private float _rotationFactor = 0;
     
+    private string _dataPath => "ScriptableObject/SO_PlayerController";
+    
     private void Reset()
     {
         if (_data == null)
-            _data = Resources.Load<SO_PlayerController>("SO_PlayerController");
+            _data = Resources.Load<SO_PlayerController>(_dataPath);
     }
 
     private void Awake()
     {
         if (_data == null) 
-            _data = Resources.Load<SO_PlayerController>("SO_PlayerController");
+            _data = Resources.Load<SO_PlayerController>(_dataPath);
         
         // Event  
         GameManager._instance.actionManager.OnFingerDown += OnFingerDown;
