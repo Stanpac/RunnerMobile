@@ -32,7 +32,6 @@ public static class ProjectUtility
     private static void CreateTriggerBase(MenuCommand menuCommand)
     {
         GameObject go = new GameObject("TriggerBase");
-        go.AddComponent<BoxCollider>();
         go.AddComponent<TriggerBase>();
         
         GameObjectUtility.SetParentAndAlign(go, menuCommand.context as GameObject);
