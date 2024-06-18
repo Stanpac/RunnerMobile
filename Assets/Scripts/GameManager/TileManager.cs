@@ -17,7 +17,6 @@ public class TileManager : MonoBehaviour
     private List<Tile> _allSpawnedTiles;
     private PlayerController _currentplayer;
     
-    
     private string _dataPath => "ScriptableObject/SO_TileManager";
     private string _startTilePath => "Tiles/Start";
     private string _lowLevelTilePath => "Tiles/Low";
@@ -57,8 +56,20 @@ public class TileManager : MonoBehaviour
         if (_previousTile.transform.position.z <_currentplayer.transform.position.z + _data.distanceoOfGeneration) {
             GenerateTile(UnityEngine.Random.Range(0, _data.allTiles.Length));
         }
+        
+        CheckForTileDestruction();
     }
-    
+
+    private void CheckForTileDestruction()
+    {
+        for (int i = 0; i < _allSpawnedTiles.Count; i++) {
+            if (_allSpawnedTiles[i].transform.position.z < _currentplayer.transform.position.z - _data.distanceoOfGeneration) {
+                Destroy(_allSpawnedTiles[i].gameObject);
+                _allSpawnedTiles.Remove(_allSpawnedTiles[i]);
+            }
+        }
+    }
+
     private void GenerateStartTile() 
     {
         if (_data.startTile.Length <= 0) {
@@ -90,22 +101,22 @@ public class TileManager : MonoBehaviour
     {
         _data.startTile = Resources.LoadAll<Tile>(_startTilePath);
         if (_data.startTile.Length <= 0)  {
-            Debug.LogError("No start tile found in" + _startTilePath, this);
+            Debug.LogError("No tile found in" + _startTilePath, this);
         }
         
         _data.lowLevelTiles = Resources.LoadAll<Tile>(_lowLevelTilePath);
         if (_data.lowLevelTiles.Length <= 0)  {
-            Debug.LogError("No start tile found in" + _lowLevelTilePath, this);
+            Debug.LogError("No tile found in" + _lowLevelTilePath, this);
         }
         
         _data.mediumLevelTiles = Resources.LoadAll<Tile>(_mediumLevelTilePath);
         if (_data.mediumLevelTiles.Length <= 0)  {
-            Debug.LogError("No start tile found in" + _mediumLevelTilePath, this);
+            Debug.LogError("No tile found in" + _mediumLevelTilePath, this);
         }
         
         _data.hardLevelTiles = Resources.LoadAll<Tile>(_hardLevelTilePath);
         if (_data.hardLevelTiles.Length <= 0)  {
-            Debug.LogError("No start tile found in" + _hardLevelTilePath, this);
+            Debug.LogError("No tile found in" + _hardLevelTilePath, this);
         }
         
         _data.allTiles = _data.lowLevelTiles.Concat(_data.mediumLevelTiles).Concat(_data.hardLevelTiles).ToArray();
