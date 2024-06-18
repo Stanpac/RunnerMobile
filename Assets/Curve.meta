@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Curve.meta
 guid: 53171e3813d73954d83eeb78721a77cc
+========
+guid: e52d036fe75ef4445a146efe45653fb1
+>>>>>>>> c6afb89d (tentative de Toon Shader (import de packages de shader)):Assets/DA/TOON SHADER.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
