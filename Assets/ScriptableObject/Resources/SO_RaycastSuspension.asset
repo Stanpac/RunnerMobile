@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SO_RaycastSuspension
   m_EditorClassIdentifier: 
   suspensionRestDist: 0.6
-  springStrength: 130
-  springDamper: 20
+  springStrength: 200
+  springDamper: 25
   tireGripFactor: 0.4
   tireMass: 1
