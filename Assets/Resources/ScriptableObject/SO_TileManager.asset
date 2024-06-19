@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca5a0cbc223f4e26bafe76ed00602d47, type: 3}
+  m_Name: SO_TileManager
+  m_EditorClassIdentifier: 
+  distanceoOfGeneration: 100
+  tileManualManagement: 0
+  allTiles:
+  - {fileID: 7198397052481469354, guid: cd60f4a6af04d894faf0b76c5a067fb1, type: 3}
+  startTile:
+  - {fileID: 7198397052481469354, guid: 71aacd0b8ea792643bba085d7a6f00ce, type: 3}
+  lowLevelTiles:
+  - {fileID: 7198397052481469354, guid: cd60f4a6af04d894faf0b76c5a067fb1, type: 3}
+  mediumLevelTiles: []
+  hardLevelTiles: []

@@ -15,8 +15,9 @@ public class Stability : MonoBehaviour
     
     // Private Variables
     private Transform _carTransform;
+    private PlayerController _playerController;
     
-    private float _stability = 0;
+    public float _stability = 0;
     private float _maxStability = 1;
     private float _minStability = -1;
     private float _previousStability = 0;
@@ -28,12 +29,15 @@ public class Stability : MonoBehaviour
     
     private Coroutine _stopRegenStabilityCoroutine;
     
+    private string _dataPath => "ScriptableObject/SO_Stability";
     
     private void Awake()
     {
-        _data = Resources.Load<SO_Stability>("SO_Stability");
+        if (_data == null)
+            _data = Resources.Load<SO_Stability>(_dataPath);
         
         _carTransform = GetComponent<PlayerController>().transform;
+        _playerController = GetComponent<PlayerController>();
         ResetStability();
     }
 
@@ -48,12 +52,30 @@ public class Stability : MonoBehaviour
             RegenStability();
         }
         
+        _stability = CalculateRotation() + CalculateEvents() + CalculateTerrain();
         _stability = Mathf.Clamp(_stability, _minStability, _maxStability);
+        
         CheckifUnstable();
         if (_previousStability != _stability) {
             GameManager._instance.actionManager.StabilityChange(_stability);
         }
         _previousStability = _stability;
+    }
+    
+    private float CalculateRotation()
+    {
+        return _playerController.GetRotationForStability();
+    }
+    
+    private float CalculateEvents()
+    {
+        // TODO: Implement this with create trigger box for events
+        return 0;
+    }
+    private float CalculateTerrain()
+    {
+        // TODO: implement this with raycast to check the terrain orientation ?
+        return 0;
     }
     
     private void CheckifUnstable()
