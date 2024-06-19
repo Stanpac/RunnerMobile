@@ -33,7 +33,8 @@ public class Stability : MonoBehaviour
     
     private void Awake()
     {
-        _data = Resources.Load<SO_Stability>(_dataPath);
+        if (_data == null)
+            _data = Resources.Load<SO_Stability>(_dataPath);
         
         _carTransform = GetComponent<PlayerController>().transform;
         _playerController = GetComponent<PlayerController>();
@@ -50,8 +51,10 @@ public class Stability : MonoBehaviour
         if (_regenarate) {
             RegenStability();
         }
+        
         _stability = CalculateRotation() + CalculateEvents() + CalculateTerrain();
         _stability = Mathf.Clamp(_stability, _minStability, _maxStability);
+        
         CheckifUnstable();
         if (_previousStability != _stability) {
             GameManager._instance.actionManager.StabilityChange(_stability);

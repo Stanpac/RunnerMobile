@@ -10,8 +10,6 @@ using UnityEngine.Serialization;
 
 public class RaycastSuspension : MonoBehaviour
 {
-    [SerializeField, BoxGroup("Debug")] 
-    private bool _debugMode = false;
     
     [SerializeField, BoxGroup("Debug"), EnableIf("DebugMode")] 
     Rigidbody _carRigidbody;
@@ -32,14 +30,16 @@ public class RaycastSuspension : MonoBehaviour
     private float _speedFactor = 1.0f;
     private float _carTopSpeed = 100f;
     private AnimationCurve _powerCurve = null;
+    private bool _debugMode = false;
     
     private string _dataPath => "ScriptableObject/SO_RaycastSuspension";
     
-    public void SetUpSpeedFactor(float speedFactor, float carTopSpeed, AnimationCurve powerCurve)
+    public void SetUpSpeedFactor(float speedFactor, float carTopSpeed, AnimationCurve powerCurve, bool debug = false)
     {
         _speedFactor = speedFactor;
         _carTopSpeed = carTopSpeed;
         _powerCurve = powerCurve;
+        _debugMode = debug;
     }
 
     private void Reset()
