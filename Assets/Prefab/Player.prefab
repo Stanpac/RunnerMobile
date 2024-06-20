@@ -56,7 +56,6 @@ MonoBehaviour:
   _showDebug: 1
   _raylength: 2
   _showWheelsDebug: 1
-  _rotationFactorMultiplicator: 10
 --- !u!114 &4897618936823043774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,6 +70,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _data: {fileID: 11400000, guid: 8d8437647b7191f4084b5327fc9cb83f, type: 2}
   _stability: 0
+  _instabilityInputTimeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _timeForReachMaxinstability: 3
 --- !u!54 &128735983606419666
 Rigidbody:
   m_ObjectHideFlags: 0

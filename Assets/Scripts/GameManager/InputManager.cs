@@ -23,20 +23,18 @@ public class InputManager : MonoBehaviour
     {
         _fingers.Remove(finger);
         if (_fingers.Count == 0) {
-            GameManager._instance.actionManager.LastFingerUp( finger);
-        }
+            GameManager._instance.actionManager.LastFingerUp(finger);
+        } 
     }
 
     private void HandleFingerDown(LeanFinger finger)
     {
-        if (finger.StartedOverGui) return;
         if (_fingers.Count == 0) {
             GameManager._instance.actionManager.FirstFingerDown(finger);
         } else {
             GameManager._instance.actionManager.FingerDown(finger);
         }
         _fingers.Add(finger);
-        
     }
 
     private void HandleFingerUpdate(LeanFinger finger)

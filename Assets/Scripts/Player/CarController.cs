@@ -10,10 +10,10 @@ using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 
 // This script is responsible for managing the player.
-public class PlayerController : MonoBehaviour
+public class CarController : MonoBehaviour
 {
     [SerializeField, BoxGroup("Data Settings"), Label("Player Controller Data")]
-    private SO_PlayerController _data;
+    private SO_CarController _data;
     
     [SerializeField, BoxGroup("Wheels")]
     WheelsToRotate _wheelsToRotate;
@@ -34,26 +34,20 @@ public class PlayerController : MonoBehaviour
     private bool _fingerOnScreen = false;
     private LeanFinger _currentfinger;
     
-    public float _rotationFactorMultiplicator  = 10;
-    private float _rotationFactor = 0;
-    
     private string _dataPath => "ScriptableObject/SO_PlayerController";
+    
+    public  bool GetFinerOnScreen => _fingerOnScreen;
     
     private void Reset()
     {
         if (_data == null)
-            _data = Resources.Load<SO_PlayerController>(_dataPath);
+            _data = Resources.Load<SO_CarController>(_dataPath);
     }
 
     private void Awake()
     {
         if (_data == null) 
-            _data = Resources.Load<SO_PlayerController>(_dataPath);
-        
-        // Event  
-        GameManager._instance.actionManager.OnFingerDown += OnFingerDown;
-        GameManager._instance.actionManager.OnFirstFingerDown += OnFingerDown;
-        GameManager._instance.actionManager.OnLastFingerUp += OnLastFingerUp;
+            _data = Resources.Load<SO_CarController>(_dataPath);
         
         _rotationAngle = 0;
         
@@ -68,7 +62,7 @@ public class PlayerController : MonoBehaviour
         float PreviousRotation = _rotationAngle;
         float rotation = CalculateRotation();
         
-        //CalculateRotationFactorThisFrame(PreviousRotation, rotation);
+        
         _wheelsToRotate.RotateWheels(rotation);
     }
     
@@ -123,34 +117,37 @@ public class PlayerController : MonoBehaviour
             
         }
     }
-
     
-    private void CalculateRotationFactorThisFrame(float PreviousRotation, float CurrentRotation)
-    {
-        if (_fingerOnScreen) {
-            _rotationFactor = CurrentRotation - PreviousRotation;
-        } else {
-            _rotationFactor = Mathf.Lerp(_rotationFactor, 0, Time.deltaTime / _data.timeForMaxRotation);
-        }
-    }
-    
+    // TODO : there is the Same code in Stability.cs, find a way to factor this
+    // Maybe all this need to be in the InputManager and the CarController need to be a listener of the InputManager ? and check Current finger in the InputManager
     private void OnFingerDown(LeanFinger finger)
     {
+        if (finger.IsOverGui) return;
+        
         _fingerOnScreen = true;
         if (_currentfinger == null || !_currentfinger.Set) {
             _currentfinger = finger;
         }
     }
     
-    private void OnLastFingerUp(LeanFinger obj)
+    private void OnLastFingerUp(LeanFinger finger)
     {
         _fingerOnScreen = false;
         _currentfinger = null;
     }
-    
-    public float GetRotationForStability()
+
+    private void OnEnable()
     {
-        return Mathf.Clamp(_rotationFactor * _rotationFactorMultiplicator, -1, 1);
+        GameManager._instance.actionManager.OnFingerDown += OnFingerDown;
+        GameManager._instance.actionManager.OnFirstFingerDown += OnFingerDown;
+        GameManager._instance.actionManager.OnLastFingerUp += OnLastFingerUp;
+    }
+
+    private void OnDisable()
+    {
+        GameManager._instance.actionManager.OnFingerDown -= OnFingerDown;
+        GameManager._instance.actionManager.OnFirstFingerDown -= OnFingerDown;
+        GameManager._instance.actionManager.OnLastFingerUp -= OnLastFingerUp;
     }
 }
 

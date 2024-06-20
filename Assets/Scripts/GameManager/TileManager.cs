@@ -15,7 +15,7 @@ public class TileManager : MonoBehaviour
     
     private Tile _previousTile;
     private List<Tile> _allSpawnedTiles;
-    private PlayerController _currentplayer;
+    private CarController _currentplayer;
     
     private string _dataPath => "ScriptableObject/SO_TileManager";
     private string _startTilePath => "Tiles/Start";
@@ -43,12 +43,12 @@ public class TileManager : MonoBehaviour
     
     private void Start()
     {
-        _currentplayer = GameManager._instance.playerManager._currentPlayerController;
+        _currentplayer = GameManager._instance.playerManager._currentCarController;
         GenerateStartTile();
         
         while (_previousTile.transform.position.z < _data.distanceoOfGeneration) {
             GenerateTile(UnityEngine.Random.Range(0, _data.allTiles.Length));
-        } 
+        }
     }
 
     private void Update()
@@ -106,17 +106,17 @@ public class TileManager : MonoBehaviour
         
         _data.lowLevelTiles = Resources.LoadAll<Tile>(_lowLevelTilePath);
         if (_data.lowLevelTiles.Length <= 0)  {
-            Debug.LogError("No tile found in" + _lowLevelTilePath, this);
+            Debug.LogWarning("No tile found in" + _lowLevelTilePath, this);
         }
         
         _data.mediumLevelTiles = Resources.LoadAll<Tile>(_mediumLevelTilePath);
         if (_data.mediumLevelTiles.Length <= 0)  {
-            Debug.LogError("No tile found in" + _mediumLevelTilePath, this);
+            Debug.LogWarning("No tile found in" + _mediumLevelTilePath, this);
         }
         
         _data.hardLevelTiles = Resources.LoadAll<Tile>(_hardLevelTilePath);
         if (_data.hardLevelTiles.Length <= 0)  {
-            Debug.LogError("No tile found in" + _hardLevelTilePath, this);
+            Debug.LogWarning("No tile found in" + _hardLevelTilePath, this);
         }
         
         _data.allTiles = _data.lowLevelTiles.Concat(_data.mediumLevelTiles).Concat(_data.hardLevelTiles).ToArray();

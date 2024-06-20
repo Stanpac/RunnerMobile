@@ -4,8 +4,8 @@ using UnityEngine.Serialization;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "SO_PlayerController", menuName = "ScriptableObjects/PlayerController", order = 0)]
-    public class SO_PlayerController : ScriptableObject
+    [CreateAssetMenu(fileName = "SO_CarController", menuName = "ScriptableObjects/CarController", order = 0)]
+    public class SO_CarController : ScriptableObject
     {
         [SerializeField, BoxGroup("Speed Settings")]
         [Tooltip(" Multiply the speed applied to the car without intefering in the normalisation of the speed.")]
@@ -19,11 +19,9 @@ namespace ScriptableObjects
         [Tooltip("% of the carTopSpeed add to the speed according to normalized speed of the car.")]
         public AnimationCurve powerCurve = new AnimationCurve();
         
-        [FormerlySerializedAs("MaxRotation")]
         [SerializeField, BoxGroup("Rotation Control Settings")]
         [Tooltip("The max rotation of the wheels")]
         public float maxRotation = 45;
-        
         
         [SerializeField, BoxGroup("Rotation Control Settings")]
         [Tooltip("The min rotation of the car that impact stability. (need to be lower than angleMaxRotation)")]
