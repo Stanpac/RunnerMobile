@@ -38,8 +38,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  MaxRotation: 45
+  MaxRotation: 50
   angleMinforStabilityImpact: 30
-  timeForMaxRotation: 0.8
+  timeForMaxRotation: 0.5
   angleUpMaxRotation: 20
   speedOfTheRotation: 5
