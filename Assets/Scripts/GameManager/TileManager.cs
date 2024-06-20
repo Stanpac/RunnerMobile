@@ -37,13 +37,13 @@ public class TileManager : MonoBehaviour
         if (!_data.tileManualManagement)
             LoadallTiles();
         
-        GameManager._instance.tileManager = this;
+        GameManager.Instance.tileManager = this;
         _allSpawnedTiles = new List<Tile>();
     }
     
     private void Start()
     {
-        _currentplayer = GameManager._instance.playerManager._currentCarController;
+        _currentplayer = GameManager.Instance.playerManager._currentCarController;
         GenerateStartTile();
         
         while (_previousTile.transform.position.z < _data.distanceoOfGeneration) {

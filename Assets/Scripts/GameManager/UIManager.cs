@@ -17,18 +17,18 @@ public class UIManager : MonoBehaviour
 
      private void OnEnable()
      {
-         GameManager._instance.actionManager.OnGameStateChange += GameStateChange;
+         GameManager.Instance.actionManager.OnGameStateChange += GameStateChange;
      }
 
      private void OnDisable()
      {
-         GameManager._instance.actionManager.OnGameStateChange -= GameStateChange;
+         GameManager.Instance.actionManager.OnGameStateChange -= GameStateChange;
      }
      
      private void Awake()
      {
-         _startMenuButton.GetComponent<Button>().onClick.AddListener(() => GameManager._instance.StartGame());
-         _menuButton.GetComponent<Button>().onClick.AddListener(() => GameManager._instance.ReturnToMainMenu());
+         _startMenuButton.GetComponent<Button>().onClick.AddListener(() => GameManager.Instance.StartGame());
+         _menuButton.GetComponent<Button>().onClick.AddListener(() => GameManager.Instance.ReturnToMainMenu());
      }
      
      private void Start()

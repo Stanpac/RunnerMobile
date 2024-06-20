@@ -138,16 +138,16 @@ public class CarController : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager._instance.actionManager.OnFingerDown += OnFingerDown;
-        GameManager._instance.actionManager.OnFirstFingerDown += OnFingerDown;
-        GameManager._instance.actionManager.OnLastFingerUp += OnLastFingerUp;
+        GameManager.Instance.actionManager.OnFingerDown += OnFingerDown;
+        GameManager.Instance.actionManager.OnFirstFingerDown += OnFingerDown;
+        GameManager.Instance.actionManager.OnLastFingerUp += OnLastFingerUp;
     }
 
     private void OnDisable()
     {
-        GameManager._instance.actionManager.OnFingerDown -= OnFingerDown;
-        GameManager._instance.actionManager.OnFirstFingerDown -= OnFingerDown;
-        GameManager._instance.actionManager.OnLastFingerUp -= OnLastFingerUp;
+        GameManager.Instance.actionManager.OnFingerDown -= OnFingerDown;
+        GameManager.Instance.actionManager.OnFirstFingerDown -= OnFingerDown;
+        GameManager.Instance.actionManager.OnLastFingerUp -= OnLastFingerUp;
     }
 }
 

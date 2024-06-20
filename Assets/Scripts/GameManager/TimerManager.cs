@@ -1,45 +1,65 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// This script is responsible for managing the timers in the game.
 public class TimerManager : MonoBehaviour
 {
-    private List<Coroutine> _coroutines = new List<Coroutine>();
     
-    public bool StartTimer(IEnumerator DynDelegate, ref FTimerHandler timerHandler)
-    {   
-        if (timerHandler.Initialized) {
-            return false;
-        }
-        {
-            StopCoroutine(coroutineHandler);
-        }
-        if ( _coroutines.Contains(coroutineHandler)) {
-            StopCoroutine(coroutineHandler);
-        }
-        _coroutines.Add(StartCoroutine(DynDelegate));
-    }
-}
-
-
-public struct FTimerHandler
-{
-    private Coroutine _coroutineHandler;
-    private bool _running;
-    private bool _initialized;
+    private Dictionary<string, Coroutine> _coroutines = new Dictionary<string, Coroutine>();
     
-    public FTimerHandler(Coroutine coroutineHandler, bool running, bool initialized)
+    private string GenerateKey()
     {
-        this._coroutineHandler = coroutineHandler;
-        this._running = running;
-        this._initialized = initialized;
+        return Guid.NewGuid().ToString();
     }
     
-    public Coroutine CoroutineHandler => _coroutineHandler;
+    public string StartTimer(IEnumerator coroutine)
+    {
+        string key = GenerateKey();
+        Coroutine co = StartCoroutine(coroutine);
+        _coroutines[key] = co;
+        return key;
+    }
     
-    public bool Running => _running;
+    public void StopTimer(string key)
+    {
+        if (_coroutines.ContainsKey(key))
+        {
+            StopCoroutine(_coroutines[key]);
+            _coroutines.Remove(key);
+        }
+        else
+        {
+            Debug.LogWarning("No coroutine found with the key: " + key);
+        }
+    }
     
-    public bool Initialized => _initialized;
+    public void StopAllTimers()
+    {
+        foreach (var coroutine in _coroutines.Values)
+        {
+            StopCoroutine(coroutine);
+        }
+        _coroutines.Clear();
+    }
+    
+    public Coroutine GetTimer(string key)
+    {
+        if (_coroutines.ContainsKey(key))
+        {
+            return _coroutines[key];
+        }
+        Debug.LogWarning("No coroutine found with the key: " + key);
+        return null;
+    }
+    
+    public bool IsTimerRunning(string key)
+    {
+        return _coroutines.ContainsKey(key);
+    }
 }
+
+
 
 

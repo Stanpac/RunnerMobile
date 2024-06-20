@@ -13,7 +13,7 @@ public class GameStateManager : MonoBehaviour
     {
         EGameState previousGameState = CurrentGameState;
         CurrentGameState = gameState;
-        GameManager._instance.actionManager.GameStateChange(previousGameState,gameState);
+        GameManager.Instance.actionManager.GameStateChange(previousGameState,gameState);
     }
 }
 

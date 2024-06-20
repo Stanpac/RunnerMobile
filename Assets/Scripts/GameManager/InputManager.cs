@@ -6,52 +6,51 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    public LeanTouch _leanTouch { get; private set; }
+    //public LeanTouch _leanTouch { get; private set; }
     
-    [NonSerialized]
-    private List<LeanFinger> _fingers = new List<LeanFinger>();
+    public bool IsFingerOnScreen(bool CountFingerOverGUI = false)
+    {
+        if (CountFingerOverGUI) {
+            return LeanTouch.Fingers.Count > 0;
+        }
+        
+        // return True if there is a finger on the screen that have not start on a GUI element
+        return LeanTouch.GetFingers(true, false, 0, false ).Count > 0;
+    }
+   
     private void Awake()
     {
         // Find Lean Touch in the scene or add it if it doesn't exist
-        _leanTouch = gameObject.GetComponent<LeanTouch>();
+        /*_leanTouch = gameObject.GetComponent<LeanTouch>();
         if (_leanTouch == null) {
             _leanTouch = gameObject.AddComponent<LeanTouch>();
-        }
+        }*/
     }
     
     private void HandleFingerUp(LeanFinger finger)
     {
-        _fingers.Remove(finger);
-        if (_fingers.Count == 0) {
-            GameManager._instance.actionManager.LastFingerUp(finger);
+        if (LeanTouch.Fingers.Count == 0) {
+            GameManager.Instance.actionManager.LastFingerUp(finger);
         } 
     }
 
     private void HandleFingerDown(LeanFinger finger)
     {
-        if (_fingers.Count == 0) {
-            GameManager._instance.actionManager.FirstFingerDown(finger);
+        if (LeanTouch.Fingers.Count == 0) {
+            GameManager.Instance.actionManager.FirstFingerDown(finger);
         } else {
-            GameManager._instance.actionManager.FingerDown(finger);
+            GameManager.Instance.actionManager.FingerDown(finger);
         }
-        _fingers.Add(finger);
-    }
-
-    private void HandleFingerUpdate(LeanFinger finger)
-    {
-        // handle finger update
     }
 
     private void OnEnable()
     {
-        LeanTouch.OnFingerUpdate += HandleFingerUpdate;
         LeanTouch.OnFingerDown += HandleFingerDown;
         LeanTouch.OnFingerUp += HandleFingerUp;
     }
     
     private void OnDisable()
     {
-        LeanTouch.OnFingerUpdate -= HandleFingerUpdate;
         LeanTouch.OnFingerDown += HandleFingerDown;
         LeanTouch.OnFingerUp -= HandleFingerUp;
     }

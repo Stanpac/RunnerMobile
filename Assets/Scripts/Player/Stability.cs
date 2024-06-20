@@ -14,68 +14,57 @@ public class Stability : MonoBehaviour
     [SerializeField]
     private SO_Stability _data;
     
-    // Private Variables
-    private Transform _carTransform;
-    private CarController _carController;
-    
-    public float _stability = 0;
-    private float _maxStability = 1;
-    private float _minStability = -1;
-    private float _previousStability = 0;
-    
-    private float _stabilityWeightMultiplicator = 1;
-    private float _stabilitySideMultiplicator = 1;
-    
-    private bool _regenarate = true;
-    private bool _unstable = false;
-    
-    private Coroutine _stopRegenStabilityCoroutine;
-    
-    
-    private string _dataPath => "ScriptableObject/SO_Stability";
-    
+    // Need to be Move 
     private bool _fingerOnScreen = false;
     private float _timerFingerOnScreen = 0;
     private LeanFinger _currentfinger;
     
-    private Coroutine _timerFingerOnScreenCoroutine;
-    private Coroutine _timerFingerOffScreenCoroutine;
+    // Reference to Car
+    private CarController _carController;
     
-    public AnimationCurve _instabilityInputTimeCurve;
+    // Instability Variables
+    public float _stability = 0;
+    private float _previousStability = 0;
+    private float _maxStability = 1;
+    private float _minStability = -1;
+    private bool _unstable = false;
     
-    // Min = 0
-    public float _timeForReachMaxinstability = 3;
+    // Multiplicator for the stability
+    private float _stabilityWeightMultiplicator = 1;
+    private float _stabilitySideMultiplicator = 1;
+    
+    // Timer keys
+    private string _timerFingerOnScreenKey;
+    private string _timerFingerOffScreenKey;
+    
+    // Path to the Data
+    private string _dataPath => "ScriptableObject/SO_Stability";
     
     private void Awake()
     {
         if (_data == null)
             _data = Resources.Load<SO_Stability>(_dataPath);
         
-        _carTransform = GetComponent<CarController>().transform;
         _carController = GetComponent<CarController>();
         ResetStability();
     }
     
     private void Update()
     {
-        if (_regenarate) {
-            RegenStability();
-        }
-        
         _stability = CalculateRotationInstability() + CalculateEvents() + CalculateTerrain();
         _stability = Mathf.Clamp(_stability, _minStability, _maxStability);
         
         CheckifUnstable();
         if (_previousStability != _stability) {
-            GameManager._instance.actionManager.StabilityChange(_stability);
+            GameManager.Instance.actionManager.StabilityChange(_stability);
         }
         _previousStability = _stability;
     }
     
     private float CalculateRotationInstability()
     {
-        float normalizedTimer = Mathf.Clamp01(Mathf.Abs(_timerFingerOnScreen / _timeForReachMaxinstability));
-        float stability = _instabilityInputTimeCurve.Evaluate(normalizedTimer);
+        float normalizedTimer = Mathf.Clamp01(Mathf.Abs(_timerFingerOnScreen / _data.timeForReachMaxinstability));
+        float stability =_data.instabilityInputTimeCurve.Evaluate(normalizedTimer);
         if (_fingerOnScreen) {
             if (_currentfinger.ScreenPosition.x > Screen.width / 2) {
                 _stabilitySideMultiplicator = 1;
@@ -107,22 +96,8 @@ public class Stability : MonoBehaviour
         }
     }
     
-    private void RegenStability()
-    {
-        float stabilityregen = _data.stabilityRegen * Time.deltaTime * 1/_stabilityWeightMultiplicator;
-        if (_stability < 0) {
-            AddStability(stabilityregen, true, true);
-        } else if (_stability > 0) {
-            RemoveStability(stabilityregen, true, true);
-        }
-    }
-    
     public void ImpactStability(float value, EStabilityImpactSide side)
     {
-        if (value > _data.stabilityForce) {
-            StartTimerForRegenStability();
-        }
-        
         if (side == EStabilityImpactSide.EIS_Left) {
             RemoveStability(value, false, true);
         } else if (side == EStabilityImpactSide.EIS_Right) {
@@ -151,26 +126,11 @@ public class Stability : MonoBehaviour
         _stability = 0;
     }
     
-    private IEnumerator StopRegenStability(float time)
-    {
-        _regenarate = false;
-        yield return new WaitForSeconds(time);
-        _regenarate = true;
-    }
-    
-    private void StartTimerForRegenStability()
-    {
-        if (_stopRegenStabilityCoroutine != null) {
-            StopCoroutine(_stopRegenStabilityCoroutine);
-        }
-        _stopRegenStabilityCoroutine = StartCoroutine(StopRegenStability(_data.stabilityRegenStopTime));
-    }
-    
     private IEnumerator TimerFingerOnScreen()
     {
         while (_fingerOnScreen) {
             _timerFingerOnScreen += Time.deltaTime;
-            _timerFingerOnScreen = Mathf.Clamp(_timerFingerOnScreen, 0 , _timeForReachMaxinstability); 
+            _timerFingerOnScreen = Mathf.Clamp(_timerFingerOnScreen, 0 , _data.timeForReachMaxinstability); 
             yield return null;
         } 
     }  
@@ -179,7 +139,7 @@ public class Stability : MonoBehaviour
     {
         while (!_fingerOnScreen) {
             _timerFingerOnScreen -= Time.deltaTime;
-            _timerFingerOnScreen = Mathf.Clamp(_timerFingerOnScreen, 0 , _timeForReachMaxinstability); 
+            _timerFingerOnScreen = Mathf.Clamp(_timerFingerOnScreen, 0 , _data.timeForReachMaxinstability); 
             yield return null;
         } 
     }
@@ -191,14 +151,12 @@ public class Stability : MonoBehaviour
         if (finger.IsOverGui) return;
         
         _fingerOnScreen = true;
-        
-        if (_timerFingerOnScreenCoroutine == null) {
-            if (_timerFingerOffScreenCoroutine != null) {
-                StopCoroutine(_timerFingerOffScreenCoroutine);
-                _timerFingerOffScreenCoroutine = null;
-                Debug.Log("Stop Timer Finger Off Screen");
+
+        if (GameManager.Instance.timerManager.IsTimerRunning(_timerFingerOnScreenKey))  {
+            if (GameManager.Instance.timerManager.IsTimerRunning(_timerFingerOffScreenKey)) {
+                GameManager.Instance.timerManager.StopTimer(_timerFingerOffScreenKey);
             }
-            _timerFingerOnScreenCoroutine = StartCoroutine(TimerFingerOnScreen());
+            _timerFingerOnScreenKey = GameManager.Instance.timerManager.StartTimer(TimerFingerOnScreen());
         }
         
         if (_currentfinger == null || !_currentfinger.Set) {
@@ -211,28 +169,26 @@ public class Stability : MonoBehaviour
         _fingerOnScreen = false;
         _currentfinger = null;
         
-        if (_timerFingerOffScreenCoroutine == null) {
-            if (_timerFingerOnScreenCoroutine != null) {
-                StopCoroutine(_timerFingerOnScreenCoroutine);
-                _timerFingerOnScreenCoroutine = null;
-                Debug.Log("Stop Timer Finger On Screen");
+        if (GameManager.Instance.timerManager.IsTimerRunning(_timerFingerOffScreenKey))  {
+            if (GameManager.Instance.timerManager.IsTimerRunning(_timerFingerOnScreenKey)) {
+                GameManager.Instance.timerManager.StopTimer(_timerFingerOnScreenKey);
             }
-            _timerFingerOffScreenCoroutine = StartCoroutine(TimerFingerOffScreen());
+            _timerFingerOffScreenKey = GameManager.Instance.timerManager.StartTimer(TimerFingerOnScreen());
         }
     }
 
     private void OnEnable()
     {
-        GameManager._instance.actionManager.OnFingerDown += OnFingerDown;
-        GameManager._instance.actionManager.OnFirstFingerDown += OnFingerDown;
-        GameManager._instance.actionManager.OnLastFingerUp += OnLastFingerUp;
+        GameManager.Instance.actionManager.OnFingerDown += OnFingerDown;
+        GameManager.Instance.actionManager.OnFirstFingerDown += OnFingerDown;
+        GameManager.Instance.actionManager.OnLastFingerUp += OnLastFingerUp;
     }
     
     private void OnDisable()
     {
-        GameManager._instance.actionManager.OnFingerDown -= OnFingerDown;
-        GameManager._instance.actionManager.OnFirstFingerDown -= OnFingerDown;
-        GameManager._instance.actionManager.OnLastFingerUp -= OnLastFingerUp;
+        GameManager.Instance.actionManager.OnFingerDown -= OnFingerDown;
+        GameManager.Instance.actionManager.OnFirstFingerDown -= OnFingerDown;
+        GameManager.Instance.actionManager.OnLastFingerUp -= OnLastFingerUp;
     }
 }
 

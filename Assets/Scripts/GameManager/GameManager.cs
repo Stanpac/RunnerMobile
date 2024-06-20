@@ -11,7 +11,18 @@ using UnityEngine.Serialization;
 // This script is responsible for managing the game.
 public class GameManager : MonoBehaviour
 {
-    public static GameManager _instance;
+    private static GameManager _instance;
+    public static GameManager Instance
+    {
+        get {
+            if (_instance == null) {
+                GameObject go = new GameObject("GameManager");
+                _instance = go.AddComponent<GameManager>();
+                DontDestroyOnLoad(go);
+            }
+            return _instance;
+        }
+    }
     
     [BoxGroup("Camera")] 
     public CinemachineVirtualCamera _virtualCamera;
@@ -19,7 +30,7 @@ public class GameManager : MonoBehaviour
     [SerializeField, BoxGroup("StartParameters")]
     private float _startImpulsionForce = 10;
     
-    //Manager for the game
+    // Manager for the game
     public ActionManager actionManager {get; private set;}
     public UIManager uiManager {get; private set;}
     public InputManager inputManager {get; private set;}
@@ -27,6 +38,7 @@ public class GameManager : MonoBehaviour
     public GameStateManager gameStateManager {get; private set;}
     public MySceneManager mySceneManager {get; private set;}
     public PlayerManager playerManager {get; private set;}
+    public TimerManager timerManager {get; private set;}
     public TileManager tileManager {get; set;}
     
     private void Awake()
@@ -43,10 +55,10 @@ public class GameManager : MonoBehaviour
         actionManager = gameObject.AddComponent<ActionManager>();
         inputManager = gameObject.AddComponent<InputManager>();
         gameStateManager = gameObject.AddComponent<GameStateManager>();
-        
+        timerManager = gameObject.AddComponent<TimerManager>();
         mySceneManager = gameObject.AddComponent<MySceneManager>();
-        
         playerManager = gameObject.AddComponent<PlayerManager>();
+        
         uiManager = FindObjectOfType<UIManager>();
         
         // load the save data
