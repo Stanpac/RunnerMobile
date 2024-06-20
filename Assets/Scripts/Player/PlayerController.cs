@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField, BoxGroup("Debug Settings")]
     private bool _showWheelsDebug = false;
     
-    
     private RaycastSuspension[] _wheels;
     
     private float _rotationAngle = 0;
@@ -79,12 +78,16 @@ public class PlayerController : MonoBehaviour
        
         if (_fingerOnScreen) {
             if (_currentfinger.ScreenPosition.x > Screen.width / 2) {
-                rotation =  Mathf.Clamp(rotation + Time.deltaTime / _data.timeForMaxRotation * _data.MaxRotation, -_data.MaxRotation, _data.MaxRotation);
+                rotation =  Mathf.Clamp(rotation + Time.deltaTime / _data.timeForMaxRotation * _data.maxRotation, -_data.maxRotation, _data.maxRotation);
             } else {
-                rotation =  Mathf.Clamp(rotation - Time.deltaTime / _data.timeForMaxRotation * _data.MaxRotation, -_data.MaxRotation, _data.MaxRotation);
+                rotation =  Mathf.Clamp(rotation - Time.deltaTime / _data.timeForMaxRotation * _data.maxRotation, -_data.maxRotation, _data.maxRotation);
             }
         } else {
-           rotation = Mathf.Lerp(rotation, 0, Time.deltaTime / _data.timeForMaxRotation);  
+            if (rotation > 0)
+                rotation = Mathf.Lerp(rotation, _data.rotationCenterTreshold * _data.maxRotation, Time.deltaTime / _data.timeForReachTreshold);
+            else if (rotation < 0) {
+                rotation = Mathf.Lerp(rotation, - _data.rotationCenterTreshold * _data.maxRotation, Time.deltaTime / _data.timeForReachTreshold);  
+            }
         }
         
         _rotationAngle = rotation;
@@ -106,8 +109,7 @@ public class PlayerController : MonoBehaviour
             Debug.DrawRay(transform.position, transform.up * _raylength, new Color(1f, 0.84f, 0.24f));
         }
         
-        if (angle > _data.angleUpMaxRotation)
-        {
+        if (angle > _data.angleUpMaxRotation) {
             float diff = _data.angleUpMaxRotation - angle;
             var targetRotation = Quaternion.AngleAxis(diff, axis) * transform.rotation;
             
