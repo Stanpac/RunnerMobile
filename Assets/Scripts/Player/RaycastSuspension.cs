@@ -20,16 +20,17 @@ public class RaycastSuspension : MonoBehaviour
     [SerializeField, BoxGroup("Debug"), EnableIf("DebugMode")] 
     Transform _carTransform;
     
-    
-    [BoxGroup("Data Settings"), Label("Raycast Suspension Data")]
-    [SerializeField] private SO_RaycastSuspension _data;
+    [SerializeField, BoxGroup("Data Settings")]
+    private SO_RaycastSuspension _data;
     
     private bool _rayDidHit;
     private RaycastHit _tireRay;
+    private float _raycastUpOffset = 0.5f;
     
     private float _speedFactor = 1.0f;
     private float _carTopSpeed = 100f;
     private AnimationCurve _powerCurve = null;
+    
     private bool _debugMode = false;
     
     private string _dataPath => "ScriptableObject/SO_RaycastSuspension";
@@ -60,18 +61,21 @@ public class RaycastSuspension : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Physics.Raycast(_tireTransform.position, -_tireTransform.up, out _tireRay, _data.suspensionRestDist + 0.1f))  {
+        if (Physics.Raycast(_tireTransform.position + _tireTransform.up * _raycastUpOffset, -_tireTransform.up, out _tireRay, _data.suspensionRestDist + _raycastUpOffset + 0.1f))  {
             _rayDidHit = true;
         } else {
             _rayDidHit = false;
         }
+
+#if UNITY_EDITOR
+        if (_debugMode) 
+            Debug.DrawRay(_tireRay.point, _tireRay.normal, new Color(1f, 0.56f, 0f));
+#endif
         
-        SuspensionForce();
-        StreeringForce();
-        Accelaration();
+        _carRigidbody.AddForceAtPosition(SuspensionForce() + StreeringForce() + Accelaration(), _tireTransform.position);
     }
     
-    private void SuspensionForce()
+    private Vector3 SuspensionForce()
     {
         // Suspension spring force
         if (_rayDidHit) {
@@ -83,7 +87,7 @@ public class RaycastSuspension : MonoBehaviour
             Vector3 tireWorldVel = _carRigidbody.GetPointVelocity(_tireTransform.position);
             
             // calculate offset from the raycast 
-            float offset = _data.suspensionRestDist - _tireRay.distance;
+            float offset = _data.suspensionRestDist - _tireRay.distance + _raycastUpOffset;
             
             // calculate velocity along the spring direction
             // note that springDir is a unit vector, so this returns the magnitude of tireWorldVel
@@ -93,18 +97,20 @@ public class RaycastSuspension : MonoBehaviour
             // Calculate the magnitude of the dampened spring force !
             float force = (offset * _data.springStrength) - (vel * _data.springDamper);
             
-            // apply the force at the location of this tire in the direction 
-            // of the suspension 
-            _carRigidbody.AddForceAtPosition(springDir * force, _tireTransform.position);
-            
 #if UNITY_EDITOR         
             if (_debugMode) 
                 Debug.DrawRay(_tireTransform.position, (springDir * force).normalized , Color.green);
 #endif
-        }   
+            // apply the force at the location of this tire in the direction 
+            // of the suspension 
+            return springDir * force;
+            
+        } 
+        
+        return Vector3.zero;
     }
 
-    private void StreeringForce()
+    private Vector3 StreeringForce()
     {
         // Steering force
         if (_rayDidHit) {
@@ -127,17 +133,19 @@ public class RaycastSuspension : MonoBehaviour
             // this will produce the accelartion necessary to change the velocity by the desiredvelChange in 1 physics step
             float desiredAccel = desiredChange / Time.fixedDeltaTime;
             
-            // Force = Mass * Acceleration, so multiply by the mass of the tire and apply as a force !
-            _carRigidbody.AddForceAtPosition(steeringDir * _data.tireMass * desiredAccel, _tireTransform.position);
-            
 #if UNITY_EDITOR             
             if (_debugMode) 
                 Debug.DrawRay(_tireTransform.position, (steeringDir * _data.tireMass * desiredAccel).normalized , Color.red);
 #endif
+            // Force = Mass * Acceleration, so multiply by the mass of the tire and apply as a force !
+            return steeringDir * _data.tireMass * desiredAccel;
+            
         }
+        
+        return Vector3.zero;
     }
 
-    private void Accelaration()
+    private Vector3 Accelaration()
     {
         // Acceleration / breaking force
         if (_rayDidHit) {
@@ -156,14 +164,16 @@ public class RaycastSuspension : MonoBehaviour
                 // Available torque 
                 float availableTorque = (_powerCurve != null ? _powerCurve.Evaluate(normalizedSpeed) : _carTopSpeed) * _speedFactor;
                 
-                _carRigidbody.AddForceAtPosition(accelDir * availableTorque, _tireTransform.position);
-
 #if UNITY_EDITOR
                 if (_debugMode) 
                     Debug.DrawRay(_tireTransform.position, (accelDir * availableTorque).normalized , Color.blue);
 #endif
+                
+                return accelDir * availableTorque;
+
             }
         }
+        
+        return Vector3.zero;
     }
-    
 }
