@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SO_PlayerController
   m_EditorClassIdentifier: 
   speedFactor: 5
-  carTopSpeed: 30
+  carTopSpeed: 25
   powerCurve:
     serializedVersion: 2
     m_Curve:
