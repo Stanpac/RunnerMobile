@@ -13,12 +13,16 @@ MonoBehaviour:
   m_Name: SO_TileManager
   m_EditorClassIdentifier: 
   distanceoOfGeneration: 100
-  tileManualManagement: 0
+  tileManualManagement: 1
   allTiles:
-  - {fileID: 7198397052481469354, guid: cd60f4a6af04d894faf0b76c5a067fb1, type: 3}
+  - {fileID: 3109494958112687772, guid: b6c8883c424de5145b06123cc0447b35, type: 3}
+  - {fileID: 8319708885867482307, guid: 04a637698cc967b4fa9ea560e37214b2, type: 3}
+  - {fileID: 3094337221981211009, guid: 90709ff800136f341b5b35776a647692, type: 3}
+  - {fileID: 6764189643209431149, guid: 27a55f2f59d3c5b43b4968c9a2ef8e4a, type: 3}
+  - {fileID: 6946954950657028285, guid: b0ff889cbea0bb742ad3cb8d49cee623, type: 3}
+  - {fileID: 5315824766737881542, guid: 81adb21a96eb66f4bbad357958e67337, type: 3}
   startTile:
-  - {fileID: 7198397052481469354, guid: 71aacd0b8ea792643bba085d7a6f00ce, type: 3}
-  lowLevelTiles:
-  - {fileID: 7198397052481469354, guid: cd60f4a6af04d894faf0b76c5a067fb1, type: 3}
+  - {fileID: 7198397052481469354, guid: a61bc51d08a5d9a4eaa8450526e16e87, type: 3}
+  lowLevelTiles: []
   mediumLevelTiles: []
   hardLevelTiles: []
