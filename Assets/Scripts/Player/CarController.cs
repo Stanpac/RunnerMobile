@@ -10,10 +10,10 @@ using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 
 // This script is responsible for managing the player.
-public class PlayerController : MonoBehaviour
+public class CarController : MonoBehaviour
 {
     [SerializeField, BoxGroup("Data Settings"), Label("Player Controller Data")]
-    private SO_PlayerController _data;
+    private SO_CarController _data;
     
     [SerializeField, BoxGroup("Wheels")]
     WheelsToRotate _wheelsToRotate;
@@ -27,34 +27,24 @@ public class PlayerController : MonoBehaviour
     [SerializeField, BoxGroup("Debug Settings")]
     private bool _showWheelsDebug = false;
     
-    
     private RaycastSuspension[] _wheels;
     
     private float _rotationAngle = 0;
     
-    private bool _fingerOnScreen = false;
     private LeanFinger _currentfinger;
-    
-    public float _rotationFactorMultiplicator  = 10;
-    private float _rotationFactor = 0;
     
     private string _dataPath => "ScriptableObject/SO_PlayerController";
     
     private void Reset()
     {
         if (_data == null)
-            _data = Resources.Load<SO_PlayerController>(_dataPath);
+            _data = Resources.Load<SO_CarController>(_dataPath);
     }
 
     private void Awake()
     {
         if (_data == null) 
-            _data = Resources.Load<SO_PlayerController>(_dataPath);
-        
-        // Event  
-        GameManager._instance.actionManager.OnFingerDown += OnFingerDown;
-        GameManager._instance.actionManager.OnFirstFingerDown += OnFingerDown;
-        GameManager._instance.actionManager.OnLastFingerUp += OnLastFingerUp;
+            _data = Resources.Load<SO_CarController>(_dataPath);
         
         _rotationAngle = 0;
         
@@ -69,7 +59,7 @@ public class PlayerController : MonoBehaviour
         float PreviousRotation = _rotationAngle;
         float rotation = CalculateRotation();
         
-        //CalculateRotationFactorThisFrame(PreviousRotation, rotation);
+        
         _wheelsToRotate.RotateWheels(rotation);
     }
     
@@ -77,14 +67,18 @@ public class PlayerController : MonoBehaviour
     {
         float rotation = _rotationAngle;
        
-        if (_fingerOnScreen) {
+        if (GameManager.Instance.inputManager.IsFingerOnScreen() && _currentfinger != null) {
             if (_currentfinger.ScreenPosition.x > Screen.width / 2) {
-                rotation =  Mathf.Clamp(rotation + Time.deltaTime / _data.timeForMaxRotation * _data.MaxRotation, -_data.MaxRotation, _data.MaxRotation);
+                rotation =  Mathf.Clamp(rotation + Time.deltaTime / _data.timeForMaxRotation * _data.maxRotation, -_data.maxRotation, _data.maxRotation);
             } else {
-                rotation =  Mathf.Clamp(rotation - Time.deltaTime / _data.timeForMaxRotation * _data.MaxRotation, -_data.MaxRotation, _data.MaxRotation);
+                rotation =  Mathf.Clamp(rotation - Time.deltaTime / _data.timeForMaxRotation * _data.maxRotation, -_data.maxRotation, _data.maxRotation);
             }
         } else {
-           rotation = Mathf.Lerp(rotation, 0, Time.deltaTime / _data.timeForMaxRotation);  
+            if (rotation > 0)
+                rotation = Mathf.Lerp(rotation, _data.rotationCenterTreshold * _data.maxRotation, Time.deltaTime / _data.timeForReachTreshold);
+            else if (rotation < 0) {
+                rotation = Mathf.Lerp(rotation, - _data.rotationCenterTreshold * _data.maxRotation, Time.deltaTime / _data.timeForReachTreshold);  
+            }
         }
         
         _rotationAngle = rotation;
@@ -106,8 +100,7 @@ public class PlayerController : MonoBehaviour
             Debug.DrawRay(transform.position, transform.up * _raylength, new Color(1f, 0.84f, 0.24f));
         }
         
-        if (angle > _data.angleUpMaxRotation)
-        {
+        if (angle > _data.angleUpMaxRotation) {
             float diff = _data.angleUpMaxRotation - angle;
             var targetRotation = Quaternion.AngleAxis(diff, axis) * transform.rotation;
             
@@ -121,34 +114,33 @@ public class PlayerController : MonoBehaviour
             
         }
     }
-
-    
-    private void CalculateRotationFactorThisFrame(float PreviousRotation, float CurrentRotation)
-    {
-        if (_fingerOnScreen) {
-            _rotationFactor = CurrentRotation - PreviousRotation;
-        } else {
-            _rotationFactor = Mathf.Lerp(_rotationFactor, 0, Time.deltaTime / _data.timeForMaxRotation);
-        }
-    }
     
     private void OnFingerDown(LeanFinger finger)
     {
-        _fingerOnScreen = true;
+        if (finger.IsOverGui) return;
+        
         if (_currentfinger == null || !_currentfinger.Set) {
             _currentfinger = finger;
         }
     }
     
-    private void OnLastFingerUp(LeanFinger obj)
+    private void OnLastFingerUp(LeanFinger finger)
     {
-        _fingerOnScreen = false;
         _currentfinger = null;
     }
-    
-    public float GetRotationForStability()
+
+    private void OnEnable()
     {
-        return Mathf.Clamp(_rotationFactor * _rotationFactorMultiplicator, -1, 1);
+        GameManager.Instance.actionManager.OnFingerDown += OnFingerDown;
+        GameManager.Instance.actionManager.OnFirstFingerDown += OnFingerDown;
+        GameManager.Instance.actionManager.OnLastFingerUp += OnLastFingerUp;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.actionManager.OnFingerDown -= OnFingerDown;
+        GameManager.Instance.actionManager.OnFirstFingerDown -= OnFingerDown;
+        GameManager.Instance.actionManager.OnLastFingerUp -= OnLastFingerUp;
     }
 }
 

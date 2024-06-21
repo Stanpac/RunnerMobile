@@ -4,8 +4,8 @@ using UnityEngine.Serialization;
 
 public class PlayerManager : MonoBehaviour
 {
-    [SerializeField] 
-    public PlayerController _currentPlayerController;
+    [FormerlySerializedAs("_currentPlayerController")] [SerializeField] 
+    public CarController _currentCarController;
     
     [SerializeField] 
     public GameObject _currentPlayerPrefab { get; set; }
@@ -32,22 +32,22 @@ public class PlayerManager : MonoBehaviour
             return;
         }
         
-        if (_currentPlayerController != null) {
-            Destroy(_currentPlayerController.gameObject);
+        if (_currentCarController != null) {
+            Destroy(_currentCarController.gameObject);
         }
         
-        _currentPlayerController = Instantiate<GameObject>(_currentPlayerPrefab, position, rotation).GetComponent<PlayerController>();
-        GameManager._instance._virtualCamera.LookAt = _currentPlayerController.transform;
-        GameManager._instance._virtualCamera.Follow = _currentPlayerController.transform;
+        _currentCarController = Instantiate<GameObject>(_currentPlayerPrefab, position, rotation).GetComponent<CarController>();
+        GameManager.Instance._virtualCamera.LookAt = _currentCarController.transform;
+        GameManager.Instance._virtualCamera.Follow = _currentCarController.transform;
     }
     
     public void GiveStartImpulsionToPlayer(Vector3 direction, float force)
     {
-        if (_currentPlayerController == null) {
+        if (_currentCarController == null) {
             Debug.LogError("No Player to give impulsion");
             return;
         }
         
-        _currentPlayerController.GetComponent<Rigidbody>().AddForce(direction * force, ForceMode.Impulse);
+        _currentCarController.GetComponent<Rigidbody>().AddForce(direction * force, ForceMode.Impulse);
     }
 } 

@@ -6,55 +6,70 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    public LeanTouch _leanTouch { get; private set; }
+    private  List<LeanFinger> _allFingers = new List<LeanFinger>();
+    private  List<LeanFinger> _filteredFingers = new List<LeanFinger>();
     
-    [NonSerialized]
-    private List<LeanFinger> _fingers = new List<LeanFinger>();
-    private void Awake()
+    public bool IsFingerOnScreen(bool CountFingerOverGUI = false)
     {
-        // Find Lean Touch in the scene or add it if it doesn't exist
-        _leanTouch = gameObject.GetComponent<LeanTouch>();
-        if (_leanTouch == null) {
-            _leanTouch = gameObject.AddComponent<LeanTouch>();
+        _filteredFingers.Clear();
+        
+        foreach (var finger in _allFingers) {
+            
+            // Skip fingers that Start over any GUI elements ?
+            if (CountFingerOverGUI && finger.StartedOverGui) {
+               continue;
+            }
+            
+            _filteredFingers.Add(finger);
         }
+        
+        return _filteredFingers.Count > 0;
     }
     
+    public int GetFingerCount(bool CountFingerOverGUI = false)
+    {
+        _filteredFingers.Clear();
+        
+        foreach (var finger in _allFingers) {
+            
+            // Skip fingers that Start over any GUI elements ?
+            if (CountFingerOverGUI && finger.StartedOverGui) {
+               continue;
+            }
+            
+            _filteredFingers.Add(finger);
+        }
+        
+        return _filteredFingers.Count;
+    }
+    
+    // here we need to check the ActiveFingers because the LeanTouch.Fingers. Keep the finger more frame than we need
     private void HandleFingerUp(LeanFinger finger)
     {
-        _fingers.Remove(finger);
-        if (_fingers.Count == 0) {
-            GameManager._instance.actionManager.LastFingerUp( finger);
-        }
+        _allFingers.Remove(finger);
+        if (GetFingerCount(true) == 0)
+            GameManager.Instance.actionManager.LastFingerUp(finger);
     }
 
     private void HandleFingerDown(LeanFinger finger)
     {
-        if (finger.StartedOverGui) return;
-        if (_fingers.Count == 0) {
-            GameManager._instance.actionManager.FirstFingerDown(finger);
+        _allFingers.Add(finger);
+        if (GetFingerCount(true) == 0) {
+            GameManager.Instance.actionManager.FirstFingerDown(finger);
         } else {
-            GameManager._instance.actionManager.FingerDown(finger);
+            GameManager.Instance.actionManager.FingerDown(finger);
         }
-        _fingers.Add(finger);
-        
-    }
-
-    private void HandleFingerUpdate(LeanFinger finger)
-    {
-        // handle finger update
     }
 
     private void OnEnable()
     {
-        LeanTouch.OnFingerUpdate += HandleFingerUpdate;
         LeanTouch.OnFingerDown += HandleFingerDown;
         LeanTouch.OnFingerUp += HandleFingerUp;
     }
     
     private void OnDisable()
     {
-        LeanTouch.OnFingerUpdate -= HandleFingerUpdate;
-        LeanTouch.OnFingerDown += HandleFingerDown;
+        LeanTouch.OnFingerDown -= HandleFingerDown;
         LeanTouch.OnFingerUp -= HandleFingerUp;
     }
 }

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0e10cfd814c84362bb70f49dd3fa9834, type: 3}
-  m_Name: SO_PlayerController
+  m_Name: SO_CarController
   m_EditorClassIdentifier: 
   speedFactor: 5
   carTopSpeed: 25
@@ -38,8 +38,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  MaxRotation: 50
+  maxRotation: 45
   angleMinforStabilityImpact: 30
   timeForMaxRotation: 0.5
+  rotationCenterTreshold: 0.4
+  timeForReachTreshold: 1
   angleUpMaxRotation: 20
   speedOfTheRotation: 5

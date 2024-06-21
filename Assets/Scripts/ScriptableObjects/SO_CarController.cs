@@ -4,8 +4,8 @@ using UnityEngine.Serialization;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "SO_PlayerController", menuName = "ScriptableObjects/PlayerController", order = 0)]
-    public class SO_PlayerController : ScriptableObject
+    [CreateAssetMenu(fileName = "SO_CarController", menuName = "ScriptableObjects/CarController", order = 0)]
+    public class SO_CarController : ScriptableObject
     {
         [SerializeField, BoxGroup("Speed Settings")]
         [Tooltip(" Multiply the speed applied to the car without intefering in the normalisation of the speed.")]
@@ -21,7 +21,7 @@ namespace ScriptableObjects
         
         [SerializeField, BoxGroup("Rotation Control Settings")]
         [Tooltip("The max rotation of the wheels")]
-        public float MaxRotation = 45;
+        public float maxRotation = 45;
         
         [SerializeField, BoxGroup("Rotation Control Settings")]
         [Tooltip("The min rotation of the car that impact stability. (need to be lower than angleMaxRotation)")]
@@ -30,6 +30,14 @@ namespace ScriptableObjects
         [SerializeField, BoxGroup("Rotation Control Settings")]
         [Tooltip("The time for the wheels to reach AngleMaxrotation")]
         public float timeForMaxRotation = 1f;
+        
+        [SerializeField, BoxGroup("Rotation Control Settings"), MinValue(0), MaxValue(1)]
+        [Tooltip("if the car goes past this % of the max rotation , she will start to reach this value in timeForReachTreshold seconde")]
+        public float rotationCenterTreshold = 0.4f;
+        
+        [SerializeField, BoxGroup("Rotation Control Settings")]
+        [Tooltip("The time for the wheels to reach rotationCenterTreshold % of the max rotation")]
+        public float timeForReachTreshold = 1f;
         
         [SerializeField, BoxGroup("Rotation physics Settings")] 
         [Tooltip("The max angle of the car relative to the World Up Vector")]

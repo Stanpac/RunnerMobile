@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Lean.Touch;
 using NaughtyAttributes;
 using ScriptableObjects;
 using Unity.VisualScripting;
@@ -13,22 +14,29 @@ public class Stability : MonoBehaviour
     [SerializeField]
     private SO_Stability _data;
     
-    // Private Variables
-    private Transform _carTransform;
-    private PlayerController _playerController;
+    // Need to be Move 
+    private float _timerFingerOnScreen = 0;
+    private LeanFinger _currentfinger;
     
+    // Reference to Car
+    private CarController _carController;
+    
+    // Instability Variables
     public float _stability = 0;
+    private float _previousStability = 0;
     private float _maxStability = 1;
     private float _minStability = -1;
-    private float _previousStability = 0;
-    
-    private float _stabilityWeightMultiplicator = 1;
-    
-    private bool _regenarate = true;
     private bool _unstable = false;
     
-    private Coroutine _stopRegenStabilityCoroutine;
+    // Multiplicator for the stability
+    private float _stabilityWeightMultiplicator = 1;
+    private float _stabilitySideMultiplicator = 1;
     
+    // Timer keys
+    private string _timerFingerOnScreenKey;
+    private string _timerFingerOffScreenKey;
+    
+    // Path to the Data
     private string _dataPath => "ScriptableObject/SO_Stability";
     
     private void Awake()
@@ -36,35 +44,36 @@ public class Stability : MonoBehaviour
         if (_data == null)
             _data = Resources.Load<SO_Stability>(_dataPath);
         
-        _carTransform = GetComponent<PlayerController>().transform;
-        _playerController = GetComponent<PlayerController>();
+        _carController = GetComponent<CarController>();
         ResetStability();
-    }
-
-    private void Start()
-    {
-        
     }
     
     private void Update()
     {
-        if (_regenarate) {
-            RegenStability();
-        }
-        
-        _stability = CalculateRotation() + CalculateEvents() + CalculateTerrain();
+        _stability = CalculateRotationInstability() + CalculateEvents() + CalculateTerrain();
         _stability = Mathf.Clamp(_stability, _minStability, _maxStability);
         
         CheckifUnstable();
         if (_previousStability != _stability) {
-            GameManager._instance.actionManager.StabilityChange(_stability);
+            GameManager.Instance.actionManager.StabilityChange(_stability);
         }
         _previousStability = _stability;
     }
     
-    private float CalculateRotation()
+    private float CalculateRotationInstability()
     {
-        return _playerController.GetRotationForStability();
+        float normalizedTimer = Mathf.Clamp01(Mathf.Abs(_timerFingerOnScreen / _data.timeForReachMaxinstability));
+        float stability =_data.instabilityInputTimeCurve.Evaluate(normalizedTimer);
+        if (GameManager.Instance.inputManager.IsFingerOnScreen() && _currentfinger != null){
+            if (_currentfinger.ScreenPosition.x > Screen.width / 2) {
+                _stabilitySideMultiplicator = 1;
+            } else {
+                _stabilitySideMultiplicator = -1;
+            }
+        }
+        
+        stability *= _stabilitySideMultiplicator * _stabilityWeightMultiplicator;
+        return stability; 
     }
     
     private float CalculateEvents()
@@ -80,29 +89,20 @@ public class Stability : MonoBehaviour
     
     private void CheckifUnstable()
     {
+        bool CheckUpdate = _unstable;
         if (_stability > _data.instabilityThreshold || _stability < -_data.instabilityThreshold) {
             _unstable = true;
         } else {
             _unstable = false;
         }
-    }
-    
-    private void RegenStability()
-    {
-        float stabilityregen = _data.stabilityRegen * Time.deltaTime * 1/_stabilityWeightMultiplicator;
-        if (_stability < 0) {
-            AddStability(stabilityregen, true, true);
-        } else if (_stability > 0) {
-            RemoveStability(stabilityregen, true, true);
+        
+        if (CheckUpdate != _unstable) {
+            GameManager.Instance.actionManager.UnstableChange(_unstable);
         }
     }
     
     public void ImpactStability(float value, EStabilityImpactSide side)
     {
-        if (value > _data.stabilityForce) {
-            StartTimerForRegenStability();
-        }
-        
         if (side == EStabilityImpactSide.EIS_Left) {
             RemoveStability(value, false, true);
         } else if (side == EStabilityImpactSide.EIS_Right) {
@@ -129,21 +129,66 @@ public class Stability : MonoBehaviour
     private void ResetStability()
     {
         _stability = 0;
+        GameManager.Instance.actionManager.StabilityChange(_stability);
     }
     
-    private IEnumerator StopRegenStability(float time)
+    private IEnumerator TimerFingerOnScreen()
     {
-        _regenarate = false;
-        yield return new WaitForSeconds(time);
-        _regenarate = true;
+        while (GameManager.Instance.inputManager.IsFingerOnScreen()) {
+            _timerFingerOnScreen += Time.deltaTime;
+            _timerFingerOnScreen = Mathf.Clamp(_timerFingerOnScreen, 0 , _data.timeForReachMaxinstability);
+            yield return new WaitForEndOfFrame();
+        } 
+    }  
+    
+    private IEnumerator TimerFingerOffScreen()
+    {
+        while (!GameManager.Instance.inputManager.IsFingerOnScreen()) {
+            _timerFingerOnScreen -= Time.deltaTime;
+            _timerFingerOnScreen = Mathf.Clamp(_timerFingerOnScreen, 0 , _data.timeForReachMaxinstability); 
+            yield return new WaitForEndOfFrame();
+        } 
     }
     
-    private void StartTimerForRegenStability()
+    private void OnFingerDown(LeanFinger finger)
     {
-        if (_stopRegenStabilityCoroutine != null) {
-            StopCoroutine(_stopRegenStabilityCoroutine);
+        if (finger.IsOverGui) return;
+
+        if (!GameManager.Instance.timerManager.IsTimerRunning(_timerFingerOnScreenKey))  {
+            if (GameManager.Instance.timerManager.IsTimerRunning(_timerFingerOffScreenKey)) {
+                GameManager.Instance.timerManager.StopTimer(_timerFingerOffScreenKey);
+            }
+            _timerFingerOnScreenKey = GameManager.Instance.timerManager.StartTimer(TimerFingerOnScreen());
         }
-        _stopRegenStabilityCoroutine = StartCoroutine(StopRegenStability(_data.stabilityRegenStopTime));
+        
+        if (_currentfinger == null || !_currentfinger.Set) {
+            _currentfinger = finger;
+        }
+    }
+    
+    private void OnLastFingerUp(LeanFinger finger)
+    {
+        _currentfinger = null;
+        if (!GameManager.Instance.timerManager.IsTimerRunning(_timerFingerOffScreenKey))  {
+            if (GameManager.Instance.timerManager.IsTimerRunning(_timerFingerOnScreenKey)) {
+                GameManager.Instance.timerManager.StopTimer(_timerFingerOnScreenKey);
+            }
+            _timerFingerOffScreenKey = GameManager.Instance.timerManager.StartTimer(TimerFingerOffScreen());
+        }
+    }
+
+    private void OnEnable()
+    {
+        GameManager.Instance.actionManager.OnFingerDown += OnFingerDown;
+        GameManager.Instance.actionManager.OnFirstFingerDown += OnFingerDown;
+        GameManager.Instance.actionManager.OnLastFingerUp += OnLastFingerUp;
+    }
+    
+    private void OnDisable()
+    {
+        GameManager.Instance.actionManager.OnFingerDown -= OnFingerDown;
+        GameManager.Instance.actionManager.OnFirstFingerDown -= OnFingerDown;
+        GameManager.Instance.actionManager.OnLastFingerUp -= OnLastFingerUp;
     }
 }
 

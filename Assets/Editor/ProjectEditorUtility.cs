@@ -5,7 +5,7 @@ using UnityEditor;
 
 
 
-public static class ProjectUtility 
+public static class ProjectEditorUtility 
 {
     [MenuItem("Assets/Create/ProjectUtility/TilePrefab %t", priority = 1)]
     private static void CreatTilePrefab()
