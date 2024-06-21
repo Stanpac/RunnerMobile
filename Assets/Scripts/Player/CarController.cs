@@ -15,22 +15,26 @@ public class CarController : MonoBehaviour
     [SerializeField, BoxGroup("Data Settings"), Label("Player Controller Data")]
     private SO_CarController _data;
     
+    // Reference to the wheels
     [SerializeField, BoxGroup("Wheels")]
     WheelsToRotate _wheelsToRotate;
     
+    private RaycastSuspension[] _wheels;
+    
+    
+    // Debug Settings
     [SerializeField, BoxGroup("Debug Settings")]
     private bool _showDebug = false;
-
     [SerializeField, BoxGroup("Debug Settings"), EnableIf("_showDebug")]
     private float _raylength = 2.0f;
-    
     [SerializeField, BoxGroup("Debug Settings")]
     private bool _showWheelsDebug = false;
     
-    private RaycastSuspension[] _wheels;
     
     private float _rotationAngle = 0;
+    private float _weightmultiplicator = 1;
     
+    // need to be move
     private LeanFinger _currentfinger;
     
     private string _dataPath => "ScriptableObject/SO_PlayerController";
@@ -69,20 +73,26 @@ public class CarController : MonoBehaviour
        
         if (GameManager.Instance.inputManager.IsFingerOnScreen() && _currentfinger != null) {
             if (_currentfinger.ScreenPosition.x > Screen.width / 2) {
-                rotation =  Mathf.Clamp(rotation + Time.deltaTime / _data.timeForMaxRotation * _data.maxRotation, -_data.maxRotation, _data.maxRotation);
+                rotation =  Mathf.Clamp(rotation + Time.deltaTime / _data.timeForMaxRotation * _data.maxRotation * _weightmultiplicator, -_data.maxRotation, _data.maxRotation);
             } else {
-                rotation =  Mathf.Clamp(rotation - Time.deltaTime / _data.timeForMaxRotation * _data.maxRotation, -_data.maxRotation, _data.maxRotation);
+                rotation =  Mathf.Clamp(rotation - Time.deltaTime / _data.timeForMaxRotation * _data.maxRotation * _weightmultiplicator, -_data.maxRotation, _data.maxRotation);
             }
         } else {
             if (rotation > 0)
-                rotation = Mathf.Lerp(rotation, _data.rotationCenterTreshold * _data.maxRotation, Time.deltaTime / _data.timeForReachTreshold);
+                rotation = Mathf.Lerp(rotation, _data.rotationCenterTreshold * _data.maxRotation, Time.deltaTime / _data.timeForReachTreshold * (1/_weightmultiplicator));
             else if (rotation < 0) {
-                rotation = Mathf.Lerp(rotation, - _data.rotationCenterTreshold * _data.maxRotation, Time.deltaTime / _data.timeForReachTreshold);  
+                rotation = Mathf.Lerp(rotation, - _data.rotationCenterTreshold * _data.maxRotation, Time.deltaTime / _data.timeForReachTreshold * (1/_weightmultiplicator));  
             }
         }
         
         _rotationAngle = rotation;
         return _rotationAngle;
+    }
+    
+    private void UpdateWeightMultiplicator(int luggage)
+    {
+        float NormalizedLuaggage = luggage > _data.wheightMaxForCurve ? 1 : (float)luggage / _data.wheightMaxForCurve;
+        _weightmultiplicator = _data.wheightCurve.Evaluate(NormalizedLuaggage);
     }
 
     private void LateUpdate()
@@ -134,6 +144,7 @@ public class CarController : MonoBehaviour
         GameManager.Instance.actionManager.OnFingerDown += OnFingerDown;
         GameManager.Instance.actionManager.OnFirstFingerDown += OnFingerDown;
         GameManager.Instance.actionManager.OnLastFingerUp += OnLastFingerUp;
+        GameManager.Instance.actionManager.OnLuggageChange += UpdateWeightMultiplicator;
     }
 
     private void OnDisable()
@@ -141,6 +152,7 @@ public class CarController : MonoBehaviour
         GameManager.Instance.actionManager.OnFingerDown -= OnFingerDown;
         GameManager.Instance.actionManager.OnFirstFingerDown -= OnFingerDown;
         GameManager.Instance.actionManager.OnLastFingerUp -= OnLastFingerUp;
+        GameManager.Instance.actionManager.OnLuggageChange -= UpdateWeightMultiplicator;
     }
 }
 

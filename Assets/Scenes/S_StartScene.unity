@@ -2739,7 +2739,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2065602295}
   - component: {fileID: 2065602296}
-  - component: {fileID: 2065602297}
   m_Layer: 0
   m_Name: ManagerHandle
   m_TagString: Untagged
@@ -2776,19 +2775,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _virtualCamera: {fileID: 701161779}
   _startImpulsionForce: 100
---- !u!114 &2065602297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2065602294}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfd4711e1a584d7db15548874fe1f7d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _currentSoSave: {fileID: 11400000, guid: 14656989f32d49448afb42b583221a6e, type: 2}
+  _player: {fileID: 7112361200019964721, guid: 2c9126dedfb62354c9b24fba7b56b866, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

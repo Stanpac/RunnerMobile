@@ -6,9 +6,10 @@ using UnityEngine;
 // This script is responsible for managing the timers in the game.
 public class TimerManager : MonoBehaviour
 {
-    
     private Dictionary<string, Coroutine> _coroutines = new Dictionary<string, Coroutine>();
     
+    // TODO : Add a way to stop all the timers when the game is over
+    // TODO : remove mono behaviors of this Script, need to add monobehaviors context to functions for handle the coroutines
     private string GenerateKey()
     {
         return Guid.NewGuid().ToString();
@@ -28,9 +29,7 @@ public class TimerManager : MonoBehaviour
         {
             StopCoroutine(_coroutines[key]);
             _coroutines.Remove(key);
-        }
-        else
-        {
+        } else {
             Debug.LogWarning("No coroutine found with the key: " + key);
         }
     }

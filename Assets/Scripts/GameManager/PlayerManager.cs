@@ -2,41 +2,23 @@
 using UnityEngine.Serialization;
 
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager 
 {
-    [FormerlySerializedAs("_currentPlayerController")] [SerializeField] 
-    public CarController _currentCarController;
-    
-    [SerializeField] 
-    public GameObject _currentPlayerPrefab { get; set; }
-    
-    private void Awake()
-    {
-        
-    }
-    
-    private void Start()
-    {
-        
-    }
-    
-    private void Update()
-    {
-        
-    }
+    public CarController _currentCarController { get; private set; }
+    public CarController _carPrefab { get; set; }
     
     public void InstantiatePlayer(Vector3 position, Quaternion rotation) 
     {
-        if (_currentPlayerPrefab == null) {
+        if (_carPrefab == null) {
             Debug.LogError("Player Prefab is not set");
             return;
         }
         
         if (_currentCarController != null) {
-            Destroy(_currentCarController.gameObject);
+            GameObject.Destroy(_currentCarController.gameObject);
         }
         
-        _currentCarController = Instantiate<GameObject>(_currentPlayerPrefab, position, rotation).GetComponent<CarController>();
+        _currentCarController = GameObject.Instantiate<GameObject>(_carPrefab.gameObject, position, rotation).GetComponent<CarController>();
         GameManager.Instance._virtualCamera.LookAt = _currentCarController.transform;
         GameManager.Instance._virtualCamera.Follow = _currentCarController.transform;
     }

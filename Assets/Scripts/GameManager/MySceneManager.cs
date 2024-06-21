@@ -6,14 +6,13 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 
-public class MySceneManager : MonoBehaviour
+public class MySceneManager 
 {
     public SO_Scenes _scenesData; 
     
-    
     private string _dataPath => "ScriptableObject/SO_Scenes";
     
-    private void Awake()
+    public MySceneManager()
     {
         _scenesData = Resources.Load<SO_Scenes>(_dataPath);
     }

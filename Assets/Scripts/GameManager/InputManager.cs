@@ -1,13 +1,15 @@
 ﻿using System;
 using Lean.Touch;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
-public class InputManager : MonoBehaviour
+public class InputManager 
 {
     private  List<LeanFinger> _allFingers = new List<LeanFinger>();
     private  List<LeanFinger> _filteredFingers = new List<LeanFinger>();
+    
     
     public bool IsFingerOnScreen(bool CountFingerOverGUI = false)
     {
@@ -60,14 +62,13 @@ public class InputManager : MonoBehaviour
             GameManager.Instance.actionManager.FingerDown(finger);
         }
     }
-
-    private void OnEnable()
+    public InputManager()
     {
         LeanTouch.OnFingerDown += HandleFingerDown;
         LeanTouch.OnFingerUp += HandleFingerUp;
     }
     
-    private void OnDisable()
+    ~InputManager() 
     {
         LeanTouch.OnFingerDown -= HandleFingerDown;
         LeanTouch.OnFingerUp -= HandleFingerUp;
