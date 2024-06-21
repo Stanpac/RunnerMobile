@@ -12,17 +12,7 @@ using UnityEngine.Serialization;
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
-    public static GameManager Instance
-    {
-        get {
-            if (_instance == null) {
-                GameObject go = new GameObject("GameManager");
-                _instance = go.AddComponent<GameManager>();
-                DontDestroyOnLoad(go);
-            }
-            return _instance;
-        }
-    }
+    public static GameManager Instance => _instance;
     
     [BoxGroup("Camera")] 
     public CinemachineVirtualCamera _virtualCamera;
@@ -43,25 +33,26 @@ public class GameManager : MonoBehaviour
     
     private void Awake()
     {
-        // Singleton Pattern instance
         if (_instance == null) {
             _instance = this;
-        } else  {
+        } else {
             Destroy(gameObject);
         }
         
         // Instantiate All the Managers for the game
         saveDataManager = GetComponent<SaveDataManager>();
+        
         actionManager = gameObject.AddComponent<ActionManager>();
         inputManager = gameObject.AddComponent<InputManager>();
         gameStateManager = gameObject.AddComponent<GameStateManager>();
+        
         timerManager = gameObject.AddComponent<TimerManager>();
         mySceneManager = gameObject.AddComponent<MySceneManager>();
-        playerManager = gameObject.AddComponent<PlayerManager>();
         
         uiManager = FindObjectOfType<UIManager>();
         
         // load the save data
+        playerManager = gameObject.AddComponent<PlayerManager>();
         playerManager._currentPlayerPrefab = saveDataManager._currentSoSave.player;
     }
     
@@ -90,4 +81,6 @@ public class GameManager : MonoBehaviour
         mySceneManager.UnloadGameScene();
         gameStateManager.SetGameState(EGameState.GS_StartMenu);
     }
+    
+    
 }

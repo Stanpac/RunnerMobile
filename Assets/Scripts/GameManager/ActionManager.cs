@@ -7,12 +7,24 @@ using NaughtyAttributes;
 
 public class ActionManager : MonoBehaviour
 {
-    public Action OnPlayerDeath;
+    
+    // Finger
     public Action<LeanFinger> OnLastFingerUp;
     public Action<LeanFinger> OnFirstFingerDown;
     public Action<LeanFinger> OnFingerDown;
+    
+    // Game State
     public Action<EGameState, EGameState> OnGameStateChange;
+    
+    // Stability
     public Action <float> OnStabilityChange;
+    public Action <bool> OnUnstableChange;
+    
+    // Luggage
+    public Action<int> OnLuggageChange;
+    
+    // Player
+    public Action OnPlayerDeath;
     
     public void PlayerDeath()
     {
@@ -44,4 +56,13 @@ public class ActionManager : MonoBehaviour
         OnStabilityChange?.Invoke(stability);
     }
     
+    public void LuggageChange(int luggage)
+    {
+        OnLuggageChange?.Invoke(luggage);
+    }
+    
+    public void UnstableChange(bool unstable)
+    {
+        OnUnstableChange?.Invoke(unstable);
+    }
 }

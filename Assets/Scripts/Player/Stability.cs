@@ -15,7 +15,6 @@ public class Stability : MonoBehaviour
     private SO_Stability _data;
     
     // Need to be Move 
-    private bool _fingerOnScreen = false;
     private float _timerFingerOnScreen = 0;
     private LeanFinger _currentfinger;
     
@@ -65,15 +64,16 @@ public class Stability : MonoBehaviour
     {
         float normalizedTimer = Mathf.Clamp01(Mathf.Abs(_timerFingerOnScreen / _data.timeForReachMaxinstability));
         float stability =_data.instabilityInputTimeCurve.Evaluate(normalizedTimer);
-        if (_fingerOnScreen) {
+        if (GameManager.Instance.inputManager.IsFingerOnScreen() && _currentfinger != null){
             if (_currentfinger.ScreenPosition.x > Screen.width / 2) {
                 _stabilitySideMultiplicator = 1;
             } else {
                 _stabilitySideMultiplicator = -1;
             }
         }
+        
         stability *= _stabilitySideMultiplicator * _stabilityWeightMultiplicator;
-        return normalizedTimer; 
+        return stability; 
     }
     
     private float CalculateEvents()
@@ -89,10 +89,15 @@ public class Stability : MonoBehaviour
     
     private void CheckifUnstable()
     {
+        bool CheckUpdate = _unstable;
         if (_stability > _data.instabilityThreshold || _stability < -_data.instabilityThreshold) {
             _unstable = true;
         } else {
             _unstable = false;
+        }
+        
+        if (CheckUpdate != _unstable) {
+            GameManager.Instance.actionManager.UnstableChange(_unstable);
         }
     }
     
@@ -124,35 +129,32 @@ public class Stability : MonoBehaviour
     private void ResetStability()
     {
         _stability = 0;
+        GameManager.Instance.actionManager.StabilityChange(_stability);
     }
     
     private IEnumerator TimerFingerOnScreen()
     {
-        while (_fingerOnScreen) {
+        while (GameManager.Instance.inputManager.IsFingerOnScreen()) {
             _timerFingerOnScreen += Time.deltaTime;
-            _timerFingerOnScreen = Mathf.Clamp(_timerFingerOnScreen, 0 , _data.timeForReachMaxinstability); 
-            yield return null;
+            _timerFingerOnScreen = Mathf.Clamp(_timerFingerOnScreen, 0 , _data.timeForReachMaxinstability);
+            yield return new WaitForEndOfFrame();
         } 
     }  
     
     private IEnumerator TimerFingerOffScreen()
     {
-        while (!_fingerOnScreen) {
+        while (!GameManager.Instance.inputManager.IsFingerOnScreen()) {
             _timerFingerOnScreen -= Time.deltaTime;
             _timerFingerOnScreen = Mathf.Clamp(_timerFingerOnScreen, 0 , _data.timeForReachMaxinstability); 
-            yield return null;
+            yield return new WaitForEndOfFrame();
         } 
     }
     
-    // TODO : there is the Same code in CarController.cs, find a way to factor this
-    // Maybe all this need to be in the InputManager and the CarController need to be a listener of the InputManager ? and check Current finger in the InputManager
     private void OnFingerDown(LeanFinger finger)
     {
         if (finger.IsOverGui) return;
-        
-        _fingerOnScreen = true;
 
-        if (GameManager.Instance.timerManager.IsTimerRunning(_timerFingerOnScreenKey))  {
+        if (!GameManager.Instance.timerManager.IsTimerRunning(_timerFingerOnScreenKey))  {
             if (GameManager.Instance.timerManager.IsTimerRunning(_timerFingerOffScreenKey)) {
                 GameManager.Instance.timerManager.StopTimer(_timerFingerOffScreenKey);
             }
@@ -166,14 +168,12 @@ public class Stability : MonoBehaviour
     
     private void OnLastFingerUp(LeanFinger finger)
     {
-        _fingerOnScreen = false;
         _currentfinger = null;
-        
-        if (GameManager.Instance.timerManager.IsTimerRunning(_timerFingerOffScreenKey))  {
+        if (!GameManager.Instance.timerManager.IsTimerRunning(_timerFingerOffScreenKey))  {
             if (GameManager.Instance.timerManager.IsTimerRunning(_timerFingerOnScreenKey)) {
                 GameManager.Instance.timerManager.StopTimer(_timerFingerOnScreenKey);
             }
-            _timerFingerOffScreenKey = GameManager.Instance.timerManager.StartTimer(TimerFingerOnScreen());
+            _timerFingerOffScreenKey = GameManager.Instance.timerManager.StartTimer(TimerFingerOffScreen());
         }
     }
 

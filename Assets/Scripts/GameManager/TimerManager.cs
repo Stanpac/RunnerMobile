@@ -56,6 +56,9 @@ public class TimerManager : MonoBehaviour
     
     public bool IsTimerRunning(string key)
     {
+        if (key == null) {
+            return false;
+        }
         return _coroutines.ContainsKey(key);
     }
 }

@@ -31,12 +31,9 @@ public class CarController : MonoBehaviour
     
     private float _rotationAngle = 0;
     
-    private bool _fingerOnScreen = false;
     private LeanFinger _currentfinger;
     
     private string _dataPath => "ScriptableObject/SO_PlayerController";
-    
-    public  bool GetFinerOnScreen => _fingerOnScreen;
     
     private void Reset()
     {
@@ -70,7 +67,7 @@ public class CarController : MonoBehaviour
     {
         float rotation = _rotationAngle;
        
-        if (_fingerOnScreen) {
+        if (GameManager.Instance.inputManager.IsFingerOnScreen() && _currentfinger != null) {
             if (_currentfinger.ScreenPosition.x > Screen.width / 2) {
                 rotation =  Mathf.Clamp(rotation + Time.deltaTime / _data.timeForMaxRotation * _data.maxRotation, -_data.maxRotation, _data.maxRotation);
             } else {
@@ -118,13 +115,10 @@ public class CarController : MonoBehaviour
         }
     }
     
-    // TODO : there is the Same code in Stability.cs, find a way to factor this
-    // Maybe all this need to be in the InputManager and the CarController need to be a listener of the InputManager ? and check Current finger in the InputManager
     private void OnFingerDown(LeanFinger finger)
     {
         if (finger.IsOverGui) return;
         
-        _fingerOnScreen = true;
         if (_currentfinger == null || !_currentfinger.Set) {
             _currentfinger = finger;
         }
@@ -132,7 +126,6 @@ public class CarController : MonoBehaviour
     
     private void OnLastFingerUp(LeanFinger finger)
     {
-        _fingerOnScreen = false;
         _currentfinger = null;
     }
 
