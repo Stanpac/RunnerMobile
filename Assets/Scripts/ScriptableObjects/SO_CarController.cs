@@ -24,10 +24,6 @@ namespace ScriptableObjects
         public float maxRotation = 45;
         
         [SerializeField, BoxGroup("Rotation Control Settings")]
-        [Tooltip("The min rotation of the car that impact stability. (need to be lower than angleMaxRotation)")]
-        public float angleMinforStabilityImpact = 30;
-        
-        [SerializeField, BoxGroup("Rotation Control Settings")]
         [Tooltip("The time for the wheels to reach AngleMaxrotation")]
         public float timeForMaxRotation = 1f;
         
@@ -44,7 +40,7 @@ namespace ScriptableObjects
         public float angleUpMaxRotation  = 45f;
         
         [SerializeField, BoxGroup("Rotation physics Settings")] 
-        [Tooltip(" at which speed the car will rotate to the max angleUpMaxRotation")]
+        [Tooltip(" at which speed the car will rotate to reach the max angleUpMaxRotation")]
         public float speedOfTheRotation = 5f;
     }
 }
