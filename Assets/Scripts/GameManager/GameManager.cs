@@ -20,11 +20,13 @@ public class GameManager : MonoBehaviour
     [SerializeField, BoxGroup("StartParameters")]
     private float _startImpulsionForce = 10;
     
+    [SerializeField, BoxGroup("Player")]
+    private CarController _player;
+    
     // Manager for the game
     public ActionManager actionManager {get; private set;}
     public UIManager uiManager {get; private set;}
     public InputManager inputManager {get; private set;}
-    public SaveDataManager saveDataManager {get; private set;}
     public GameStateManager gameStateManager {get; private set;}
     public MySceneManager mySceneManager {get; private set;}
     public PlayerManager playerManager {get; private set;}
@@ -39,21 +41,26 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         
-        // Instantiate All the Managers for the game
-        saveDataManager = GetComponent<SaveDataManager>();
+        // Init Managers
+        actionManager = new ActionManager();
+        inputManager = new InputManager();
+        gameStateManager = new GameStateManager();
+        mySceneManager = new MySceneManager();
+        playerManager = new PlayerManager();
         
-        actionManager = gameObject.AddComponent<ActionManager>();
-        inputManager = gameObject.AddComponent<InputManager>();
-        gameStateManager = gameObject.AddComponent<GameStateManager>();
-        
+        // TODO : remove monoBehaviour from the managers if possible 
         timerManager = gameObject.AddComponent<TimerManager>();
-        mySceneManager = gameObject.AddComponent<MySceneManager>();
+        
         
         uiManager = FindObjectOfType<UIManager>();
         
-        // load the save data
-        playerManager = gameObject.AddComponent<PlayerManager>();
-        playerManager._currentPlayerPrefab = saveDataManager._currentSoSave.player;
+        LoadData();
+    }
+
+    private void LoadData()
+    {
+        playerManager._carPrefab = _player;
+        gameStateManager.SetGameState(EGameState.GS_StartMenu);
     }
     
     public void StartGame()

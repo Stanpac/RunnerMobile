@@ -28,9 +28,16 @@ public class Stability : MonoBehaviour
     private float _minStability = -1;
     private bool _unstable = false;
     
-    // Multiplicator for the stability
+    
+    // Stability rotation 
     private float _stabilityWeightMultiplicator = 1;
     private float _stabilitySideMultiplicator = 1;
+    
+    // Stability Terrain
+    private float _stabilityTerrainMultiplicator = 1;
+    
+    // Stability Event
+    private float _stabilityEventMultiplicator = 1;
     
     // Timer keys
     private string _timerFingerOnScreenKey;
@@ -76,14 +83,16 @@ public class Stability : MonoBehaviour
         return stability; 
     }
     
-    private float CalculateEvents()
-    {
-        // TODO: Implement this with create trigger box for events
-        return 0;
-    }
     private float CalculateTerrain()
     {
         // TODO: implement this with raycast to check the terrain orientation ?
+        // get normal du terrain ? 
+        return 0;
+    }
+    
+    private float CalculateEvents()
+    {
+        // TODO: Implement this with create trigger box for events
         return 0;
     }
     
