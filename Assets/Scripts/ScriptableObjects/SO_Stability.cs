@@ -17,7 +17,7 @@ namespace ScriptableObjects
         
         [SerializeField, BoxGroup("Instability"), MinValue(0)] 
         [Tooltip("time in seconds to reach the max instability based on the Curve Value, 0 means instant")]
-        public float timeForReachMaxinstability = 3;
+        public float timeForReachMaxinstability = 2;
         
     }
     
