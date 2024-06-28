@@ -51,7 +51,6 @@ public class GameManager : MonoBehaviour
         // TODO : remove monoBehaviour from the managers if possible 
         timerManager = gameObject.AddComponent<TimerManager>();
         
-        
         uiManager = FindObjectOfType<UIManager>();
         
         LoadData();

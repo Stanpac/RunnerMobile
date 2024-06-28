@@ -2635,7 +2635,7 @@ MonoBehaviour:
     Method: 0
     Layers:
       serializedVersion: 2
-      m_Bits: 4294967291
+      m_Bits: 115
     Search: 1
     RequiredTag: 
     Camera: {fileID: 0}
@@ -2680,7 +2680,7 @@ MonoBehaviour:
     Object: {fileID: 0}
     Layers:
       serializedVersion: 2
-      m_Bits: 4294967291
+      m_Bits: 115
     Distance: 0
   onWorld:
     m_PersistentCalls:

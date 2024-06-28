@@ -148,6 +148,8 @@ public class Stability : MonoBehaviour
             _timerFingerOnScreen = Mathf.Clamp(_timerFingerOnScreen, 0 , _data.timeForReachMaxinstability);
             yield return new WaitForEndOfFrame();
         } 
+        // need a secu pour arreter la couroutine
+        // je crois elle s'arrete toute seul avant d'etre arreter par le 
     }  
     
     private IEnumerator TimerFingerOffScreen()
@@ -157,6 +159,7 @@ public class Stability : MonoBehaviour
             _timerFingerOnScreen = Mathf.Clamp(_timerFingerOnScreen, 0 , _data.timeForReachMaxinstability); 
             yield return new WaitForEndOfFrame();
         } 
+        // Need a secu pour arreter la couroutine
     }
     
     private void OnFingerDown(LeanFinger finger)
