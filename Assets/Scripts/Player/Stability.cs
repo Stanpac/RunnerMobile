@@ -14,15 +14,23 @@ public class Stability : MonoBehaviour
     [SerializeField]
     private SO_Stability _data;
     
+    // Debug Settings
+    [SerializeField, BoxGroup("Debug Settings")]
+    private bool _stabilityInput = true;
+    [SerializeField, BoxGroup("Debug Settings")]
+    private bool _stabilityRotation = true;
+    [SerializeField, BoxGroup("Debug Settings")]
+    private bool _stabilityEvent = true;
+    
     // temp
-    public float MaxRotationZ = 20.0f;
-    public float multiplicator = 1;
+    public float _maxRotationZ = 20.0f;
+    public float _multiplicator = 1;
     
     // Need to be Move 
     private float _timerFingerOnScreen = 0;
     private LeanFinger _currentfinger;
 
-    private float timeForReachMaxInputInstability;
+    private float _timeForReachMaxInputInstability;
     
     // Reference to Car
     private CarController _carController;
@@ -62,7 +70,7 @@ public class Stability : MonoBehaviour
     
     private void Update()
     {
-        _stability = /*CalculateInputInstability() +*/ CalculateRotationStability() + CalculateEvents();
+        _stability = CalculateInputInstability() + CalculateRotationStability() + CalculateEvents();
         _stability = Mathf.Clamp(_stability, _minStability, _maxStability);
         
         CheckifUnstable();
@@ -74,8 +82,11 @@ public class Stability : MonoBehaviour
     
     private float CalculateInputInstability()
     {
+        if (!_stabilityInput) return 0;
+        
         float normalizedTimer = Mathf.Clamp01(Mathf.Abs(_timerFingerOnScreen / _data.timeForReachMaxInputInstability));
         float stability =_data.instabilityInputTimeCurve.Evaluate(normalizedTimer);
+        
         if (GameManager.Instance.inputManager.IsFingerOnScreen() && _currentfinger != null){
             if (_currentfinger.ScreenPosition.x > Screen.width / 2) {
                 _stabilityInputMultiplicator = 1;
@@ -90,7 +101,8 @@ public class Stability : MonoBehaviour
     
     private float CalculateRotationStability()
     {
-        // TODO : Calculate the stability based on the rotation of the car
+        if (_stabilityRotation) return 0;
+        
         if (_carController == null) {
             Debug.LogError("No Car Controller found");
             return 0;
@@ -98,19 +110,20 @@ public class Stability : MonoBehaviour
         
         // Difference entre la value Z de rotation max et la rotation actuelle Z
         float rotation = _carController.transform.rotation.z;
-        float normalizedRotation = Mathf.Clamp01(Mathf.Abs(rotation / MaxRotationZ));
+        float normalizedRotation = Mathf.Clamp01(Mathf.Abs(rotation / _maxRotationZ));
         
         
         if (rotation > 0) {
-            return normalizedRotation * 1 * multiplicator;
+            return normalizedRotation * 1 * _multiplicator;
         } else {
-            return normalizedRotation * -1 * multiplicator;
+            return normalizedRotation * -1 * _multiplicator;
         }
-        
     }
     
     private float CalculateEvents()
     {
+        if (_stabilityEvent) return 0;
+        
         // TODO: Implement this with create trigger box for events
         return 0;
     }
