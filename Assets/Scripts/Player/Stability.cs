@@ -14,9 +14,15 @@ public class Stability : MonoBehaviour
     [SerializeField]
     private SO_Stability _data;
     
+    // temp
+    public float MaxRotationZ = 20.0f;
+    public float multiplicator = 1;
+    
     // Need to be Move 
     private float _timerFingerOnScreen = 0;
     private LeanFinger _currentfinger;
+
+    private float timeForReachMaxInputInstability;
     
     // Reference to Car
     private CarController _carController;
@@ -28,10 +34,9 @@ public class Stability : MonoBehaviour
     private float _minStability = -1;
     private bool _unstable = false;
     
-    
     // Stability rotation 
     private float _stabilityWeightMultiplicator = 1;
-    private float _stabilitySideMultiplicator = 1;
+    private float _stabilityInputMultiplicator = 1;
     
     // Stability Terrain
     private float _stabilityTerrainMultiplicator = 1;
@@ -57,7 +62,7 @@ public class Stability : MonoBehaviour
     
     private void Update()
     {
-        _stability = CalculateRotationInstability() + CalculateEvents() + CalculateTerrain();
+        _stability = /*CalculateInputInstability() +*/ CalculateRotationStability() + CalculateEvents();
         _stability = Mathf.Clamp(_stability, _minStability, _maxStability);
         
         CheckifUnstable();
@@ -67,27 +72,41 @@ public class Stability : MonoBehaviour
         _previousStability = _stability;
     }
     
-    private float CalculateRotationInstability()
+    private float CalculateInputInstability()
     {
-        float normalizedTimer = Mathf.Clamp01(Mathf.Abs(_timerFingerOnScreen / _data.timeForReachMaxinstability));
+        float normalizedTimer = Mathf.Clamp01(Mathf.Abs(_timerFingerOnScreen / _data.timeForReachMaxInputInstability));
         float stability =_data.instabilityInputTimeCurve.Evaluate(normalizedTimer);
         if (GameManager.Instance.inputManager.IsFingerOnScreen() && _currentfinger != null){
             if (_currentfinger.ScreenPosition.x > Screen.width / 2) {
-                _stabilitySideMultiplicator = 1;
+                _stabilityInputMultiplicator = 1;
             } else {
-                _stabilitySideMultiplicator = -1;
+                _stabilityInputMultiplicator = -1;
             }
         }
         
-        stability *= _stabilitySideMultiplicator * _stabilityWeightMultiplicator;
+        stability *= _stabilityInputMultiplicator * _stabilityWeightMultiplicator;
         return stability; 
     }
     
-    private float CalculateTerrain()
+    private float CalculateRotationStability()
     {
-        // TODO: implement this with raycast to check the terrain orientation ?
-        // get normal du terrain ? 
-        return 0;
+        // TODO : Calculate the stability based on the rotation of the car
+        if (_carController == null) {
+            Debug.LogError("No Car Controller found");
+            return 0;
+        }
+        
+        // Difference entre la value Z de rotation max et la rotation actuelle Z
+        float rotation = _carController.transform.rotation.z;
+        float normalizedRotation = Mathf.Clamp01(Mathf.Abs(rotation / MaxRotationZ));
+        
+        
+        if (rotation > 0) {
+            return normalizedRotation * 1 * multiplicator;
+        } else {
+            return normalizedRotation * -1 * multiplicator;
+        }
+        
     }
     
     private float CalculateEvents()
@@ -108,6 +127,12 @@ public class Stability : MonoBehaviour
         if (CheckUpdate != _unstable) {
             GameManager.Instance.actionManager.UnstableChange(_unstable);
         }
+    }
+    
+    private void ResetStability()
+    {
+        _stability = 0;
+        GameManager.Instance.actionManager.StabilityChange(_stability);
     }
     
     public void ImpactStability(float value, EStabilityImpactSide side)
@@ -135,31 +160,22 @@ public class Stability : MonoBehaviour
         _stability = NewStability;
     }
     
-    private void ResetStability()
-    {
-        _stability = 0;
-        GameManager.Instance.actionManager.StabilityChange(_stability);
-    }
-    
     private IEnumerator TimerFingerOnScreen()
     {
         while (GameManager.Instance.inputManager.IsFingerOnScreen()) {
             _timerFingerOnScreen += Time.deltaTime;
-            _timerFingerOnScreen = Mathf.Clamp(_timerFingerOnScreen, 0 , _data.timeForReachMaxinstability);
+            _timerFingerOnScreen = Mathf.Clamp(_timerFingerOnScreen, 0 , _data.timeForReachMaxInputInstability);
             yield return new WaitForEndOfFrame();
         } 
-        // need a secu pour arreter la couroutine
-        // je crois elle s'arrete toute seul avant d'etre arreter par le 
     }  
     
     private IEnumerator TimerFingerOffScreen()
     {
         while (!GameManager.Instance.inputManager.IsFingerOnScreen()) {
             _timerFingerOnScreen -= Time.deltaTime;
-            _timerFingerOnScreen = Mathf.Clamp(_timerFingerOnScreen, 0 , _data.timeForReachMaxinstability); 
+            _timerFingerOnScreen = Mathf.Clamp(_timerFingerOnScreen, 0 , _data.timeForReachMaxInputInstability); 
             yield return new WaitForEndOfFrame();
         } 
-        // Need a secu pour arreter la couroutine
     }
     
     private void OnFingerDown(LeanFinger finger)
@@ -208,5 +224,7 @@ public enum EStabilityImpactSide
 {
     EIS_Left,
     EIS_Right,
+    EIS_Forward,
+    EIS_Backward,
 }
 

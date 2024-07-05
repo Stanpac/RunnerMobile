@@ -15,12 +15,10 @@ public class CarController : MonoBehaviour
     [SerializeField, BoxGroup("Data Settings"), Label("Player Controller Data")]
     private SO_CarController _data;
     
-    // Reference to the wheels
+    //wheels
     [SerializeField, BoxGroup("Wheels")]
     WheelsToRotate _wheelsToRotate;
-    
     private RaycastSuspension[] _wheels;
-    
     
     // Debug Settings
     [SerializeField, BoxGroup("Debug Settings")]
@@ -30,6 +28,7 @@ public class CarController : MonoBehaviour
     [SerializeField, BoxGroup("Debug Settings")]
     private bool _showWheelsDebug = false;
     
+    public  Rigidbody _carRigidbody { get; private set; }
     
     private float _rotationAngle = 0;
     private float _weightmultiplicator = 1;
@@ -37,6 +36,7 @@ public class CarController : MonoBehaviour
     // need to be move
     private LeanFinger _currentfinger;
     
+    // Data Path
     private string _dataPath => "ScriptableObject/SO_PlayerController";
     
     private void Reset()
@@ -51,7 +51,7 @@ public class CarController : MonoBehaviour
             _data = Resources.Load<SO_CarController>(_dataPath);
         
         _rotationAngle = 0;
-        
+        _carRigidbody = GetComponent<Rigidbody>();
         _wheels = GetComponentsInChildren<RaycastSuspension>();
         foreach (var wheel in _wheels) {
             wheel.SetUpSpeedFactor(_data.speedFactor, _data.carTopSpeed, _data.powerCurve, _showWheelsDebug);

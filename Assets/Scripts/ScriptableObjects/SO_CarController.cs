@@ -37,7 +37,7 @@ namespace ScriptableObjects
         
         [SerializeField, BoxGroup("Rotation physics Settings")] 
         [Tooltip("The max angle of the car relative to the World Up Vector")]
-        public float angleUpMaxRotation  = 45f;
+        public float angleUpMaxRotation = 20f;
         
         [SerializeField, BoxGroup("Rotation physics Settings")] 
         [Tooltip(" at which speed the car will rotate to reach the max angleUpMaxRotation")]
