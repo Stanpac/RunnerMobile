@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     [SerializeField, BoxGroup("StartParameters")]
     private float _startImpulsionForce = 10;
     
+
     [SerializeField, BoxGroup("Player")]
     private CarController _player;
     
@@ -31,7 +32,10 @@ public class GameManager : MonoBehaviour
     public MySceneManager mySceneManager {get; private set;}
     public PlayerManager playerManager {get; private set;}
     public TimerManager timerManager {get; private set;}
+    public ScoreManager scoreManager {get; private set;}
     public TileManager tileManager {get; set;}
+    
+    
     
     private void Awake()
     {
@@ -87,6 +91,7 @@ public class GameManager : MonoBehaviour
         mySceneManager.UnloadGameScene();
         gameStateManager.SetGameState(EGameState.GS_StartMenu);
     }
+    
     
     
 }
