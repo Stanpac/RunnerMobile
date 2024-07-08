@@ -9,9 +9,11 @@ public class LuggageHandler : MonoBehaviour
     public float _timeBeforeLosingBaggage = 1.0f;
     public int _startluggage = 20;
     
-    
     private string _timerUnstabilityKey;
     private int _luggage = 0;
+    
+    // TODO : WIP, need to be Remove for GetWeightInstead
+    public int Luggage => _luggage;
     
     private void Awake()
     {

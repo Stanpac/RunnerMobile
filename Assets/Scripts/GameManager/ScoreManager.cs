@@ -12,7 +12,10 @@ public class ScoreManager
     
     private float _luggageAv = 0;
     
+    
+    // Coef Difficulty = Mathf.Pow(_coefficientDiffiCulty, _mileStoneIndex)
     private int _mileStoneIndex = 0;
+    private float _coefficientDiffiCulty = 2.15f;
     
     private LuggageHandler _luggageHandler;
     
@@ -21,6 +24,9 @@ public class ScoreManager
     // TODO : Update Finish Calculate the _avForNextMileStone ? 
     
     public float GetScore() => _score;
+    public int GetMileStoneIndex() => _mileStoneIndex;
+    
+    public float GetCoefDifficulty() => Mathf.Pow(_coefficientDiffiCulty, _mileStoneIndex);
     
     public void UpdateScore()
     {

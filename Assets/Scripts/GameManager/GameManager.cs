@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
         gameStateManager = new GameStateManager();
         mySceneManager = new MySceneManager();
         playerManager = new PlayerManager();
+        scoreManager = new ScoreManager();
         
         // TODO : remove monoBehaviour from the managers if possible 
         timerManager = gameObject.AddComponent<TimerManager>();
