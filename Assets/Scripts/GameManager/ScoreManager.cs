@@ -12,7 +12,6 @@ public class ScoreManager
     
     private float _luggageAv = 0;
     
-    
     // Coef Difficulty = Mathf.Pow(_coefficientDiffiCulty, _mileStoneIndex)
     private int _mileStoneIndex = 0;
     private float _coefficientDiffiCulty = 2.15f;

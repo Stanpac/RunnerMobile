@@ -11,8 +11,7 @@ using UnityEngine.Serialization;
 // This script is responsible for managing the game.
 public class GameManager : MonoBehaviour
 {
-    private static GameManager _instance;
-    public static GameManager Instance => _instance;
+    public static GameManager Instance { get; private set; }
     
     [BoxGroup("Camera")] 
     public CinemachineVirtualCamera _virtualCamera;
@@ -20,7 +19,6 @@ public class GameManager : MonoBehaviour
     [SerializeField, BoxGroup("StartParameters")]
     private float _startImpulsionForce = 10;
     
-
     [SerializeField, BoxGroup("Player")]
     private CarController _player;
     
@@ -36,15 +34,25 @@ public class GameManager : MonoBehaviour
     public TileManager tileManager {get; set;}
     
     
+    private void OnEnable()
+    {
+        if (!Instance) {
+            Instance = this;
+        } else {
+            Debug.LogErrorFormat(this, "Duplicate instance of singleton class {0}. Only one should exist at a time.", GetType().Name);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (Instance != this)
+            return;
+        
+        Instance = null;
+    }
     
     private void Awake()
     {
-        if (_instance == null) {
-            _instance = this;
-        } else {
-            Destroy(gameObject);
-        }
-        
         // Init Managers
         actionManager = new ActionManager();
         inputManager = new InputManager();
