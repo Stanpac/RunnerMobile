@@ -6,14 +6,14 @@ using UnityEngine.Serialization;
 [CreateAssetMenu(menuName = "RoadTrip/Tile/TileCard")]
 public class TileCard : ScriptableObject
 {
-    public GameObject _tilePrefab;
+    public GameObject _roadTilePrefab;
     public int _creditsCount;
-    public int _weight;
+    public float _weight;
     
     // Spawn a tile at the given position and rotation 
-    protected  void Spawn(Vector3 position, Quaternion rotation, ref TileCard.SpawnResult spawnResult)
+    protected void Spawn(Vector3 position, Quaternion rotation, ref TileCard.SpawnResult spawnResult)
     {
-        GameObject gameObject = Instantiate<GameObject>(_tilePrefab, position, rotation);
+        GameObject gameObject = Instantiate<GameObject>(_roadTilePrefab, position, rotation);
         spawnResult.spawnedInstance = gameObject;
         spawnResult.success = true;
     }

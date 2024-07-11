@@ -4,7 +4,6 @@ using NaughtyAttributes;
 
 public class ScoreManager 
 {
-    // _score = _actionValue + _score + (_luggageAv * (luggageWeight));
     private float _score = 0;
     
     private float _actionValue = 0;
@@ -12,13 +11,12 @@ public class ScoreManager
     
     private float _luggageAv = 0;
     
-    // Coef Difficulty = Mathf.Pow(_coefficientDiffiCulty, _mileStoneIndex)
     private int _mileStoneIndex = 0;
-    private float _coefficientDiffiCulty = 2.15f;
+    private float _coefficientDiffiCulty = 2f;
     
     private LuggageHandler _luggageHandler;
     
-    // TODO : reset _Action value when the player is at a MileStone (After Update the Score)
+    // TODO : reset _ActionValue when the player is at a MileStone (After Update the Score)
     // TODO : Update _mileStoneIndex 
     // TODO : Update Finish Calculate the _avForNextMileStone ? 
     

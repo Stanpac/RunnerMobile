@@ -16,7 +16,7 @@ public class TileCardCategories : ScriptableObject
 {
     public Category[] _categories = Array.Empty<Category>();
     
-    public void Clear() => this._categories = Array.Empty<Category>();
+    public void Clear() => _categories = Array.Empty<Category>();
     
     public float GetAllWeightsInCategory(Category category)
     {
@@ -49,13 +49,13 @@ public class TileCardCategories : ScriptableObject
     public void OnValidate()
     {
         for (int i = 0; i < _categories.Length; ++i) {
-            Category category = this._categories[i];
+            Category category = _categories[i];
             if (category.weight <= 0.0)
                 Debug.LogErrorFormat("'{0}' in '{1}' has no weight!", category.name, this);
             for (int j = 0; j < category.cards.Length; ++j) {
                 TileCard card = category.cards[j];
                 if (card._weight <= 0.0)
-                    Debug.LogErrorFormat("'{0}' in '{1}' has no weight!", card._tilePrefab.name, this);
+                    Debug.LogErrorFormat("'{0}' in '{1}' has no weight!", card._roadTilePrefab.name, this);
             }
         }
     }

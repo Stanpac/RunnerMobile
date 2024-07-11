@@ -398,7 +398,7 @@ Transform:
   m_GameObject: {fileID: 1933105409}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.15013099, y: -6.352354, z: -0.0978775}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -413,10 +413,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1933105409}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3a79da2e639401fb9881e2df69a2d62, type: 3}
+  m_Script: {fileID: 11500000, guid: ac233c78007549f4a03ff4c3136172c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tileManager: {fileID: 11400000, guid: d873301033f7cf0438d11b038bfa7fa0, type: 2}
+  _creditsAvailable: 0
+  _skipSpawnIfTooCheap: 1
+  _maxConsecutiveCheapSkips: 2147483647
+  _resetTilerCardIfFailed: 1
+  _tileCards: {fileID: 11400000, guid: f11d85aaec1d45044a2227e5ebc21581, type: 2}
+  _currentTileCard: {fileID: 0}
+  _distanceOfGeneration: 100
+  _safeCounterMax: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

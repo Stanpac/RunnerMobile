@@ -31,8 +31,21 @@ public class GameManager : MonoBehaviour
     public PlayerManager playerManager {get; private set;}
     public TimerManager timerManager {get; private set;}
     public ScoreManager scoreManager {get; private set;}
-    public TileManager tileManager {get; set;}
     
+    // Tile Generator 
+    private TileCardGenerator tileManager;
+    public TileCardGenerator TileManager {
+        
+        get => tileManager;
+        set
+        {
+            if (tileManager != null) {
+                Debug.LogErrorFormat("there is already a tileManager in the GameManager");
+                return;
+            }
+            tileManager = value;
+        }
+    }
     
     private void OnEnable()
     {
@@ -51,7 +64,7 @@ public class GameManager : MonoBehaviour
         Instance = null;
     }
     
-    private void Awake()
+    private void Start()
     {
         // Init Managers
         actionManager = new ActionManager();
@@ -65,6 +78,7 @@ public class GameManager : MonoBehaviour
         timerManager = gameObject.AddComponent<TimerManager>();
         
         uiManager = FindObjectOfType<UIManager>();
+        uiManager.enabled = true;
         
         LoadData();
     }
