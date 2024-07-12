@@ -4,13 +4,13 @@ using UnityEngine;
 // Tool Selection of a weighted list of choices
 public class WeightedSelection<T>
 {
-    [SerializeField] [HideInInspector] 
-    public WeightedSelection<T>.ChoiceInfo[] Choices;
+    [SerializeField]  
+    public ChoiceInfo[] Choices;
     
-    [SerializeField] [HideInInspector] 
+    [SerializeField]  
     private int _count;
 
-    [SerializeField] [HideInInspector] 
+    [SerializeField]  
     private float _totalWeight;
 
     private const int MinCapacity = 8;

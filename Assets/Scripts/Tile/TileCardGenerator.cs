@@ -30,6 +30,7 @@ public class TileCardGenerator : MonoBehaviour
     private float _distanceOfDestruction;
     
     public int _safeCounterMax = 200;
+    
     private void OnEnable()
     {
         if (GameManager.Instance != null)
@@ -46,38 +47,25 @@ public class TileCardGenerator : MonoBehaviour
     {
         get
         {
-            WeightedSelection<TileCard> monsterCardsSelection = _tileCardsSelection;
-            if (monsterCardsSelection != null)
-                return monsterCardsSelection;
+            WeightedSelection<TileCard> tileCardsSelection = _tileCardsSelection;
+            if (tileCardsSelection != null)
+                return tileCardsSelection;
             
             // TODO : Change return type can't be null
             return null;
         }
     }
     
-    private TileCardCategories TileCards
-    {
-        get => _tileCards;
-        set
-        {
-            if (!(_tileCards != value))
-                return;
-            _tileCards = value;
-            _tileCardsSelection = _tileCards?.GenerateTileCardWeightedSelection();
-        }
-    }
-    
-    
     private void Awake()
     {
         // TODO Initial Credits ?
-        
+        _creditsAvailable = 1;
         _distanceOfDestruction = _distanceOfGeneration * 1.1f;
         
         // Generate the selection of tile cards
         _tileCardsSelection = _tileCards?.GenerateTileCardWeightedSelection();
     }
-
+    
     private void Start()
     {
         int safeCounter = 0;
@@ -91,7 +79,7 @@ public class TileCardGenerator : MonoBehaviour
         }
     }
     
-
+    
     private void FixedUpdate()
     {
         int safeCounter = 0;
@@ -110,7 +98,8 @@ public class TileCardGenerator : MonoBehaviour
            _allSpawnedTilesSpawned.RemoveAt(0);
         }
     }
-
+    
+    
     public void GenerateTileCard()
     {
         Transform targetTransform = transform;
@@ -128,8 +117,6 @@ public class TileCardGenerator : MonoBehaviour
             }
         }
     }
-    
-    public void OverrideCurrentTileCard(TileCard overrideTileCard) => PrepareNewTileCard(overrideTileCard);
     
     private void PrepareNewTileCard(TileCard overrideTileCard)
     {

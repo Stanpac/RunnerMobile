@@ -27,6 +27,7 @@ public class TileCardCategories : ScriptableObject
         return num;
         
     }
+    
     public WeightedSelection<TileCard> GenerateTileCardWeightedSelection()
     {
         WeightedSelection<TileCard> weightedSelection = new WeightedSelection<TileCard>();
