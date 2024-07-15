@@ -3,7 +3,12 @@ guid: d6492bb19ac36634ca1e3f7d4e156db6
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Ballon_De_Plage
+    second: {fileID: 2100000, guid: df701ea7946f1ca4dbcdde6947b6a0be, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
