@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -7,29 +8,41 @@ using UnityEngine.Serialization;
 
 public class TileCardGenerator : MonoBehaviour
 {
-    public float _creditsAvailable;
-    
-    public bool _skipSpawnIfTooCheap = true;
+    [SerializeField][BoxGroup("Credits")]
+    private float _creditsAvailable;
+    [SerializeField][BoxGroup("Credits")]
+    private float _initialCredits = 1;
+    [SerializeField][BoxGroup("Credits")]
+    private bool _skipSpawnIfTooCheap = true;
+    [SerializeField][BoxGroup("Credits")]
+    private int _maximumNumberMultiplicatorBeforeConsideredCheap = 6;
     private int _consecutiveCheapSkips;
-    public int _maxConsecutiveCheapSkips = int.MaxValue;
+    private int _maxConsecutiveCheapSkips = int.MaxValue;
     
-    public bool _resetTilerCardIfFailed = true;
+    [SerializeField][BoxGroup("TileCard")]
+    private bool _resetTilerCardIfFailed = true;
     
-    public TileCardCategories _tileCards;
+    [SerializeField][BoxGroup("TileCard")]
+    private TileCardCategories _tileCards;
     
-    public TileCard _currentTileCard;
+    [SerializeField, ReadOnly][BoxGroup("TileCard")]
+    private TileCard _currentTileCard;
     
-    public TileCard LastAttemptedTileCard { get; set; }
+    private TileCard LastAttemptedTileCard { get; set; }
     
     private WeightedSelection<TileCard> _tileCardsSelection;
     
+    [SerializeField, ReadOnly][BoxGroup("Tiles")]
     private GameObject _previousTileSpawned;
+    [SerializeField, ReadOnly][BoxGroup("Tiles")]
     private List<GameObject> _allSpawnedTilesSpawned = new List<GameObject>();
 
-    public  float _distanceOfGeneration = 100.0f; 
+    [SerializeField][BoxGroup("Generation Parameters")]
+    private  float _distanceOfGeneration = 100.0f; 
     private float _distanceOfDestruction;
     
-    public int _safeCounterMax = 200;
+    [SerializeField][BoxGroup("SafeCounter")]
+    private int _safeCounterMax = 200;
     
     private void OnEnable()
     {
@@ -58,12 +71,10 @@ public class TileCardGenerator : MonoBehaviour
     
     private void Awake()
     {
-        // TODO Initial Credits ?
-        _creditsAvailable = 1;
+        _creditsAvailable = _initialCredits;
         _distanceOfDestruction = _distanceOfGeneration * 1.1f;
         
-        // Generate the selection of tile cards
-        _tileCardsSelection = _tileCards?.GenerateTileCardWeightedSelection();
+        _tileCardsSelection = _tileCards?.GenerateTileCardWeightedSelectionAffordable(_creditsAvailable);
     }
     
     private void Start()
@@ -120,7 +131,7 @@ public class TileCardGenerator : MonoBehaviour
     
     private void PrepareNewTileCard(TileCard overrideTileCard)
     {
-        Debug.LogFormat("Preparing Tile Card {0}", overrideTileCard._roadTilePrefab);
+        Debug.LogFormat("Preparing Tile Card {0}", overrideTileCard.RoadTilePrefab);
         _currentTileCard = overrideTileCard;
         LastAttemptedTileCard = _currentTileCard;
     }
@@ -133,7 +144,7 @@ public class TileCardGenerator : MonoBehaviour
             var a = 0;
             for (var i = 0; i < FinalTileCardsSelection.Count; ++i) {
                 var tileCard = FinalTileCardsSelection.GetChoice(i).value;
-                var b = tileCard._creditsCount;
+                var b = tileCard.CreditsCount;
                 a = Mathf.Max(a, b);
             }
 
@@ -143,6 +154,7 @@ public class TileCardGenerator : MonoBehaviour
 
     private bool AttemptSpawnOnTarget(Transform spawnTarget)
     {
+        // TODO : rewrite this function because No 
         if (_currentTileCard == null) {
             Debug.Log("No TileCard Selected, pick new one.");
             if (FinalTileCardsSelection == null) 
@@ -150,18 +162,21 @@ public class TileCardGenerator : MonoBehaviour
             PrepareNewTileCard(FinalTileCardsSelection.Evaluate());
         }
         
-        if (_creditsAvailable <= _currentTileCard._creditsCount) {
-            Debug.LogFormat("Spawn card {0} is too expensive, aborting spawn.", _currentTileCard._roadTilePrefab);
+        if (_creditsAvailable < _currentTileCard.CreditsCount) {
+            Debug.LogFormat("Spawn card {0} is too expensive, aborting spawn.", _currentTileCard.RoadTilePrefab);
             return false;
         }
 
-        if (_skipSpawnIfTooCheap && _consecutiveCheapSkips < _maxConsecutiveCheapSkips) {
-            Debug.LogFormat("Card {0} seems too cheap. Comparing against most expensive possible ({3})",
-                _currentTileCard._roadTilePrefab, MostExpensiveTileCostInDeck);
+        if (_skipSpawnIfTooCheap 
+            && _consecutiveCheapSkips < _maxConsecutiveCheapSkips
+            && _currentTileCard.CreditsCount * _maximumNumberMultiplicatorBeforeConsideredCheap < _creditsAvailable) 
+        {
+            Debug.LogFormat("Card {0} seems too cheap. Comparing against most expensive possible ({1})", 
+                _currentTileCard.RoadTilePrefab, MostExpensiveTileCostInDeck);
             
-            if (MostExpensiveTileCostInDeck > _currentTileCard._creditsCount) {
+            if (MostExpensiveTileCostInDeck > _currentTileCard.CreditsCount) {
                 ++_consecutiveCheapSkips;
-                Debug.LogFormat("Card {0} is too cheap, skipping.", _currentTileCard._roadTilePrefab);
+                Debug.LogFormat("Card {0} is too cheap, skipping.", _currentTileCard.RoadTilePrefab);
                 return false;
             }
         }
@@ -169,9 +184,9 @@ public class TileCardGenerator : MonoBehaviour
         var spawnCard = _currentTileCard;
         
         // try to recup the collider of the tile
-        Collider collider = spawnCard._roadTilePrefab.GetComponent<Collider>();
+        Collider collider = spawnCard.RoadTilePrefab.GetComponent<Collider>();
         if (collider == null) {
-            collider = spawnCard._roadTilePrefab.GetComponentInChildren<Collider>();
+            collider = spawnCard.RoadTilePrefab.GetComponentInChildren<Collider>();
         }
         
         if (collider == null) {
@@ -189,12 +204,25 @@ public class TileCardGenerator : MonoBehaviour
         if (!Spawn(spawnCard, spawnTarget1)) {
             return false;
         }
-        _creditsAvailable -= _currentTileCard._creditsCount;
+        _creditsAvailable -= _currentTileCard.CreditsCount;
         _consecutiveCheapSkips = 0;
         AddCreditsAfterSpawn();
+        GenerateWeightedSelectionWeCanBuy();
         return true;
     }
-    
+
+    private void GenerateWeightedSelectionWeCanBuy()
+    {
+        WeightedSelection<TileCard> weightedSelection = _tileCards.GenerateTileCardWeightedSelection();
+        _tileCardsSelection = new WeightedSelection<TileCard>();
+        for (int i = 0; i < weightedSelection.Count; ++i) {
+            TileCard tileCard = weightedSelection.GetChoice(i).value;
+            if (tileCard.CreditsCount <= _creditsAvailable) {
+                _tileCardsSelection.AddChoice(tileCard, tileCard.Weight);
+            }
+        }
+    }
+
     public bool Spawn(TileCard spawnCard, Transform spawnTarget)
     {
         GameObject roadTile = null;
@@ -211,6 +239,8 @@ public class TileCardGenerator : MonoBehaviour
     
     private void AddCreditsAfterSpawn()
     {
+        Debug.LogFormat("Adding Credits after spawn {0}", GameManager.Instance.scoreManager.GetCoefDifficulty());
         _creditsAvailable += GameManager.Instance.scoreManager.GetCoefDifficulty();
+        Debug.LogFormat("Credits Available now : {0}", _creditsAvailable);
     }
 }

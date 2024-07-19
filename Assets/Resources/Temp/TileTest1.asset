@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _roadTilePrefab: {fileID: 7227870716385708482, guid: a61bc51d08a5d9a4eaa8450526e16e87,
     type: 3}
-  _creditsCount: 0
+  _creditsCount: 1
   _weight: 0.5

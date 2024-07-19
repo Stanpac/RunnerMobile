@@ -5,7 +5,7 @@ using UnityEngine;
 public class WeightedSelection<T>
 {
     [SerializeField]  
-    public ChoiceInfo[] Choices;
+    private ChoiceInfo[] Choices;
     
     [SerializeField]  
     private int _count;
@@ -14,7 +14,7 @@ public class WeightedSelection<T>
     private float _totalWeight;
 
     private const int MinCapacity = 8;
-
+    
     public int Count
     {
         get => _count;
