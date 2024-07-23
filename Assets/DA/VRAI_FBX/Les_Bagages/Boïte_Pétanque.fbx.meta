@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9cfc1a9c8cbb48d47926f099a071da42
+guid: 6fe42e71b38c5b345a004c78477d178f
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: M_Atlas
-    second: {fileID: 2100000, guid: df701ea7946f1ca4dbcdde6947b6a0be, type: 2}
+      name: "Bo\xEFte_P\xE9tanque"
+    second: {fileID: 2100000, guid: b2aa8336668222a4ab805d11f81f6eb4, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

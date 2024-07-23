@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9cfc1a9c8cbb48d47926f099a071da42
+guid: 51fdfdc86b149134b90f52b36876cb61
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,7 +7,7 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: M_Atlas
+      name: Parapluie
     second: {fileID: 2100000, guid: df701ea7946f1ca4dbcdde6947b6a0be, type: 2}
   materials:
     materialImportMode: 2
