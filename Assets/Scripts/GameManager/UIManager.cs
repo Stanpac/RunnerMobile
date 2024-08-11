@@ -66,6 +66,8 @@ public class UIManager : MonoBehaviour
     private void GameStateChange(EGameState PreviousGameState ,EGameState NewGameState)
     {
         switch (PreviousGameState) {
+            case EGameState.GS_loadding:
+                break;
             case EGameState.GS_StartMenu:
                 SetStartMenuActive(false);
                 break;

@@ -5,9 +5,8 @@ using Lean.Touch;
 using NaughtyAttributes;
 
 
-public class ActionManager : MonoBehaviour
+public class ActionManager 
 {
-    
     // Finger
     public Action<LeanFinger> OnLastFingerUp;
     public Action<LeanFinger> OnFirstFingerDown;

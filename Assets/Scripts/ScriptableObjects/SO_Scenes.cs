@@ -18,7 +18,7 @@ namespace ScriptableObjects
         [Scene] public string scene;
     }
     
-    [CreateAssetMenu(fileName = "SO_Scenes", menuName = "ScriptableObjects/Scenes", order = 0)]
+    [CreateAssetMenu(fileName = "SO_Scenes", menuName = "RoadTrip/ScriptableObjects/Scenes", order = 0)]
     public class SO_Scenes : ScriptableObject
     {
         [SerializeField, BoxGroup("Scene")] 

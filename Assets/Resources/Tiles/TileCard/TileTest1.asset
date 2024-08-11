@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5047574c9c43169591a7b390651fb6, type: 3}
-  m_Name: SO_Scenes
+  m_Script: {fileID: 11500000, guid: 172ae52d6f0044a1ac2eb9b2e17cd595, type: 3}
+  m_Name: TileTest1
   m_EditorClassIdentifier: 
-  scenes:
-  - SceneType: 0
-    scene: S_StartScene
-  - SceneType: 1
-    scene: S_GameScene
+  _Prefab: {fileID: 0}
+  _creditsCount: 1
+  _weight: 0.8

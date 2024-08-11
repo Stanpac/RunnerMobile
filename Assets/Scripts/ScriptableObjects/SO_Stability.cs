@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "SO_Stability", menuName = "ScriptableObjects/Stability", order = 0)]
+    [CreateAssetMenu(fileName = "SO_Stability", menuName = "RoadTrip/ScriptableObjects/Stability", order = 0)]
     public class SO_Stability : ScriptableObject
     {
         [SerializeField, BoxGroup("Instability"),Range(0, 1)] 
@@ -15,9 +15,11 @@ namespace ScriptableObjects
         [Tooltip("The % at which the stability is outside the limit and the player is considered unstable")]
         public AnimationCurve instabilityInputTimeCurve;
         
+        [FormerlySerializedAs("timeForReachMaxInputinstability")]
+        [FormerlySerializedAs("timeForReachMaxinstability")]
         [SerializeField, BoxGroup("Instability"), MinValue(0)] 
         [Tooltip("time in seconds to reach the max instability based on the Curve Value, 0 means instant")]
-        public float timeForReachMaxinstability = 3;
+        public float timeForReachMaxInputInstability = 2;
         
     }
     

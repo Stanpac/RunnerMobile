@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
-public class GameStateManager : MonoBehaviour
+public class GameStateManager
 {
     public EGameState CurrentGameState { get; private set; }
     
-    private void Awake()
+    public GameStateManager()
     {
-        SetGameState(EGameState.GS_StartMenu);
+        SetGameState(EGameState.GS_loadding);
     }
     
     public void SetGameState(EGameState gameState)
@@ -19,6 +19,7 @@ public class GameStateManager : MonoBehaviour
 
 public enum EGameState
 {
+    GS_loadding,
     GS_StartMenu,
     GS_Game,
     GS_Pause,

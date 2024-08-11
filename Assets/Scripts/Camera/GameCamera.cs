@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 
+// TODO Old script need to be Destroy ?
 public class GameCamera : MonoBehaviour
 { 
     public Transform _target {get; set;}

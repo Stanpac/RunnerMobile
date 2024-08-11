@@ -11,8 +11,7 @@ using UnityEngine.Serialization;
 // This script is responsible for managing the game.
 public class GameManager : MonoBehaviour
 {
-    private static GameManager _instance;
-    public static GameManager Instance => _instance;
+    public static GameManager Instance { get; private set; }
     
     [BoxGroup("Camera")] 
     public CinemachineVirtualCamera _virtualCamera;
@@ -20,40 +19,73 @@ public class GameManager : MonoBehaviour
     [SerializeField, BoxGroup("StartParameters")]
     private float _startImpulsionForce = 10;
     
+    [SerializeField, BoxGroup("Player")]
+    private CarController _player;
+    
     // Manager for the game
     public ActionManager actionManager {get; private set;}
     public UIManager uiManager {get; private set;}
     public InputManager inputManager {get; private set;}
-    public SaveDataManager saveDataManager {get; private set;}
     public GameStateManager gameStateManager {get; private set;}
     public MySceneManager mySceneManager {get; private set;}
     public PlayerManager playerManager {get; private set;}
     public TimerManager timerManager {get; private set;}
-    public TileManager tileManager {get; set;}
+    public ScoreManager scoreManager {get; private set;}
     
-    private void Awake()
-    {
-        if (_instance == null) {
-            _instance = this;
-        } else {
-            Destroy(gameObject);
+    // Tile Generator 
+    private TileCardGenerator tileManager;
+    public TileCardGenerator TileManager {
+        
+        get => tileManager;
+        set
+        {
+            if (tileManager != null) {
+                Debug.LogErrorFormat("there is already a tileManager in the GameManager");
+                return;
+            }
+            tileManager = value;
         }
+    }
+    
+    private void OnEnable()
+    {
+        if (!Instance) {
+            Instance = this;
+        } else {
+            Debug.LogErrorFormat(this, "Duplicate instance of singleton class {0}. Only one should exist at a time.", GetType().Name);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (Instance != this)
+            return;
         
-        // Instantiate All the Managers for the game
-        saveDataManager = GetComponent<SaveDataManager>();
-        
-        actionManager = gameObject.AddComponent<ActionManager>();
-        inputManager = gameObject.AddComponent<InputManager>();
-        gameStateManager = gameObject.AddComponent<GameStateManager>();
+        Instance = null;
+    }
+    
+    private void Start()
+    {
+        // Init Managers
+        actionManager = new ActionManager();
+        inputManager = new InputManager();
+        gameStateManager = new GameStateManager();
+        mySceneManager = new MySceneManager();
+        playerManager = new PlayerManager();
+        scoreManager = new ScoreManager();
         
         timerManager = gameObject.AddComponent<TimerManager>();
-        mySceneManager = gameObject.AddComponent<MySceneManager>();
         
         uiManager = FindObjectOfType<UIManager>();
+        uiManager.enabled = true;
         
-        // load the save data
-        playerManager = gameObject.AddComponent<PlayerManager>();
-        playerManager._currentPlayerPrefab = saveDataManager._currentSoSave.player;
+        LoadData();
+    }
+
+    private void LoadData()
+    {
+        playerManager._carPrefab = _player;
+        gameStateManager.SetGameState(EGameState.GS_StartMenu);
     }
     
     public void StartGame()
@@ -81,6 +113,7 @@ public class GameManager : MonoBehaviour
         mySceneManager.UnloadGameScene();
         gameStateManager.SetGameState(EGameState.GS_StartMenu);
     }
+    
     
     
 }

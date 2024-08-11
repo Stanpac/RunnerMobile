@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "SO_CarController", menuName = "ScriptableObjects/CarController", order = 0)]
+    [CreateAssetMenu(fileName = "SO_CarController", menuName = "RoadTrip/ScriptableObjects/CarController", order = 0)]
     public class SO_CarController : ScriptableObject
     {
         [SerializeField, BoxGroup("Speed Settings")]
@@ -24,10 +24,6 @@ namespace ScriptableObjects
         public float maxRotation = 45;
         
         [SerializeField, BoxGroup("Rotation Control Settings")]
-        [Tooltip("The min rotation of the car that impact stability. (need to be lower than angleMaxRotation)")]
-        public float angleMinforStabilityImpact = 30;
-        
-        [SerializeField, BoxGroup("Rotation Control Settings")]
         [Tooltip("The time for the wheels to reach AngleMaxrotation")]
         public float timeForMaxRotation = 1f;
         
@@ -41,10 +37,20 @@ namespace ScriptableObjects
         
         [SerializeField, BoxGroup("Rotation physics Settings")] 
         [Tooltip("The max angle of the car relative to the World Up Vector")]
-        public float angleUpMaxRotation  = 45f;
+        public float angleUpMaxRotation = 20f;
         
         [SerializeField, BoxGroup("Rotation physics Settings")] 
-        [Tooltip(" at which speed the car will rotate to the max angleUpMaxRotation")]
+        [Tooltip(" at which speed the car will rotate to reach the max angleUpMaxRotation")]
         public float speedOfTheRotation = 5f;
+        
+        [SerializeField, BoxGroup("Wheight Curve Settings")]
+        [Tooltip("The Wheight Multiplicator apply to the rotation input relative to the % of the max luggage," +
+                 "if the amount of Wheight is > wheightMaxForCurve the multiplicator will be the same as if the Wheight is at wheightMaxForCurve")]
+        public AnimationCurve wheightCurve;
+        
+        [SerializeField, BoxGroup("Wheight Curve Settings")]
+        [Tooltip(" The max Wheight for the curve to be applied. (wheightMaxForCurve is normalized at 1 on the Curve)")]
+        public int wheightMaxForCurve = 100;
+        
     }
 }
