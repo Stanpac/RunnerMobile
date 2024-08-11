@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "SO_Stability", menuName = "ScriptableObjects/Stability", order = 0)]
+    [CreateAssetMenu(fileName = "SO_Stability", menuName = "RoadTrip/ScriptableObjects/Stability", order = 0)]
     public class SO_Stability : ScriptableObject
     {
         [SerializeField, BoxGroup("Instability"),Range(0, 1)] 

@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 public class TileCard : ScriptableObject
 {
     [SerializeField]
-    private GameObject _roadTilePrefab;
+    private GameObject _Prefab;
     
     [SerializeField]
     private int _creditsCount;
@@ -15,29 +15,27 @@ public class TileCard : ScriptableObject
     [SerializeField]
     private float _weight;
     
-    public GameObject RoadTilePrefab => _roadTilePrefab;
+    public GameObject Prefab => _Prefab;
     
     public int CreditsCount => _creditsCount;
     
     public float Weight => _weight;
     
     // Spawn a tile at the given position and rotation 
-    protected void Spawn(Vector3 position, Quaternion rotation, ref TileCard.SpawnResult spawnResult)
+    protected void Spawn(Vector3 position, Quaternion rotation, ref TileCard.SpawnResult spawnResult, Transform parent = null)
     {
-        GameObject gameObject = Instantiate<GameObject>(_roadTilePrefab, position, rotation);
+        GameObject gameObject = Instantiate<GameObject>(_Prefab, position, rotation, parent);
+        spawnResult.position = position;
+        spawnResult.rotation = rotation;
         spawnResult.spawnedInstance = gameObject;
         spawnResult.success = true;
     }
     
     // Request to spawn a tile at the given position and rotation 
-    public SpawnResult DoSpawn(Vector3 position, Quaternion rotation)
+    public SpawnResult DoSpawn(Vector3 position, Quaternion rotation, Transform parent = null)
     {
-        SpawnResult spawnResult = new SpawnResult() {
-            position = position,
-            rotation = rotation
-        };
-        
-        Spawn(position, rotation, ref spawnResult);
+        SpawnResult spawnResult = new SpawnResult();
+        Spawn(position, rotation, ref spawnResult, parent);
         return spawnResult;
     }
     

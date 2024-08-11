@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "SO_RaycastSuspension", menuName = "ScriptableObjects/RaycastSuspension", order = 0)]
+    [CreateAssetMenu(fileName = "SO_RaycastSuspension", menuName = "RoadTrip/ScriptableObjects/RaycastSuspension", order = 0)]
     public class SO_RaycastSuspension : ScriptableObject
     {
         [SerializeField, BoxGroup("Suspension Settings")]

@@ -84,7 +84,7 @@ public class TileCardCategories : ScriptableObject
             for (int j = 0; j < category.cards.Length; ++j) {
                 TileCard card = category.cards[j];
                 if (card.Weight <= 0.0)
-                    Debug.LogErrorFormat("'{0}' in '{1}' has no weight!", card.RoadTilePrefab.name, this);
+                    Debug.LogErrorFormat("'{0}' in '{1}' has no weight!", card.Prefab.name, this);
                 
                 
             }
