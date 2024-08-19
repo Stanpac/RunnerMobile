@@ -24,6 +24,9 @@ public class TileCardGenerator : MonoBehaviour
     private bool _resetTileCardIfFailed = true;
     
     [SerializeField][BoxGroup("TileCard")]
+    private bool _originAtCenter = true;
+    
+    [SerializeField][BoxGroup("TileCard")]
     private TileCardCategories _tileCards;
     
     [SerializeField, ReadOnly][BoxGroup("TileCard")]
@@ -206,26 +209,18 @@ public class TileCardGenerator : MonoBehaviour
         }
         
         var spawnCard = _currentTileCard;
-        
-        // try to recup the bounds of the tile
-        MeshRenderer meshRenderer = spawnCard.Prefab.GetComponent<MeshRenderer>();
-        if (meshRenderer == null) {
-            meshRenderer = spawnCard.Prefab.GetComponentInChildren<MeshRenderer>();
-        }
-        
-        if (meshRenderer == null) {
-            Debug.LogError("No Collider found in the TileCard");
-            return false;
-        }
-        
-        // Add Offset of the tile to spawn at the SpawnTarget
+
         Vector3 offsetposition = Vector3.zero;
-        offsetposition.z += meshRenderer.bounds.extents.z;
+        if (_previousTileSpawned != null) {
+            offsetposition.z += GetBoundsZ(_previousTileSpawned, _originAtCenter);
+        }
+        
+        if (_originAtCenter) {
+            offsetposition.z += GetBoundsZ(spawnCard.Prefab, true);
+        } 
         spawnTarget.position += offsetposition;
         
-        var spawnTarget1 = spawnTarget;
-        
-        if (!Spawn(spawnCard, spawnTarget1)) {
+        if (!Spawn(spawnCard, spawnTarget)) {
             return false;
         }
         _creditsAvailable -= _currentTileCard.CreditsCount;
@@ -233,6 +228,21 @@ public class TileCardGenerator : MonoBehaviour
         AddCreditsAfterSpawn();
         GenerateWeightedSelectionWeCanBuy();
         return true;
+    }
+    
+    public float GetBoundsZ(GameObject gameObject, bool Half = false)
+    {
+        MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
+        if (meshRenderer == null) {
+            meshRenderer = gameObject.GetComponentInChildren<MeshRenderer>();
+        }
+        
+        if (meshRenderer == null) {
+            Debug.LogErrorFormat("No MeshRenderer found in the TileCard");
+            return -1;
+        }
+        
+        return Half ? meshRenderer.bounds.extents.z : meshRenderer.bounds.size.z;
     }
 
     private void GenerateWeightedSelectionWeCanBuy()
