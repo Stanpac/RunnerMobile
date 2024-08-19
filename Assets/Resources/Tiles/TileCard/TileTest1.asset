@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 172ae52d6f0044a1ac2eb9b2e17cd595, type: 3}
   m_Name: TileTest1
   m_EditorClassIdentifier: 
-  _Prefab: {fileID: 0}
+  _Prefab: {fileID: 6162779418890332710, guid: 4894d923d0db12e46be138e6e43cc854, type: 3}
   _creditsCount: 1
   _weight: 0.8
