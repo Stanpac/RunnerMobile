@@ -88,7 +88,7 @@ Shader "HeightColor"
 
 		void surf( Input i , inout SurfaceOutputStandard o )
 		{
-			Gradient gradient3 = NewGradient( 0, 3, 2, float4( 0.6705883, 0.6095415, 0.2941177, 0.2588235 ), float4( 0.3310103, 0.5849056, 0.2234781, 0.7088273 ), float4( 0.05185444, 0.2735849, 0.02968139, 1 ), 0, 0, 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
+			Gradient gradient3 = NewGradient( 0, 3, 2, float4( 0.2745098, 0.1384442, 0.03137255, 0 ), float4( 0.5843138, 0.4292093, 0.2235294, 0.2500038 ), float4( 0.6705883, 0.6095415, 0.2941177, 0.7499962 ), 0, 0, 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
 			float3 ase_worldPos = i.worldPos;
 			o.Albedo = SampleGradient( gradient3, (0.0 + (ase_worldPos.y - _CouleurMin) * (1.0 - 0.0) / (_CouleurMax - _CouleurMin)) ).rgb;
 			o.Alpha = 1;
@@ -105,9 +105,9 @@ Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;0,0;Float;False;True;-1;2;A
 Node;AmplifyShaderEditor.GradientSampleNode;4;-350.4498,280.1869;Inherit;True;2;0;OBJECT;;False;1;FLOAT;0;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.TFHCRemapNode;2;-551.7659,439.6581;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;-1;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.WorldPosInputsNode;5;-755.686,307.1882;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.RangedFloatNode;7;-785.2166,586.613;Inherit;False;Property;_CouleurMax;CouleurMax;0;0;Create;True;0;0;0;False;0;False;10;5;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;6;-791.2166,482.613;Inherit;False;Property;_CouleurMin;CouleurMin;1;0;Create;True;0;0;0;False;0;False;-10;-5;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.GradientNode;3;-587.25,52.58688;Inherit;False;0;3;2;0.6705883,0.6095415,0.2941177,0.2588235;0.3310103,0.5849056,0.2234781,0.7088273;0.05185444,0.2735849,0.02968139,1;1,0;1,1;0;1;OBJECT;0
+Node;AmplifyShaderEditor.RangedFloatNode;7;-785.2166,586.613;Inherit;False;Property;_CouleurMax;CouleurMax;0;0;Create;True;0;0;0;False;0;False;10;4;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;6;-791.2166,482.613;Inherit;False;Property;_CouleurMin;CouleurMin;1;0;Create;True;0;0;0;False;0;False;-10;-4;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.GradientNode;3;-587.25,52.58688;Inherit;False;0;3;2;0.2745098,0.1384442,0.03137255,0;0.5843138,0.4292093,0.2235294,0.2500038;0.6705883,0.6095415,0.2941177,0.7499962;1,0;1,1;0;1;OBJECT;0
 WireConnection;0;0;4;0
 WireConnection;4;0;3;0
 WireConnection;4;1;2;0
@@ -115,4 +115,4 @@ WireConnection;2;0;5;2
 WireConnection;2;1;6;0
 WireConnection;2;2;7;0
 ASEEND*/
-//CHKSM=7C5B75A325B20046DA81EEC2CB034B3D26C5CC0E
+//CHKSM=68B343983673CD61104E7D602BB25BF094C0387A
