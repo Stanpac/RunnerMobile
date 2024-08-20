@@ -17,4 +17,17 @@ MonoBehaviour:
     weight: 10
     cards:
     - {fileID: 11400000, guid: 1dfadd101cddf904ea42a4358d232378, type: 2}
-  _globalWeight: 10
+    - {fileID: 11400000, guid: baeb6661df33bfe489a08ad5407c19ea, type: 2}
+  - name: Start
+    weight: 10
+    cards:
+    - {fileID: 11400000, guid: 1dfadd101cddf904ea42a4358d232378, type: 2}
+    - {fileID: 11400000, guid: baeb6661df33bfe489a08ad5407c19ea, type: 2}
+    - {fileID: 11400000, guid: 1dfadd101cddf904ea42a4358d232378, type: 2}
+  - name: Start
+    weight: 10
+    cards:
+    - {fileID: 11400000, guid: 1dfadd101cddf904ea42a4358d232378, type: 2}
+    - {fileID: 11400000, guid: baeb6661df33bfe489a08ad5407c19ea, type: 2}
+    - {fileID: 11400000, guid: 1dfadd101cddf904ea42a4358d232378, type: 2}
+  _globalWeight: 30
