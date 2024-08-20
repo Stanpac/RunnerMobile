@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 172ae52d6f0044a1ac2eb9b2e17cd595, type: 3}
-  m_Name: TileTest2
+  m_Script: {fileID: 11500000, guid: e7ec1a53f4b6464191bb1fe1e9655389, type: 3}
+  m_Name: ArakaCube2
   m_EditorClassIdentifier: 
-  _Prefab: {fileID: 3105149643010919901, guid: bd30c179ad0f34e40bb8e03e5e4c0ee4, type: 3}
-  _creditsCount: 1
-  _weight: 0.8
+  _prefab: {fileID: 3511086335058394465, guid: 76ddec7f96ac9fd49b9bece402560504, type: 3}
+  _name: ArakaCube2
+  _weight: 5
+  _stability: 2

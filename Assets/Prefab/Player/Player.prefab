@@ -84,31 +84,6 @@ MonoBehaviour:
   _showDebug: 1
   _raylength: 2
   _showWheelsDebug: 1
-  _wheightCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 2
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  luggageMaxforCurve: 20
 --- !u!114 &4897618936823043774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,6 +97,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _data: {fileID: 11400000, guid: 8d8437647b7191f4084b5327fc9cb83f, type: 2}
+  _stabilityInput: 1
+  _stabilityRotation: 1
+  _stabilityEvent: 1
+  _maxRotationZ: 20
+  _multiplicator: 1
   _stability: 0
 --- !u!114 &3768410218390227484
 MonoBehaviour:
@@ -136,7 +116,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _timeBeforeLosingBaggage: 1
-  _startluggage: 19
+  _nbrOfLuggageAtStart: 10
+  _currentWeight: 0
 --- !u!1 &608574279817800518
 GameObject:
   m_ObjectHideFlags: 0

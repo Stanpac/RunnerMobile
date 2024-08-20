@@ -89,9 +89,9 @@ public class CarController : MonoBehaviour
         return _rotationAngle;
     }
     
-    private void UpdateWeightMultiplicator(int luggage)
+    private void UpdateWeightMultiplicator(float luggage)
     {
-        float NormalizedLuaggage = luggage > _data.wheightMaxForCurve ? 1 : (float)luggage / _data.wheightMaxForCurve;
+        float NormalizedLuaggage = luggage > _data.wheightMaxForCurve ? 1 : luggage / _data.wheightMaxForCurve;
         _weightmultiplicator = _data.wheightCurve.Evaluate(NormalizedLuaggage);
     }
 
@@ -149,6 +149,7 @@ public class CarController : MonoBehaviour
 
     private void OnDisable()
     {
+        if (GameManager.Instance == null) return;
         GameManager.Instance.actionManager.OnFingerDown -= OnFingerDown;
         GameManager.Instance.actionManager.OnFirstFingerDown -= OnFingerDown;
         GameManager.Instance.actionManager.OnLastFingerUp -= OnLastFingerUp;

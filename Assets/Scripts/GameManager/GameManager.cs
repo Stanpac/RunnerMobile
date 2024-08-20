@@ -22,6 +22,14 @@ public class GameManager : MonoBehaviour
     [SerializeField, BoxGroup("Player")]
     private CarController _player;
     
+    [SerializeField, BoxGroup("AllLuggage")]
+    private LuggageCategories _luggageCategories;
+    
+    [SerializeField, ReadOnly]
+    private bool _newGame = true;
+    public bool NewGame => _newGame;
+    public LuggageCategories LuggageCategories => _luggageCategories;
+    
     // Manager for the game
     public ActionManager actionManager {get; private set;}
     public UIManager uiManager {get; private set;}

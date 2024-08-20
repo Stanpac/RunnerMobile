@@ -32,7 +32,7 @@ public class ScoreManager
         }
         
         // TODO : Update the Calcul when the Weight is Add To the LuggageHandler (Now 1 luggage = 1 weight)
-        _score = _score + _actionValue + (_luggageAv * _luggageHandler.Luggage);
+        _score = _score + _actionValue + (_luggageAv * _luggageHandler.GetCurrentWeightInstead);
         
         // TODO : Event For Update Score on UI
     }
