@@ -420,12 +420,13 @@ MonoBehaviour:
   _initialCredits: 1
   _skipSpawnIfTooCheap: 1
   _maximumNumberMultiplicatorBeforeConsideredCheap: 6
-  _resetTilerCardIfFailed: 1
+  _resetTileCardIfFailed: 1
+  _originAtCenter: 1
   _tileCards: {fileID: 11400000, guid: f11d85aaec1d45044a2227e5ebc21581, type: 2}
   _currentTileCard: {fileID: 0}
   _previousTileSpawned: {fileID: 0}
   _allSpawnedTilesSpawned: []
-  _baseDistanceOfGeneration: 100
+  _baseDistanceOfGeneration: 300
   _safeCounterMax: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
