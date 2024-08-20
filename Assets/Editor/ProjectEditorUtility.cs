@@ -10,7 +10,7 @@ public static class ProjectEditorUtility
     public static readonly string TILEPREFABNAME = "BaseTilePrefab";
     public static readonly string TILEPREFABPATH = "Tiles/BaseTilePrefab";
     
-    [MenuItem("Assets/Create/RoadTrip/Tile/TilePrefab %t", priority = 1)]
+    [MenuItem("Assets/Create/RoadTrip/Tiles/TilePrefab %t", priority = 1)]
     private static void CreatTilePrefab()
     {
         var prefab = UnityEngine.Resources.Load(TILEPREFABPATH);

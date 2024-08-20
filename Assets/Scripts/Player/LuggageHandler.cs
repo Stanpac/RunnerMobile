@@ -1,57 +1,97 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using NaughtyAttributes;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 
 public class LuggageHandler : MonoBehaviour
 {
-    public float _timeBeforeLosingBaggage = 1.0f;
-    public int _startluggage = 20;
+    [SerializeField]
+    [Tooltip("all the current luggage of the player")]
+    private Luggagelibrary _luggageLibrary;
     
+    [SerializeField][BoxGroup("Parameters")]
+    private float _timeBeforeLosingBaggage = 1.0f;
+    
+    [SerializeField][BoxGroup("Parameters")]
+    private int _nbrOfLuggageAtStart = 10;
+    
+    [SerializeField][BoxGroup("Parameters")][ReadOnly]
+    private float _currentWeight = 0;
+    
+    // Timer key
     private string _timerUnstabilityKey;
-    private int _luggage = 0;
     
-    // TODO : WIP, need to be Remove for GetWeightInstead
-    public int Luggage => _luggage;
+    public float GetCurrentWeightInstead => _currentWeight;
     
     private void Awake()
     {
-        SetLuggage(_startluggage);
+        
     }
-
-    public void AddLuggage(int luggage)
+    
+    private void Start()
     {
-        _luggage += luggage;
+        if (GameManager.Instance.NewGame) {
+            _luggageLibrary = new Luggagelibrary(GameManager.Instance.LuggageCategories.GetAllLuggages());
+            _luggageLibrary.AddLuggages(GameManager.Instance.LuggageCategories.PickLuggages(_nbrOfLuggageAtStart));
+        } else {
+            // TODO : load the luggage library from the save
+        }
         LuggageIsUpdated();
     }
 
-    public void RemoveLuggage(int luggage)
+    // add specific luggage
+    public void AddLuggage(Luggage luggage, int count)
     {
-        _luggage -= luggage;
-        if (_luggage <= 0)  {
-            _luggage = 0;
-            GameManager.Instance.actionManager.PlayerDeath();
-        }
+        _luggageLibrary.AddLuggage(luggage, count);
+        LuggageIsUpdated();
+    }
+    
+    // add random luggage
+    public void AddRandomLuggage(int count)
+    {
+        _luggageLibrary.AddLuggages(GameManager.Instance.LuggageCategories.PickLuggages(count));
+        LuggageIsUpdated();
+    }
+    
+    // remove lowest stability luggage 
+    public void RemoveLowestStabilityLuggages(int count)
+    {
+        _luggageLibrary.RemoveLowestStabilityLuggages(count);
+        LuggageIsUpdated();
+    }
+    
+    // remove lowest stability luggage in a specific category
+    public void RemoveLuggageIn(string categoryName)
+    {
+        _luggageLibrary.RemoveLowestStabilityLuggageIn(categoryName);
         LuggageIsUpdated();
     }
     
     public void SetLuggage(int luggage)
     {
-        _luggage = luggage;
         LuggageIsUpdated();
+    }
+    
+    private void UpdateCurrentWeight()
+    {
+        _currentWeight = _luggageLibrary?.GetTotalWeight() ?? -1;
     }
     
     private void LuggageIsUpdated()
     {
-        GameManager.Instance.actionManager.LuggageChange(_luggage);
+        UpdateCurrentWeight();
+        GameManager.Instance.actionManager.LuggageChange(_currentWeight);
     }
     
     public IEnumerator TimerUnstability()
     {
         while (true) {
             yield return new WaitForSeconds(_timeBeforeLosingBaggage);
-            RemoveLuggage(1);
+            RemoveLowestStabilityLuggages(1);
         }
     }
     
@@ -76,35 +116,10 @@ public class LuggageHandler : MonoBehaviour
     {
         GameManager.Instance.actionManager.OnUnstableChange += OnUnstableChange;
     }
-    
+
     private void OnDisable()
     {
+        if (GameManager.Instance == null) return;
         GameManager.Instance.actionManager.OnUnstableChange -= OnUnstableChange;
     }
-}
-
-public struct SLugagge
-{
-    private string _name;
-    private SLuggageType _type;
-    private float _weight;
-    
-    SLugagge(string name, SLuggageType type, float weight)
-    {
-        _name = name;
-        _type = type;
-        _weight = weight;
-    }
-    
-    public string Name => _name;
-    public SLuggageType Type => _type;
-    public float Weight => _weight;
-}
-
-public enum SLuggageType
-{
-    Fragile,
-    Heavy,
-    Light,
-    Normal
 }

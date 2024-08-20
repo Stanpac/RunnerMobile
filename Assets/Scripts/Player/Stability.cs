@@ -227,6 +227,7 @@ public class Stability : MonoBehaviour
     
     private void OnDisable()
     {
+        if (GameManager.Instance == null) return;
         GameManager.Instance.actionManager.OnFingerDown -= OnFingerDown;
         GameManager.Instance.actionManager.OnFirstFingerDown -= OnFingerDown;
         GameManager.Instance.actionManager.OnLastFingerUp -= OnLastFingerUp;

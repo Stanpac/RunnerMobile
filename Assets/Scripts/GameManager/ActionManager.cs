@@ -20,7 +20,7 @@ public class ActionManager
     public Action <bool> OnUnstableChange;
     
     // Luggage
-    public Action<int> OnLuggageChange;
+    public Action<float> OnLuggageChange;
     
     // Player
     public Action OnPlayerDeath;
@@ -55,7 +55,7 @@ public class ActionManager
         OnStabilityChange?.Invoke(stability);
     }
     
-    public void LuggageChange(int luggage)
+    public void LuggageChange(float luggage)
     {
         OnLuggageChange?.Invoke(luggage);
     }

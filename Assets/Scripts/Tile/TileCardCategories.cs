@@ -3,20 +3,8 @@ using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-[Serializable]
-public struct Category
-{
-    [Tooltip("A name to help identify this category")]
-    public string name;
-    
-    [Tooltip("The weight of this category in the selection process")]
-    public float weight;
-    
-    [Tooltip("The cards in this category")]
-    public TileCard[] cards;
-}
 
-[CreateAssetMenu(menuName = "RoadTrip/Tile/TileCategories")]
+[CreateAssetMenu(menuName = "RoadTrip/Tiles/TileCategories")]
 public class TileCardCategories : ScriptableObject
 {
     public Category[] _categories = Array.Empty<Category>();
@@ -26,7 +14,7 @@ public class TileCardCategories : ScriptableObject
     
     public void Clear() => _categories = Array.Empty<Category>();
     
-    public float GetAllWeightsInCategory(Category category)
+    public float GetAllWeightsInCategory(TileCardCategories.Category category)
     {
         float num = 0.0f;
         for (int i = 0; i < category.cards.Length; ++i) {
@@ -92,5 +80,18 @@ public class TileCardCategories : ScriptableObject
         }
 
         _globalWeight = Weight;
+    }
+    
+    [Serializable]
+    public struct Category
+    {
+        [Tooltip("A name to help identify this category")]
+        public string name;
+    
+        [Tooltip("The weight of this category in the selection process")]
+        public float weight;
+    
+        [Tooltip("The cards in this category")]
+        public TileCard[] cards;
     }
 }

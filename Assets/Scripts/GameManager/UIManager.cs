@@ -34,8 +34,6 @@ public class UIManager : MonoBehaviour
     
     [SerializeField, BoxGroup("Debug")]
     private GameObject _debugUnstable;
-
-    //[SerializeField, BoxGroup("Gameplay")] private GameObject _WheelController;
     
     private void Awake()
     {
@@ -103,7 +101,7 @@ public class UIManager : MonoBehaviour
         _debugStability.text = "Stability: "  + stability.ToString();
     }
     
-    private void LuggageChange(int luggage)
+    private void LuggageChange(float luggage)
     {
         _debugLuggage.text = "Luggage: " + luggage.ToString();
     }
@@ -123,6 +121,7 @@ public class UIManager : MonoBehaviour
 
     private void OnDisable()
     {
+        if (GameManager.Instance == null) return;
         GameManager.Instance.actionManager.OnGameStateChange -= GameStateChange;
         GameManager.Instance.actionManager.OnStabilityChange -= StabilityChange;
         GameManager.Instance.actionManager.OnLuggageChange -= LuggageChange;
