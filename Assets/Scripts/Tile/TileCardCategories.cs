@@ -7,7 +7,8 @@ using UnityEngine.Serialization;
 [CreateAssetMenu(menuName = "RoadTrip/Tiles/TileCategories")]
 public class TileCardCategories : ScriptableObject
 {
-    public Category[] _categories = Array.Empty<Category>();
+    [SerializeField]
+    private Category[] _categories = Array.Empty<Category>();
 
     [ReadOnly, SerializeField]
     private float _globalWeight; 
