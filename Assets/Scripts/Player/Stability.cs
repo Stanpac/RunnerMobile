@@ -57,12 +57,12 @@ public class Stability : MonoBehaviour
     private string _timerFingerOffScreenKey;
     
     // Path to the Data
-    private string _dataPath => "ScriptableObject/SO_Stability";
+    private string DataPath => "ScriptableObject/SO_Stability";
     
     private void Awake()
     {
         if (_data == null)
-            _data = Resources.Load<SO_Stability>(_dataPath);
+            _data = Resources.Load<SO_Stability>(DataPath);
         
         _carController = GetComponent<CarController>();
         ResetStability();
@@ -75,7 +75,7 @@ public class Stability : MonoBehaviour
         
         CheckifUnstable();
         if (_previousStability != _stability) {
-            GameManager.Instance.actionManager.StabilityChange(_stability);
+            GameManager.Instance.ActionManager.InvokeStabilityUpdate(_stability);
         }
         _previousStability = _stability;
     }
@@ -87,7 +87,7 @@ public class Stability : MonoBehaviour
         float normalizedTimer = Mathf.Clamp01(Mathf.Abs(_timerFingerOnScreen / _data.timeForReachMaxInputInstability));
         float stability =_data.instabilityInputTimeCurve.Evaluate(normalizedTimer);
         
-        if (GameManager.Instance.inputManager.IsFingerOnScreen() && _currentfinger != null){
+        if (GameManager.Instance.InputManager.IsFingerOnScreen() && _currentfinger != null){
             if (_currentfinger.ScreenPosition.x > Screen.width / 2) {
                 _stabilityInputMultiplicator = 1;
             } else {
@@ -130,52 +130,52 @@ public class Stability : MonoBehaviour
     
     private void CheckifUnstable()
     {
-        bool CheckUpdate = _unstable;
+        bool checkUpdate = _unstable;
         if (_stability > _data.instabilityThreshold || _stability < -_data.instabilityThreshold) {
             _unstable = true;
         } else {
             _unstable = false;
         }
         
-        if (CheckUpdate != _unstable) {
-            GameManager.Instance.actionManager.UnstableChange(_unstable);
+        if (checkUpdate != _unstable) {
+            GameManager.Instance.ActionManager.InvokeUnstableUpdate(_unstable);
         }
     }
     
     private void ResetStability()
     {
         _stability = 0;
-        GameManager.Instance.actionManager.StabilityChange(_stability);
+        GameManager.Instance.ActionManager.InvokeStabilityUpdate(_stability);
     }
     
     public void ImpactStability(float value, EStabilityImpactSide side)
     {
-        if (side == EStabilityImpactSide.EIS_Left) {
+        if (side == EStabilityImpactSide.Left) {
             RemoveStability(value, false, true);
-        } else if (side == EStabilityImpactSide.EIS_Right) {
+        } else if (side == EStabilityImpactSide.Right) {
             AddStability(value, false, true);
         } else {
             Debug.LogError("No Side to impact specified");
         }
     }
     
-    private void AddStability(float value, bool ClampToZero, bool ClampToMax)
+    private void AddStability(float value, bool clampToZero, bool clampToMax)
     {
-        float NewStability = _stability + value > 0 && ClampToZero ? 0 : _stability + value;
-        NewStability = _stability > _maxStability && ClampToMax ? _maxStability : _stability;
-        _stability = NewStability;
+        float newStability = _stability + value > 0 && clampToZero ? 0 : _stability + value;
+        newStability = _stability > _maxStability && clampToMax ? _maxStability : _stability;
+        _stability = newStability;
     }
     
-    private void RemoveStability(float value, bool ClampToZero, bool ClampToMin)
+    private void RemoveStability(float value, bool clampToZero, bool clampToMin)
     {
-        float NewStability = _stability - value < 0 && ClampToZero ? 0 : _stability - value;
-        NewStability = _stability < _minStability && ClampToMin ? _minStability : _stability;
-        _stability = NewStability;
+        float newStability = _stability - value < 0 && clampToZero ? 0 : _stability - value;
+        newStability = _stability < _minStability && clampToMin ? _minStability : _stability;
+        _stability = newStability;
     }
     
     private IEnumerator TimerFingerOnScreen()
     {
-        while (GameManager.Instance.inputManager.IsFingerOnScreen()) {
+        while (GameManager.Instance.InputManager.IsFingerOnScreen()) {
             _timerFingerOnScreen += Time.deltaTime;
             _timerFingerOnScreen = Mathf.Clamp(_timerFingerOnScreen, 0 , _data.timeForReachMaxInputInstability);
             yield return new WaitForEndOfFrame();
@@ -184,7 +184,7 @@ public class Stability : MonoBehaviour
     
     private IEnumerator TimerFingerOffScreen()
     {
-        while (!GameManager.Instance.inputManager.IsFingerOnScreen()) {
+        while (!GameManager.Instance.InputManager.IsFingerOnScreen()) {
             _timerFingerOnScreen -= Time.deltaTime;
             _timerFingerOnScreen = Mathf.Clamp(_timerFingerOnScreen, 0 , _data.timeForReachMaxInputInstability); 
             yield return new WaitForEndOfFrame();
@@ -195,11 +195,11 @@ public class Stability : MonoBehaviour
     {
         if (finger.IsOverGui) return;
 
-        if (!GameManager.Instance.timerManager.IsTimerRunning(_timerFingerOnScreenKey))  {
-            if (GameManager.Instance.timerManager.IsTimerRunning(_timerFingerOffScreenKey)) {
-                GameManager.Instance.timerManager.StopTimer(_timerFingerOffScreenKey);
+        if (!GameManager.Instance.TimerManager.IsTimerRunning(_timerFingerOnScreenKey))  {
+            if (GameManager.Instance.TimerManager.IsTimerRunning(_timerFingerOffScreenKey)) {
+                GameManager.Instance.TimerManager.StopTimer(_timerFingerOffScreenKey);
             }
-            _timerFingerOnScreenKey = GameManager.Instance.timerManager.StartTimer(TimerFingerOnScreen());
+            _timerFingerOnScreenKey = GameManager.Instance.TimerManager.StartTimer(TimerFingerOnScreen());
         }
         
         if (_currentfinger == null || !_currentfinger.Set) {
@@ -210,35 +210,35 @@ public class Stability : MonoBehaviour
     private void OnLastFingerUp(LeanFinger finger)
     {
         _currentfinger = null;
-        if (!GameManager.Instance.timerManager.IsTimerRunning(_timerFingerOffScreenKey))  {
-            if (GameManager.Instance.timerManager.IsTimerRunning(_timerFingerOnScreenKey)) {
-                GameManager.Instance.timerManager.StopTimer(_timerFingerOnScreenKey);
+        if (!GameManager.Instance.TimerManager.IsTimerRunning(_timerFingerOffScreenKey))  {
+            if (GameManager.Instance.TimerManager.IsTimerRunning(_timerFingerOnScreenKey)) {
+                GameManager.Instance.TimerManager.StopTimer(_timerFingerOnScreenKey);
             }
-            _timerFingerOffScreenKey = GameManager.Instance.timerManager.StartTimer(TimerFingerOffScreen());
+            _timerFingerOffScreenKey = GameManager.Instance.TimerManager.StartTimer(TimerFingerOffScreen());
         }
     }
 
     private void OnEnable()
     {
-        GameManager.Instance.actionManager.OnFingerDown += OnFingerDown;
-        GameManager.Instance.actionManager.OnFirstFingerDown += OnFingerDown;
-        GameManager.Instance.actionManager.OnLastFingerUp += OnLastFingerUp;
+        GameManager.Instance.ActionManager.FingerDown += OnFingerDown;
+        GameManager.Instance.ActionManager.FirstFingerDown += OnFingerDown;
+        GameManager.Instance.ActionManager.LastFingerUp += OnLastFingerUp;
     }
     
     private void OnDisable()
     {
         if (GameManager.Instance == null) return;
-        GameManager.Instance.actionManager.OnFingerDown -= OnFingerDown;
-        GameManager.Instance.actionManager.OnFirstFingerDown -= OnFingerDown;
-        GameManager.Instance.actionManager.OnLastFingerUp -= OnLastFingerUp;
+        GameManager.Instance.ActionManager.FingerDown -= OnFingerDown;
+        GameManager.Instance.ActionManager.FirstFingerDown -= OnFingerDown;
+        GameManager.Instance.ActionManager.LastFingerUp -= OnLastFingerUp;
     }
 }
 
 public enum EStabilityImpactSide
 {
-    EIS_Left,
-    EIS_Right,
-    EIS_Forward,
-    EIS_Backward,
+    Left,
+    Right,
+    Forward,
+    Backward,
 }
 

@@ -85,7 +85,7 @@ public class TileCardGenerator : MonoBehaviour
         {
             float a = _baseDistanceOfGeneration;
             if (GameManager.Instance != null) {
-                a = GameManager.Instance.playerManager._currentCarController?.transform.position.z + _baseDistanceOfGeneration ?? a;
+                a = GameManager.Instance.PlayerManager._currentCarController?.transform.position.z + _baseDistanceOfGeneration ?? a;
             }
             return a;
         }
@@ -97,7 +97,7 @@ public class TileCardGenerator : MonoBehaviour
         {
             float a = _baseDistanceOfDestruction;
             if (GameManager.Instance != null) {
-                a = GameManager.Instance.playerManager._currentCarController?.transform.position.z -_baseDistanceOfDestruction ?? a;
+                a = GameManager.Instance.PlayerManager._currentCarController?.transform.position.z -_baseDistanceOfDestruction ?? a;
             }
             return a;
         }
@@ -272,8 +272,8 @@ public class TileCardGenerator : MonoBehaviour
     
     private void AddCreditsAfterSpawn()
     {
-        Debug.LogFormat("Adding Credits after spawn {0}", GameManager.Instance.scoreManager.GetCoefDifficulty());
-        _creditsAvailable += GameManager.Instance.scoreManager.GetCoefDifficulty();
+        Debug.LogFormat("Adding Credits after spawn {0}", GameManager.Instance.ScoreManager.GetCoefDifficulty());
+        _creditsAvailable += GameManager.Instance.ScoreManager.GetCoefDifficulty();
         Debug.LogFormat("Credits Available now : {0}", _creditsAvailable);
     }
 }

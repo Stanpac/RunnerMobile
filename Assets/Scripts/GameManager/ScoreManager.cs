@@ -1,45 +1,59 @@
 ﻿using System;
 using UnityEngine;
 using NaughtyAttributes;
+using Unity.VisualScripting;
+
 
 public class ScoreManager 
 {
-    private float _score = 0;
+    // score of the player for the current game
+    private float _globalscore = 0;
     
+    // score gain by the player on the milestone
+    private float _milestoneScore = 0;
+    
+    // Action value
     private float _actionValue = 0;
-    private float _avForNextMileStone = 1000;
+    private float _avForNextMileStone = 0;
+    private float _avForNextMileStoneBase = 1000;
+    private float _avRoadScoreMultiplier = 2f;
     
-    private float _luggageAv = 0;
-    
+    // MileStone 
     private int _mileStoneIndex = 0;
-    private float _coefficientDiffiCulty = 2f;
+    private float _avNextMilestoneCoef = 1.1f;
     
-    private LuggageHandler _luggageHandler;
+    // Coefficient of difficulty
+    private float _baseCoefficientDiffiCulty = 2f;
     
-    // TODO : reset _ActionValue when the player is at a MileStone (After Update the Score)
-    // TODO : Update _mileStoneIndex 
-    // TODO : Update Finish Calculate the _avForNextMileStone ? 
-    
-    public float GetScore() => _score;
+    public float GetGlobalScore() => _globalscore;
     public int GetMileStoneIndex() => _mileStoneIndex;
+    public float GetCoefDifficulty() => Mathf.Pow(_baseCoefficientDiffiCulty, _mileStoneIndex)  ;
+    public void ResetActionValue() => _actionValue = 0;
+    public void ResetMileStoneIndex() => _mileStoneIndex = 0;
+    public void UpdateAvForNextMileStone() =>_avForNextMileStone += _avForNextMileStone * _avNextMilestoneCoef;
+    public void UpdateMileStoneIndex() => _mileStoneIndex++;
     
-    public float GetCoefDifficulty() => Mathf.Pow(_coefficientDiffiCulty, _mileStoneIndex);
+    
+    // TODO : Event call each frame by the player for update AV 
+    // TODO : Event call a each milestone for update MilestoneScore
     
     public void UpdateScore()
     {
-        if (_luggageHandler== null) {
-            _luggageHandler = GameManager.Instance.playerManager._currentCarController.GetComponent<LuggageHandler>();
-        }
-        
-        // TODO : Update the Calcul when the Weight is Add To the LuggageHandler (Now 1 luggage = 1 weight)
-        _score = _score + _actionValue + (_luggageAv * _luggageHandler.GetCurrentWeightInstead);
-        
-        // TODO : Event For Update Score on UI
+        // Score = AV + milestoneScore
+        _globalscore = _actionValue + _milestoneScore;
+        GameManager.Instance.ActionManager.InvokeScoreUpdate(_globalscore);
     }
     
-    public void UpdateAvForNextMileStone()
+    public void UpdateActionValue()
     {
-        _avForNextMileStone += _avForNextMileStone * _mileStoneIndex;
+        // AV += PosPlayer - PosPlayerLastFrame * CoefRoad
+        UpdateScore();
+    }
+    
+    public void UpdateMileStoneScore()
+    {
+        // MilestoneScore =  Y * Nbr de Baggage Actuel * MileStoneIndex
+        UpdateScore();
     }
     
 }

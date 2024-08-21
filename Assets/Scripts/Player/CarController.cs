@@ -71,7 +71,7 @@ public class CarController : MonoBehaviour
     {
         float rotation = _rotationAngle;
        
-        if (GameManager.Instance.inputManager.IsFingerOnScreen() && _currentfinger != null) {
+        if (GameManager.Instance.InputManager.IsFingerOnScreen() && _currentfinger != null) {
             if (_currentfinger.ScreenPosition.x > Screen.width / 2) {
                 rotation =  Mathf.Clamp(rotation + Time.deltaTime / _data.timeForMaxRotation * _data.maxRotation * _weightmultiplicator, -_data.maxRotation, _data.maxRotation);
             } else {
@@ -141,19 +141,19 @@ public class CarController : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.Instance.actionManager.OnFingerDown += OnFingerDown;
-        GameManager.Instance.actionManager.OnFirstFingerDown += OnFingerDown;
-        GameManager.Instance.actionManager.OnLastFingerUp += OnLastFingerUp;
-        GameManager.Instance.actionManager.OnLuggageChange += UpdateWeightMultiplicator;
+        GameManager.Instance.ActionManager.FingerDown += OnFingerDown;
+        GameManager.Instance.ActionManager.FirstFingerDown += OnFingerDown;
+        GameManager.Instance.ActionManager.LastFingerUp += OnLastFingerUp;
+        GameManager.Instance.ActionManager.LuggageUpdate += UpdateWeightMultiplicator;
     }
 
     private void OnDisable()
     {
         if (GameManager.Instance == null) return;
-        GameManager.Instance.actionManager.OnFingerDown -= OnFingerDown;
-        GameManager.Instance.actionManager.OnFirstFingerDown -= OnFingerDown;
-        GameManager.Instance.actionManager.OnLastFingerUp -= OnLastFingerUp;
-        GameManager.Instance.actionManager.OnLuggageChange -= UpdateWeightMultiplicator;
+        GameManager.Instance.ActionManager.FingerDown -= OnFingerDown;
+        GameManager.Instance.ActionManager.FirstFingerDown -= OnFingerDown;
+        GameManager.Instance.ActionManager.LastFingerUp -= OnLastFingerUp;
+        GameManager.Instance.ActionManager.LuggageUpdate -= UpdateWeightMultiplicator;
     }
 }
 

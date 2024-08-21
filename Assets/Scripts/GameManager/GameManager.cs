@@ -16,42 +16,48 @@ public class GameManager : MonoBehaviour
     [BoxGroup("Camera")] 
     public CinemachineVirtualCamera _virtualCamera;
     
-    [SerializeField, BoxGroup("StartParameters")]
+    [SerializeField][BoxGroup("Start Parameters")]
     private float _startImpulsionForce = 10;
     
-    [SerializeField, BoxGroup("Player")]
+    [SerializeField][BoxGroup("Player")]
     private CarController _player;
     
-    [SerializeField, BoxGroup("AllLuggage")]
+    [SerializeField][BoxGroup("All Luggages")]
     private LuggageCategories _luggageCategories;
+    
+    [SerializeField][BoxGroup("Scene")] 
+    [Tooltip("The scenes of the game")]
+    private FSceneData[] _scenes;
     
     [SerializeField, ReadOnly]
     private bool _newGame = true;
+    
     public bool NewGame => _newGame;
     public LuggageCategories LuggageCategories => _luggageCategories;
+    public FSceneData[] Scenes => _scenes;
     
     // Manager for the game
-    public ActionManager actionManager {get; private set;}
-    public UIManager uiManager {get; private set;}
-    public InputManager inputManager {get; private set;}
-    public GameStateManager gameStateManager {get; private set;}
-    public MySceneManager mySceneManager {get; private set;}
-    public PlayerManager playerManager {get; private set;}
-    public TimerManager timerManager {get; private set;}
-    public ScoreManager scoreManager {get; private set;}
+    public ActionManager ActionManager {get; private set;}
+    public UIManager UIManager {get; private set;}
+    public InputManager InputManager {get; private set;}
+    public GameStateManager GameStateManager {get; private set;}
+    public MySceneManager MySceneManager {get; private set;}
+    public PlayerManager PlayerManager {get; private set;}
+    public TimerManager TimerManager {get; private set;}
+    public ScoreManager ScoreManager {get; private set;}
     
     // Tile Generator 
-    private TileCardGenerator tileManager;
+    private TileCardGenerator _tileManager;
     public TileCardGenerator TileManager {
         
-        get => tileManager;
+        get => _tileManager;
         set
         {
-            if (tileManager != null) {
+            if (_tileManager != null) {
                 Debug.LogErrorFormat("there is already a tileManager in the GameManager");
                 return;
             }
-            tileManager = value;
+            _tileManager = value;
         }
     }
     
@@ -75,25 +81,27 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         // Init Managers
-        actionManager = new ActionManager();
-        inputManager = new InputManager();
-        gameStateManager = new GameStateManager();
-        mySceneManager = new MySceneManager();
-        playerManager = new PlayerManager();
-        scoreManager = new ScoreManager();
+        ActionManager = new ActionManager();
+        InputManager = new InputManager();
+        GameStateManager = new GameStateManager();
+        MySceneManager = new MySceneManager();
+        PlayerManager = new PlayerManager();
         
-        timerManager = gameObject.AddComponent<TimerManager>();
+        // TODO : load when the Game Start 
+        ScoreManager = new ScoreManager();
         
-        uiManager = FindObjectOfType<UIManager>();
-        uiManager.enabled = true;
+        TimerManager = gameObject.AddComponent<TimerManager>();
+        
+        UIManager = FindObjectOfType<UIManager>();
+        UIManager.enabled = true;
         
         LoadData();
     }
 
     private void LoadData()
     {
-        playerManager._carPrefab = _player;
-        gameStateManager.SetGameState(EGameState.GS_StartMenu);
+        PlayerManager._carPrefab = _player;
+        GameStateManager.SetGameState(EGameState.GS_StartMenu);
     }
     
     public void StartGame()
@@ -102,10 +110,10 @@ public class GameManager : MonoBehaviour
         // Idee : Menu Demarage du jeu  avec la voiture qu'on va jouer,
         // Ecran de demarrage au debut histoire de tous charger avant 
         // Au start fade du menu, mouvement de Camera et hop ça start le jeu
-        if (mySceneManager.loadGameScene()) { 
-            gameStateManager.SetGameState(EGameState.GS_Game);
-            playerManager.InstantiatePlayer(Vector3.up * 2, Quaternion.identity);
-            playerManager.GiveStartImpulsionToPlayer(Vector3.forward, _startImpulsionForce);
+        if (MySceneManager.LoadGameScene()) { 
+            GameStateManager.SetGameState(EGameState.GS_Game);
+            PlayerManager.InstantiatePlayer(Vector3.up * 2, Quaternion.identity);
+            PlayerManager.GiveStartImpulsionToPlayer(Vector3.forward, _startImpulsionForce);
         } else {
             Debug.LogError("Game Scene not found");
         }
@@ -118,8 +126,8 @@ public class GameManager : MonoBehaviour
     
     public void ReturnToMainMenu()
     {
-        mySceneManager.UnloadGameScene();
-        gameStateManager.SetGameState(EGameState.GS_StartMenu);
+        MySceneManager.UnloadGameScene();
+        GameStateManager.SetGameState(EGameState.GS_StartMenu);
     }
     
     

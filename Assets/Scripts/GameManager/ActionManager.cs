@@ -8,60 +8,68 @@ using NaughtyAttributes;
 public class ActionManager 
 {
     // Finger
-    public Action<LeanFinger> OnLastFingerUp;
-    public Action<LeanFinger> OnFirstFingerDown;
-    public Action<LeanFinger> OnFingerDown;
+    public Action<LeanFinger> LastFingerUp;
+    public Action<LeanFinger> FirstFingerDown;
+    public Action<LeanFinger> FingerDown;
     
     // Game State
-    public Action<EGameState, EGameState> OnGameStateChange;
+    public Action<EGameState, EGameState> GameStateUpdate;
     
     // Stability
-    public Action <float> OnStabilityChange;
-    public Action <bool> OnUnstableChange;
+    public Action <float> StabilityUpdate;
+    public Action <bool> UnstableUpdate;
     
     // Luggage
-    public Action<float> OnLuggageChange;
+    public Action<float> LuggageUpdate;
     
     // Player
-    public Action OnPlayerDeath;
+    public Action PlayerDeath;
     
-    public void PlayerDeath()
+    // Score
+    public Action<float> ScoreUpdate;
+    
+    public void InvokePlayerDeath()
     {
-        OnPlayerDeath?.Invoke();
+        PlayerDeath?.Invoke();
     }
     
-    public void LastFingerUp(LeanFinger finger)
+    public void InvokeLastFingerUp(LeanFinger finger)
     {
-        OnLastFingerUp?.Invoke(finger);
+        LastFingerUp?.Invoke(finger);
     }
     
-    public void FirstFingerDown(LeanFinger finger)
+    public void InvokeFirstFingerDown(LeanFinger finger)
     {
-        OnFirstFingerDown?.Invoke(finger);
+        FirstFingerDown?.Invoke(finger);
     }
     
-    public void FingerDown(LeanFinger finger)
+    public void InvokeFingerDown(LeanFinger finger)
     {
-        OnFingerDown?.Invoke(finger);
+        FingerDown?.Invoke(finger);
     }
     
-    public void GameStateChange(EGameState PreviousGameState ,EGameState NewGameState)
+    public void InvokeGameStateUpdate(EGameState previousGameState ,EGameState newGameState)
     {
-        OnGameStateChange?.Invoke(PreviousGameState, NewGameState);
+        GameStateUpdate?.Invoke(previousGameState, newGameState);
     }
     
-    public void StabilityChange(float stability)
+    public void InvokeStabilityUpdate(float stability)
     {
-        OnStabilityChange?.Invoke(stability);
+        StabilityUpdate?.Invoke(stability);
     }
     
-    public void LuggageChange(float luggage)
+    public void InvokeLuggageUpdate(float luggage)
     {
-        OnLuggageChange?.Invoke(luggage);
+        LuggageUpdate?.Invoke(luggage);
     }
     
-    public void UnstableChange(bool unstable)
+    public void InvokeUnstableUpdate(bool unstable)
     {
-        OnUnstableChange?.Invoke(unstable);
+        UnstableUpdate?.Invoke(unstable);
+    }
+    
+    public void InvokeScoreUpdate(float score)
+    {
+        ScoreUpdate?.Invoke(score);
     }
 }
