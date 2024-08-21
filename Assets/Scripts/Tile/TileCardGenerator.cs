@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using NaughtyAttributes;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -58,8 +59,7 @@ public class TileCardGenerator : MonoBehaviour
             if (tileCardsSelection != null)
                 return tileCardsSelection;
             
-            // TODO : Change return type can't be null
-            return null;
+            return _tileCards?.GenerateTileCardWeightedSelectionAffordable(_creditsAvailable);
         }
     }
     
