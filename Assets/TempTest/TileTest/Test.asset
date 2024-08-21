@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e48427cf10274dc5b5c7b6d86122ff2c, type: 3}
   m_Name: Test
   m_EditorClassIdentifier: 
-  _categories: []
+  _categories:
+  - name: BONJOUR
+    weight: 0
+    cards:
+    - {fileID: 11400000, guid: 232322774854ede4196101d620871798, type: 2}
   _globalWeight: 0
