@@ -30,16 +30,20 @@ public class TileCardGenerator : MonoBehaviour
     [SerializeField][BoxGroup("TileCard")]
     private TileCardCategories _tileCards;
     
-    [SerializeField, ReadOnly][BoxGroup("TileCard")]
+    [SerializeField][ReadOnly][BoxGroup("TileCard")]
     private TileCard _currentTileCard;
+    
+    // TODO : System for spawn Milestone TileCard
+    [SerializeField][ReadOnly][BoxGroup("TileCard")]
+    private bool _nextTileCardIsMilestone = false;
     
     private TileCard LastAttemptedTileCard { get; set; }
     
     private WeightedSelection<TileCard> _tileCardsSelection;
     
-    [SerializeField, ReadOnly][BoxGroup("Tiles")]
+    [SerializeField][ReadOnly][BoxGroup("Tiles")]
     private GameObject _previousTileSpawned;
-    [SerializeField, ReadOnly][BoxGroup("Tiles")]
+    [SerializeField][ReadOnly][BoxGroup("Tiles")]
     private List<GameObject> _allSpawnedTilesSpawned = new List<GameObject>();
 
     [SerializeField][BoxGroup("Generation Parameters")]
@@ -50,7 +54,6 @@ public class TileCardGenerator : MonoBehaviour
     private int _safeCounterMax = 200;
     
     private GameObject _tileContainer;
-    
     private WeightedSelection<TileCard> FinalTileCardsSelection
     {
         get

@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     [Tooltip("The scenes of the game")]
     private FSceneData[] _scenes;
     
-    [SerializeField, ReadOnly]
+    [SerializeField][ReadOnly]
     private bool _newGame = true;
     
     public bool NewGame => _newGame;

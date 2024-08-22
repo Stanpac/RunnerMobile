@@ -16,14 +16,16 @@ public class ScoreManager
     private float _actionValue = 0;
     private float _avForNextMileStone = 0;
     private float _avForNextMileStoneBase = 1000;
-    private float _avRoadScoreMultiplier = 2f;
+    private float _avRoadScoreMultiplier = 1.5f;
     
     // MileStone 
-    private int _mileStoneIndex = 0;
+    private int _mileStoneIndex = 1;
     private float _avNextMilestoneCoef = 1.1f;
+    private float _milestoneScoreCoef = 2f;
     
     // Coefficient of difficulty
     private float _baseCoefficientDiffiCulty = 2f;
+    
     
     public float GetGlobalScore() => _globalscore;
     public int GetMileStoneIndex() => _mileStoneIndex;
@@ -33,8 +35,6 @@ public class ScoreManager
     public void UpdateAvForNextMileStone() =>_avForNextMileStone += _avForNextMileStone * _avNextMilestoneCoef;
     public void UpdateMileStoneIndex() => _mileStoneIndex++;
     
-    
-    // TODO : Event call each frame by the player for update AV 
     // TODO : Event call a each milestone for update MilestoneScore
     
     public void UpdateScore()
@@ -44,16 +44,36 @@ public class ScoreManager
         GameManager.Instance.ActionManager.InvokeScoreUpdate(_globalscore);
     }
     
-    public void UpdateActionValue()
+    public void UpdateActionValue(float playerPosZ, float playerPosLastFrameZ, bool isOnRoad)
     {
-        // AV += PosPlayer - PosPlayerLastFrame * CoefRoad
+        _actionValue += (playerPosZ - playerPosLastFrameZ) * (isOnRoad ? _avRoadScoreMultiplier : 1);
+        if (_actionValue >= _avForNextMileStone) {
+            GameManager.Instance.ActionManager.InvokeAvForNextMilestoneReached(_avForNextMileStone);
+            UpdateAvForNextMileStone();
+            UpdateMileStoneIndex();
+        }
         UpdateScore();
     }
     
-    public void UpdateMileStoneScore()
+    public void UpdateMileStoneScore(int luggageCount)
     {
-        // MilestoneScore =  Y * Nbr de Baggage Actuel * MileStoneIndex
+        _milestoneScore += _milestoneScoreCoef * luggageCount * _mileStoneIndex;
         UpdateScore();
+    }
+    
+    public ScoreManager()
+    {
+        // Subscribe to the event
+        GameManager.Instance.ActionManager.PlayerMove += UpdateActionValue;
+        GameManager.Instance.ActionManager.MilestoneEvent += UpdateMileStoneScore;
+    }
+    
+    ~ScoreManager()
+    {
+        // Unsubscribe to the event
+        if (GameManager.Instance == null) return;
+        GameManager.Instance.ActionManager.PlayerMove -= UpdateActionValue;
+        GameManager.Instance.ActionManager.MilestoneEvent -= UpdateMileStoneScore;
     }
     
 }

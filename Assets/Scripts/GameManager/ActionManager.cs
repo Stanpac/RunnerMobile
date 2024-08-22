@@ -24,14 +24,14 @@ public class ActionManager
     
     // Player
     public Action PlayerDeath;
+    public Action<float, float, bool> PlayerMove;
     
     // Score
     public Action<float> ScoreUpdate;
     
-    public void InvokePlayerDeath()
-    {
-        PlayerDeath?.Invoke();
-    }
+    // Milestone
+    public Action<int> MilestoneEvent;
+    public Action<float> AvForNextMilestoneReached;
     
     public void InvokeLastFingerUp(LeanFinger finger)
     {
@@ -46,6 +46,16 @@ public class ActionManager
     public void InvokeFingerDown(LeanFinger finger)
     {
         FingerDown?.Invoke(finger);
+    }
+    
+    public void InvokePlayerDeath()
+    {
+        PlayerDeath?.Invoke();
+    }
+    
+    public void InvokePlayerMove(float playerPosZ, float playerPosLastFrameZ, bool isOnRoad)
+    {
+        PlayerMove?.Invoke(playerPosZ, playerPosLastFrameZ, isOnRoad);
     }
     
     public void InvokeGameStateUpdate(EGameState previousGameState ,EGameState newGameState)
@@ -71,5 +81,15 @@ public class ActionManager
     public void InvokeScoreUpdate(float score)
     {
         ScoreUpdate?.Invoke(score);
+    }
+    
+    public void InvokeMilestoneEvent(int luggageCount)
+    {
+        MilestoneEvent?.Invoke(luggageCount);
+    }
+    
+    public void InvokeAvForNextMilestoneReached(float avForNextMilestone)
+    {
+        AvForNextMilestoneReached?.Invoke(avForNextMilestone);
     }
 }

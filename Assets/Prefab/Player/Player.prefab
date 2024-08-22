@@ -81,6 +81,7 @@ MonoBehaviour:
     Wheels:
     - {fileID: 4880756959424967256}
     - {fileID: 1707627931852572705}
+  _roadTag: Road
   _showDebug: 1
   _raylength: 2
   _showWheelsDebug: 1
