@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bfb28f34f2d5b3844800bf0e454b50d2
+guid: 5c8b6ae4295d50a4e91b5e5d15763cf1
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,7 +7,7 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Arbre
+      name: 09 - Default
     second: {fileID: 2100000, guid: b2aa8336668222a4ab805d11f81f6eb4, type: 2}
   materials:
     materialImportMode: 2
