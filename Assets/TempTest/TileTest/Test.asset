@@ -16,5 +16,5 @@ MonoBehaviour:
   - name: BONJOUR
     weight: 0
     cards:
-    - {fileID: 11400000, guid: 232322774854ede4196101d620871798, type: 2}
+    - {fileID: 11400000, guid: 7418719c166e8b54caa58cd5a124ccaf, type: 2}
   _globalWeight: 0
