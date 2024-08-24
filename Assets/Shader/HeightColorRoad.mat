@@ -22,15 +22,21 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: 5ec0f071b81b63241967c85ddfc73ff8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _CouleurMax: 4
     - _CouleurMin: -4
     - _Courbure: 0.01
     - _Distance: -75
+    - _Scale: 0.3
     - _SideCurveAttenuation: 15
     - _SideOffset: 0.75
+    - _Strenght: 4
     - __dirty: 0
     m_Colors:
     - _VECTOR: {r: 0, g: -0.1, b: 0, a: 0}
