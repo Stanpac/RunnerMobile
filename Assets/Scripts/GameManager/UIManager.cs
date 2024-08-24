@@ -103,8 +103,9 @@ public class UIManager : MonoBehaviour
     
     private void LuggageChange(float luggage)
     {
-        _debugLuggage.text = "Luggage: " + luggage.ToString();
+        _debugLuggage.text = "Luggages: " + luggage.ToString();
     }
+    
     private void OnUnstableChange(bool unstable)
     {
         _debugUnstable.SetActive(unstable);

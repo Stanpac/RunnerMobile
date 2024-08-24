@@ -4,32 +4,32 @@ using UnityEngine.Serialization;
 
 public class PlayerManager 
 {
-    public CarController _currentCarController { get; private set; }
-    public CarController _carPrefab { get; set; }
+    public CarController CurrentCarController { get; private set; }
+    public CarController CarPrefab { get; set; }
     
     public void InstantiatePlayer(Vector3 position, Quaternion rotation) 
     {
-        if (_carPrefab == null) {
+        if (CarPrefab == null) {
             Debug.LogError("Player Prefab is not set");
             return;
         }
         
-        if (_currentCarController != null) {
-            GameObject.Destroy(_currentCarController.gameObject);
+        if (CurrentCarController != null) {
+            GameObject.Destroy(CurrentCarController.gameObject);
         }
         
-        _currentCarController = GameObject.Instantiate<GameObject>(_carPrefab.gameObject, position, rotation).GetComponent<CarController>();
-        GameManager.Instance._virtualCamera.LookAt = _currentCarController.transform;
-        GameManager.Instance._virtualCamera.Follow = _currentCarController.transform;
+        CurrentCarController = GameObject.Instantiate<GameObject>(CarPrefab.gameObject, position, rotation).GetComponent<CarController>();
+        GameManager.Instance._virtualCamera.LookAt = CurrentCarController.transform;
+        GameManager.Instance._virtualCamera.Follow = CurrentCarController.transform;
     }
     
     public void GiveStartImpulsionToPlayer(Vector3 direction, float force)
     {
-        if (_currentCarController == null) {
+        if (CurrentCarController == null) {
             Debug.LogError("No Player to give impulsion");
             return;
         }
         
-        _currentCarController.GetComponent<Rigidbody>().AddForce(direction * force, ForceMode.Impulse);
+        CurrentCarController.GetComponent<Rigidbody>().AddForce(direction * force, ForceMode.Impulse);
     }
 } 

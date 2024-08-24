@@ -33,7 +33,7 @@ public class RaycastSuspension : MonoBehaviour
     
     private bool _debugMode = false;
     
-    private string _dataPath => "ScriptableObject/SO_RaycastSuspension";
+    private string DataPath => "ScriptableObject/SO_RaycastSuspension";
     
     public void SetUpSpeedFactor(float speedFactor, float carTopSpeed, AnimationCurve powerCurve, bool debug = false)
     {
@@ -46,22 +46,22 @@ public class RaycastSuspension : MonoBehaviour
     private void Reset()
     {
         if (_data == null)
-            _data = Resources.Load<SO_RaycastSuspension>(_dataPath);
+            _data = Resources.Load<SO_RaycastSuspension>(DataPath);
     }
 
     private void Awake()
     {
         if (_data == null)
-            _data = Resources.Load<SO_RaycastSuspension>(_dataPath);
+            _data = Resources.Load<SO_RaycastSuspension>(DataPath);
         
         _tireTransform = GetComponent<Transform>();
         _carRigidbody = GetComponentInParent<Rigidbody>();
         _carTransform = _carRigidbody.gameObject.transform;
     }
-
+    
     private void FixedUpdate()
     {
-        if (Physics.Raycast(_tireTransform.position + _tireTransform.up * _raycastUpOffset, -_tireTransform.up, out _tireRay, _data.suspensionRestDist + _raycastUpOffset + 0.1f))  {
+        if (Physics.Raycast(_tireTransform.position + _tireTransform.up * _raycastUpOffset, -_tireTransform.up, out _tireRay, _data.suspensionRestDist + _raycastUpOffset + 0.1f, _data._layerMask)) {
             _rayDidHit = true;
         } else {
             _rayDidHit = false;

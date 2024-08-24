@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _prefab: {fileID: 5537808377836654752, guid: bf1294a0afac3d44ea84cf154b1c3842, type: 3}
   _name: ArakaCube1
-  _weight: 5
+  _weight: 1
   _stability: 2

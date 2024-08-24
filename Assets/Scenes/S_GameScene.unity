@@ -422,8 +422,9 @@ MonoBehaviour:
   _maximumNumberMultiplicatorBeforeConsideredCheap: 6
   _resetTileCardIfFailed: 1
   _originAtCenter: 1
-  _tileCards: {fileID: 11400000, guid: f11d85aaec1d45044a2227e5ebc21581, type: 2}
+  _tileCards: {fileID: 11400000, guid: 093e4bacaed7802488f886120a2b378c, type: 2}
   _currentTileCard: {fileID: 0}
+  _nextTileCardIsMilestone: 0
   _previousTileSpawned: {fileID: 0}
   _allSpawnedTilesSpawned: []
   _baseDistanceOfGeneration: 300

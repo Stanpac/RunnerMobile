@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     [SerializeField][BoxGroup("All Luggages")]
     private LuggageCategories _luggageCategories;
     
-    [SerializeField][BoxGroup("Scene")] 
+    [SerializeField][BoxGroup("Scene")]
     [Tooltip("The scenes of the game")]
     private FSceneData[] _scenes;
     
@@ -89,7 +89,6 @@ public class GameManager : MonoBehaviour
         
         // TODO : load when the Game Start 
         ScoreManager = new ScoreManager();
-        
         TimerManager = gameObject.AddComponent<TimerManager>();
         
         UIManager = FindObjectOfType<UIManager>();
@@ -100,7 +99,7 @@ public class GameManager : MonoBehaviour
 
     private void LoadData()
     {
-        PlayerManager._carPrefab = _player;
+        PlayerManager.CarPrefab = _player;
         GameStateManager.SetGameState(EGameState.GS_StartMenu);
     }
     

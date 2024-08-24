@@ -17,3 +17,6 @@ MonoBehaviour:
   springDamper: 40
   tireGripFactor: 0.5
   tireMass: 1
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 384

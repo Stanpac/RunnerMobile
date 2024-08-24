@@ -20,7 +20,11 @@ public class TileCardCategories : ScriptableObject
     private float _globalWeight; 
     
     public void Clear() => _categories = Array.Empty<Category>();
-    
+
+    public bool HasMilestoneCard()
+    {
+        return _milesStonesCards.Length > 0;
+    }
     public float GetAllWeightsInCategory(TileCardCategories.Category category)
     {
         float num = 0.0f;

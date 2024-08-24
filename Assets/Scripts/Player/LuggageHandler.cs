@@ -27,6 +27,8 @@ public class LuggageHandler : MonoBehaviour
     
     public float GetCurrentWeightInstead => _currentWeight;
     
+    public Luggagelibrary LuggageLibrary => _luggageLibrary;
+    
     private void Awake()
     {
         
@@ -84,7 +86,7 @@ public class LuggageHandler : MonoBehaviour
     private void LuggageIsUpdated()
     {
         UpdateCurrentWeight();
-        GameManager.Instance.ActionManager.InvokeLuggageUpdate(_currentWeight);
+        GameManager.Instance.ActionManager.InvokeLuggageUpdate(_luggageLibrary.GetTotalLuggageCount());
     }
     
     public IEnumerator TimerUnstability()

@@ -11,13 +11,16 @@ public class TileCardGenerator : MonoBehaviour
 {
     [SerializeField][BoxGroup("Credits")][ReadOnly]
     private float _creditsAvailable;
+    
     [SerializeField][BoxGroup("Credits")]
     private float _initialCredits = 1;
+    
     [SerializeField][BoxGroup("Credits")]
     private bool _skipSpawnIfTooCheap = true;
+    
     [SerializeField][BoxGroup("Credits")]
     [Tooltip("if _creditsAvailable / by this number is > than the cost of the tile it's considered too cheap")]
-    private int _maximumNumberMultiplicatorBeforeConsideredCheap = 6;
+    private int _maximumNumberMultiplicatorBeforeConsideredCheap = 3;
     private int _consecutiveCheapSkips;
     private int _maxConsecutiveCheapSkips = int.MaxValue;
     
@@ -33,7 +36,6 @@ public class TileCardGenerator : MonoBehaviour
     [SerializeField][ReadOnly][BoxGroup("TileCard")]
     private TileCard _currentTileCard;
     
-    // TODO : System for spawn Milestone TileCard
     [SerializeField][ReadOnly][BoxGroup("TileCard")]
     private bool _nextTileCardIsMilestone = false;
     
@@ -54,6 +56,7 @@ public class TileCardGenerator : MonoBehaviour
     private int _safeCounterMax = 200;
     
     private GameObject _tileContainer;
+
     private WeightedSelection<TileCard> FinalTileCardsSelection
     {
         get
@@ -88,7 +91,7 @@ public class TileCardGenerator : MonoBehaviour
         {
             float a = _baseDistanceOfGeneration;
             if (GameManager.Instance != null) {
-                a = GameManager.Instance.PlayerManager._currentCarController?.transform.position.z + _baseDistanceOfGeneration ?? a;
+                a = GameManager.Instance.PlayerManager.CurrentCarController?.transform.position.z + _baseDistanceOfGeneration ?? a;
             }
             return a;
         }
@@ -100,7 +103,7 @@ public class TileCardGenerator : MonoBehaviour
         {
             float a = _baseDistanceOfDestruction;
             if (GameManager.Instance != null) {
-                a = GameManager.Instance.PlayerManager._currentCarController?.transform.position.z -_baseDistanceOfDestruction ?? a;
+                a = GameManager.Instance.PlayerManager.CurrentCarController?.transform.position.z -_baseDistanceOfDestruction ?? a;
             }
             return a;
         }
@@ -108,14 +111,17 @@ public class TileCardGenerator : MonoBehaviour
     
     private void OnEnable()
     {
-        if (GameManager.Instance != null)
-            GameManager.Instance.TileManager = this;
+        if (GameManager.Instance == null) return;
+        GameManager.Instance.TileManager = this;
+        GameManager.Instance.ActionManager.AvForNextMilestoneReached += OnAvForNextMilestoneReached;
     }
     
     private void OnDisable()
     {
-        if (GameManager.Instance != null)
-            GameManager.Instance.TileManager = null;
+        if (GameManager.Instance == null) return;
+        GameManager.Instance.TileManager = null;
+        GameManager.Instance.ActionManager.AvForNextMilestoneReached -= OnAvForNextMilestoneReached;
+        
     }
     
     private void Awake()
@@ -185,47 +191,54 @@ public class TileCardGenerator : MonoBehaviour
 
     private bool AttemptSpawnOnTarget(Transform spawnTarget)
     {
-        if (_currentTileCard == null) {
-            Debug.Log("No TileCard Selected, pick new one.");
-            if (FinalTileCardsSelection == null) 
-                return false;
-            PrepareNewTileCard(FinalTileCardsSelection.Evaluate());
-        }
+        if (_nextTileCardIsMilestone && _tileCards.HasMilestoneCard()) {
+            PrepareNewTileCard(_tileCards.GetRandomMilestoneCard());
+            Debug.LogFormat("Next TileCard is a milestone, spawning {0}", _currentTileCard.Prefab);
+        } else {
+            if (_currentTileCard == null) {
+                Debug.Log("No TileCard Selected, pick new one.");
+                if (FinalTileCardsSelection == null ) {
+                    return false;
+                }
+                PrepareNewTileCard(FinalTileCardsSelection.Evaluate());
+            }
         
-        if (_creditsAvailable < _currentTileCard.CreditsCount) {
-            Debug.LogFormat("Spawn card {0} is too expensive, aborting spawn.", _currentTileCard.Prefab);
-            return false;
-        }
-
-        if (_skipSpawnIfTooCheap 
-            && _consecutiveCheapSkips < _maxConsecutiveCheapSkips
-            && _currentTileCard.CreditsCount * _maximumNumberMultiplicatorBeforeConsideredCheap < _creditsAvailable) 
-        {
-            Debug.LogFormat("Card {0} seems too cheap. Comparing against most expensive possible ({1})", 
-                _currentTileCard.Prefab, MostExpensiveTileCostInDeck);
-            
-            if (MostExpensiveTileCostInDeck > _currentTileCard.CreditsCount) {
-                ++_consecutiveCheapSkips;
-                Debug.LogFormat("Card {0} is too cheap, skipping.", _currentTileCard.Prefab);
+            if (_creditsAvailable < _currentTileCard.CreditsCount) {
+                Debug.LogFormat("Spawn card {0} is too expensive, aborting spawn.", _currentTileCard.Prefab);
                 return false;
+            }
+
+            if (_skipSpawnIfTooCheap 
+                && _consecutiveCheapSkips < _maxConsecutiveCheapSkips
+                && _currentTileCard.CreditsCount * _maximumNumberMultiplicatorBeforeConsideredCheap < _creditsAvailable) 
+            {
+                Debug.LogFormat("Card {0} seems too cheap. Comparing against most expensive possible ({1})", 
+                    _currentTileCard.Prefab, MostExpensiveTileCostInDeck);
+            
+                if (MostExpensiveTileCostInDeck > _currentTileCard.CreditsCount) {
+                    ++_consecutiveCheapSkips;
+                    Debug.LogFormat("Card {0} is too cheap, skipping.", _currentTileCard.Prefab);
+                    return false;
+                }
             }
         }
         
-        var spawnCard = _currentTileCard;
-
         Vector3 offsetposition = Vector3.zero;
-        if (_previousTileSpawned != null) {
+        if (_originAtCenter) {
+            offsetposition.z += GetBoundsZ(_currentTileCard.Prefab, true);
+        } 
+        
+        if (_previousTileSpawned != null ) {
             offsetposition.z += GetBoundsZ(_previousTileSpawned, _originAtCenter);
         }
         
-        if (_originAtCenter) {
-            offsetposition.z += GetBoundsZ(spawnCard.Prefab, true);
-        } 
         spawnTarget.position += offsetposition;
-        
+        var spawnCard = _currentTileCard;
         if (!Spawn(spawnCard, spawnTarget)) {
             return false;
-        }
+        } 
+        
+        _nextTileCardIsMilestone = false;
         _creditsAvailable -= _currentTileCard.CreditsCount;
         _consecutiveCheapSkips = 0;
         AddCreditsAfterSpawn();
@@ -233,7 +246,7 @@ public class TileCardGenerator : MonoBehaviour
         return true;
     }
     
-    public float GetBoundsZ(GameObject gameObject, bool Half = false)
+    public float GetBoundsZ(GameObject gameObject, bool half = false)
     {
         MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
         if (meshRenderer == null) {
@@ -245,7 +258,7 @@ public class TileCardGenerator : MonoBehaviour
             return -1;
         }
         
-        return Half ? meshRenderer.bounds.extents.z : meshRenderer.bounds.size.z;
+        return half ? meshRenderer.bounds.extents.z : meshRenderer.bounds.size.z;
     }
 
     private void GenerateWeightedSelectionWeCanBuy()
@@ -278,5 +291,12 @@ public class TileCardGenerator : MonoBehaviour
         Debug.LogFormat("Adding Credits after spawn {0}", GameManager.Instance.ScoreManager.GetCoefDifficulty());
         _creditsAvailable += GameManager.Instance.ScoreManager.GetCoefDifficulty();
         Debug.LogFormat("Credits Available now : {0}", _creditsAvailable);
+    }
+    
+    private void OnAvForNextMilestoneReached(float avForthisMilestone)
+    {
+        Debug.LogFormat("Setting Next TileCard as Milestone");
+        _nextTileCardIsMilestone = true;
+        // TODO : Use the avForThisMilestone to Show it in the pannel
     }
 }

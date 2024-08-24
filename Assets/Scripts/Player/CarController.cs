@@ -41,7 +41,7 @@ public class CarController : MonoBehaviour
     private RaycastHit _hitGround;
     private Vector3 _lastFramePos = Vector3.zero;
     
-    // TODO : Bool to check if the Player Is In Cinematic ?
+    private bool _stopMovement = false;
     
     private LeanFinger _currentfinger;
     
@@ -68,6 +68,7 @@ public class CarController : MonoBehaviour
     
     private void Update()
     {
+        if (_stopMovement) return;
         CheckIfOnRoad();
         _wheelsToRotate.RotateWheels(CalculateRotation());
     }
@@ -162,6 +163,18 @@ public class CarController : MonoBehaviour
     private void OnLastFingerUp(LeanFinger finger)
     {
         _currentfinger = null;
+    }
+    
+    public void StartMovement()
+    {
+        _stopMovement = false;
+        // TODO 
+    }
+    
+    public void StopMovement()
+    {
+        _stopMovement = true;
+        // TODO 
     }
 
     private void OnEnable()

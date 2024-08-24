@@ -61,6 +61,23 @@ public class LuggageCategories : ScriptableObject
         return luggages;
     }
     
+    // get a array of luggages (count = size of the Array) of random category
+    public Luggage[] PickLuggagesInRandomCategory(int count)
+    {
+        Category category = _categories[UnityEngine.Random.Range(0, _categories.Length)];
+        if (category.luggages.Length == 0) {
+            Debug.LogWarning("No luggages in the category " + category.name);
+            return Array.Empty<Luggage>();
+        }
+        
+        Luggage[] luggages = new Luggage[count];
+        for (int i = 0; i < count; ++i) {
+            Luggage luggage = category.luggages[UnityEngine.Random.Range(0, category.luggages.Length)];
+            luggages[i] = luggage;
+        }
+        return luggages;
+    }
+    
     [Serializable]
     public struct Category
     {

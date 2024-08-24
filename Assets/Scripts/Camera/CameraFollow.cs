@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 
-// TODO Old script need to be Destroy ?
+// Old script need to be Destroy ?
 public class CameraFollow : MonoBehaviour
 {
     [SerializeField, BoxGroup("Target")] 
