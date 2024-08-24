@@ -112,7 +112,7 @@ Shader "HeightColor"
 
 		void surf( Input i , inout SurfaceOutputStandard o )
 		{
-			Gradient gradient3 = NewGradient( 0, 4, 2, float4( 0.4384549, 0.735849, 0.3228017, 0.2500038 ), float4( 0.3798161, 0.6226415, 0.1674083, 0.3499962 ), float4( 0.3055567, 0.3773585, 0.1050196, 0.5000076 ), float4( 0.2913379, 0.4622642, 0.2812834, 0.9000076 ), 0, 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
+			Gradient gradient3 = NewGradient( 0, 4, 2, float4( 0.5770614, 0.7169812, 0.2198291, 0.2500038 ), float4( 0.3798161, 0.6226415, 0.1674083, 0.3499962 ), float4( 0.0745098, 0.4039216, 0.2499914, 0.5000076 ), float4( 0.2334906, 0.5, 0.4873491, 0.9000076 ), 0, 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
 			float3 ase_worldPos = i.worldPos;
 			float clampResult45 = clamp( ( ( ase_worldPos - _WorldSpaceCameraPos ).z + _Distance ) , 0.0 , 90000.0 );
 			float3 temp_output_36_0 = ( ( _Courbure * pow( clampResult45 , 2.0 ) ) * _VECTOR );
@@ -128,7 +128,7 @@ Shader "HeightColor"
 /*ASEBEGIN
 Version=19100
 Node;AmplifyShaderEditor.GradientSampleNode;4;-349.7232,-190.5374;Inherit;True;2;0;OBJECT;;False;1;FLOAT;0;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.GradientNode;3;-564.1965,-271.7738;Inherit;False;0;4;2;0.4384549,0.735849,0.3228017,0.2500038;0.3798161,0.6226415,0.1674083,0.3499962;0.3055567,0.3773585,0.1050196,0.5000076;0.2913379,0.4622642,0.2812834,0.9000076;1,0;1,1;0;1;OBJECT;0
+Node;AmplifyShaderEditor.GradientNode;3;-564.1965,-271.7738;Inherit;False;0;4;2;0.5770614,0.7169812,0.2198291,0.2500038;0.3798161,0.6226415,0.1674083,0.3499962;0.0745098,0.4039216,0.2499914,0.5000076;0.2334906,0.5,0.4873491,0.9000076;1,0;1,1;0;1;OBJECT;0
 Node;AmplifyShaderEditor.TFHCRemapNode;2;-544.0396,-186.0661;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;-1;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;6;-732.4902,-176.1112;Inherit;False;Property;_CouleurMin;CouleurMin;1;0;Create;True;0;0;0;False;0;False;-10;-5;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;7;-734.4902,-93.11117;Inherit;False;Property;_CouleurMax;CouleurMax;0;0;Create;True;0;0;0;False;0;False;10;8.2;0;0;0;1;FLOAT;0
@@ -200,4 +200,4 @@ WireConnection;61;1;64;0
 WireConnection;62;0;26;0
 WireConnection;62;1;61;0
 ASEEND*/
-//CHKSM=C2E2E04FCF864CC67FEB98D83141550DA7037C89
+//CHKSM=AC089569B409BB667DD9246A8A0BB285B2853B9E

@@ -9,6 +9,8 @@ Shader "HeightColor"
 		_Distance("Distance", Float) = 10
 		_SideOffset("Side Offset", Float) = 0.75
 		_SideCurveAttenuation("Side Curve Attenuation", Float) = 20
+		_TextureSample0("Texture Sample 0", 2D) = "white" {}
+		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 		[HideInInspector] __dirty( "", Int ) = 1
 	}
 
@@ -23,6 +25,7 @@ Shader "HeightColor"
 		struct Input
 		{
 			float3 worldPos;
+			float2 uv_texcoord;
 		};
 
 		uniform float _Courbure;
@@ -30,6 +33,8 @@ Shader "HeightColor"
 		uniform float3 _VECTOR;
 		uniform float _SideCurveAttenuation;
 		uniform float _SideOffset;
+		uniform sampler2D _TextureSample0;
+		uniform float4 _TextureSample0_ST;
 
 		void vertexDataFunc( inout appdata_full v, out Input o )
 		{
@@ -45,8 +50,8 @@ Shader "HeightColor"
 
 		void surf( Input i , inout SurfaceOutputStandard o )
 		{
-			float4 color33 = IsGammaSpace() ? float4(0.5168092,1,0.4575472,0) : float4(0.2299307,1,0.1768298,0);
-			o.Albedo = color33.rgb;
+			float2 uv_TextureSample0 = i.uv_texcoord * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
+			o.Albedo = tex2D( _TextureSample0, uv_TextureSample0 ).rgb;
 			o.Alpha = 1;
 		}
 
@@ -59,7 +64,6 @@ Shader "HeightColor"
 Version=19100
 Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;0,0;Float;False;True;-1;2;ASEMaterialInspector;0;0;Standard;HeightColor;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;Back;0;False;;0;False;;False;0;False;;0;False;;False;0;Opaque;0.5;True;True;0;False;Opaque;;Geometry;All;12;all;True;True;True;True;0;False;;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;2;15;10;25;False;0.5;True;0;0;False;;0;False;;0;0;False;;0;False;;0;False;;0;False;;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;True;Absolute;0;;-1;-1;-1;-1;0;False;0;0;False;;-1;0;False;;0;0;0;False;0.1;False;;0;False;;False;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
 Node;AmplifyShaderEditor.TransformPositionNode;28;-322.845,285.5647;Inherit;False;World;Object;False;Fast;True;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.ColorNode;33;-311.999,-10.89038;Inherit;False;Constant;_Color0;Color 0;2;0;Create;True;0;0;0;False;0;False;0.5168092,1,0.4575472,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.BreakToComponentsNode;37;-1602.635,43.73934;Inherit;False;FLOAT3;1;0;FLOAT3;0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;38;-1449.299,-35.82491;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.WorldPosInputsNode;39;-1661.699,-119.2017;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
@@ -85,7 +89,8 @@ Node;AmplifyShaderEditor.RangedFloatNode;35;-1855.202,614.1797;Inherit;False;Pro
 Node;AmplifyShaderEditor.SimpleAddOpNode;34;-1684.202,496.1798;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.ClampOpNode;36;-1559.702,509.1797;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;90000;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;48;-467.9877,250.1442;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
-WireConnection;0;0;33;0
+Node;AmplifyShaderEditor.SamplerNode;50;-364.4835,-39.21361;Inherit;True;Property;_TextureSample0;Texture Sample 0;5;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+WireConnection;0;0;50;0
 WireConnection;0;11;28;0
 WireConnection;28;0;48;0
 WireConnection;38;0;39;1
@@ -114,4 +119,4 @@ WireConnection;36;0;34;0
 WireConnection;48;0;27;0
 WireConnection;48;1;47;0
 ASEEND*/
-//CHKSM=D47738B43CF2B12667E187FF95A6AE814CCFA24C
+//CHKSM=C6984FE8FF60FCE82E13A030981A8800A11F3B39

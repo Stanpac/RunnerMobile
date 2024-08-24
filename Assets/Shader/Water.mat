@@ -68,7 +68,7 @@ Material:
     - _Courbure: 0.01
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
-    - _Distance: -50
+    - _Distance: -75
     - _DstBlend: 0
     - _FoamAmount: 2
     - _Foamspeed: 1
@@ -79,6 +79,8 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _SideCurveAttenuation: 15
+    - _SideOffset: 0.75
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -89,7 +91,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FoamColor: {r: 0.8349056, g: 1, b: 0.97504526, a: 0}
-    - _VECTOR: {r: 0.1, g: -0.1, b: 0, a: 0}
+    - _VECTOR: {r: 0, g: -0.1, b: 0, a: 0}
     - _WaterColor: {r: 0, g: 0.7351062, b: 0.8018868, a: 0}
     - _Watercolor: {r: 0, g: 1, b: 0.9578201, a: 0}
   m_BuildTextureStacks: []
