@@ -9,6 +9,8 @@ Shader "HeightColor"
 		_Courbure("Courbure", Float) = 0.001
 		_VECTOR("VECTOR", Vector) = (2,2,0,0)
 		_Distance("Distance", Float) = 10
+		_SideOffset("Side Offset", Float) = 0.75
+		_SideCurveAttenuation("Side Curve Attenuation", Float) = 20
 		[HideInInspector] __dirty( "", Int ) = 1
 	}
 
@@ -28,6 +30,8 @@ Shader "HeightColor"
 		uniform float _Courbure;
 		uniform float _Distance;
 		uniform float3 _VECTOR;
+		uniform float _SideCurveAttenuation;
+		uniform float _SideOffset;
 		uniform float _CouleurMin;
 		uniform float _CouleurMax;
 
@@ -99,7 +103,9 @@ Shader "HeightColor"
 			float3 ase_worldPos = mul( unity_ObjectToWorld, v.vertex );
 			float clampResult35 = clamp( ( ( ase_worldPos - _WorldSpaceCameraPos ).z + _Distance ) , 0.0 , 90000.0 );
 			float3 temp_output_26_0 = ( ( _Courbure * pow( clampResult35 , 2.0 ) ) * _VECTOR );
-			float3 worldToObj28 = mul( unity_WorldToObject, float4( ( ase_worldPos + temp_output_26_0 ), 1 ) ).xyz;
+			float clampResult41 = clamp( ( ( abs( ( ase_worldPos.x - float3( 0,0,0 ).x ) ) / _SideCurveAttenuation ) - _SideOffset ) , 0.0 , 5000.0 );
+			float3 appendResult46 = (float3(0.0 , pow( clampResult41 , 2.0 ) , 0.0));
+			float3 worldToObj28 = mul( unity_WorldToObject, float4( ( ( ase_worldPos + temp_output_26_0 ) - appendResult46 ), 1 ) ).xyz;
 			v.vertex.xyz = worldToObj28;
 			v.vertex.w = 1;
 		}
@@ -142,9 +148,21 @@ Node;AmplifyShaderEditor.SimpleSubtractOpNode;20;-1728.653,362.3805;Inherit;Fals
 Node;AmplifyShaderEditor.BreakToComponentsNode;21;-1553.653,362.3805;Inherit;False;FLOAT3;1;0;FLOAT3;0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
 Node;AmplifyShaderEditor.WorldPosInputsNode;22;-2128.654,303.3805;Inherit;True;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.WorldSpaceCameraPos;23;-2143.068,483.7625;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.RangedFloatNode;34;-1547.601,608.6664;Inherit;False;Property;_Distance;Distance;4;0;Create;True;0;0;0;False;0;False;10;10;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;33;-1383.566,490.6664;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.ClampOpNode;35;-1263.848,486.6909;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;90000;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleSubtractOpNode;47;-370.662,544.7026;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RangedFloatNode;34;-1547.601,608.6664;Inherit;False;Property;_Distance;Distance;4;0;Create;True;0;0;0;False;0;False;10;10;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.BreakToComponentsNode;36;-1870.802,919.1155;Inherit;False;FLOAT3;1;0;FLOAT3;0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
+Node;AmplifyShaderEditor.SimpleSubtractOpNode;37;-1717.466,839.5512;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.WorldPosInputsNode;38;-1929.867,756.1744;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.AbsOpNode;39;-1569.474,850.2449;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleDivideOpNode;43;-1433.162,851.8828;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;20;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;44;-1679.915,715.0174;Inherit;False;Property;_SideCurveAttenuation;Side Curve Attenuation;6;0;Create;True;0;0;0;False;0;False;20;20;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.DynamicAppendNode;46;-672.5515,620.8546;Inherit;False;FLOAT3;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.PowerNode;45;-884.5104,744.5822;Inherit;False;False;2;0;FLOAT;0;False;1;FLOAT;2;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ClampOpNode;41;-1077.825,796.0577;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;5000;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleSubtractOpNode;40;-1261.62,833.3666;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;42;-1461.832,958.2703;Inherit;False;Property;_SideOffset;Side Offset;5;0;Create;True;0;0;0;False;0;False;0.75;0.8;0;0;0;1;FLOAT;0
 WireConnection;0;0;4;0
 WireConnection;0;11;28;0
 WireConnection;4;0;3;0
@@ -159,7 +177,7 @@ WireConnection;26;0;25;0
 WireConnection;26;1;30;0
 WireConnection;27;0;22;0
 WireConnection;27;1;26;0
-WireConnection;28;0;27;0
+WireConnection;28;0;47;0
 WireConnection;31;0;26;0
 WireConnection;32;0;5;2
 WireConnection;32;1;31;1
@@ -169,5 +187,17 @@ WireConnection;21;0;20;0
 WireConnection;33;0;21;2
 WireConnection;33;1;34;0
 WireConnection;35;0;33;0
+WireConnection;47;0;27;0
+WireConnection;47;1;46;0
+WireConnection;37;0;38;1
+WireConnection;37;1;36;0
+WireConnection;39;0;37;0
+WireConnection;43;0;39;0
+WireConnection;43;1;44;0
+WireConnection;46;1;45;0
+WireConnection;45;0;41;0
+WireConnection;41;0;40;0
+WireConnection;40;0;43;0
+WireConnection;40;1;42;0
 ASEEND*/
-//CHKSM=25ACC22ECD279AA47D0550D92CDA8687CBF94693
+//CHKSM=546C2AF11AA67976B5B2C7483EDDF2B84EEEEE76
