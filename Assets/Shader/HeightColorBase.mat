@@ -67,6 +67,7 @@ Material:
     - _Courbure: 0.01
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
+    - _Distance: -50
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5

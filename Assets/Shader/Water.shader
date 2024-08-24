@@ -9,6 +9,7 @@ Shader "Water"
 		_AbsCoef("AbsCoef", Range( 0 , 1)) = 0
 		_VECTOR("VECTOR", Vector) = (2,2,0,0)
 		_FoamColor("Foam Color", Color) = (0.8349056,1,0.9750453,0)
+		_Distance("Distance", Float) = 10
 		_FoamAmount("Foam Amount", Float) = 2
 		_Foamspeed("Foam speed", Float) = 1
 		[HideInInspector] __dirty( "", Int ) = 1
@@ -36,6 +37,7 @@ Shader "Water"
 		};
 
 		uniform float _Courbure;
+		uniform float _Distance;
 		uniform float3 _VECTOR;
 		ASE_DECLARE_SCREENSPACE_TEXTURE( _GrabTexture )
 		uniform float4 _WaterColor;
@@ -135,7 +137,8 @@ Shader "Water"
 		{
 			UNITY_INITIALIZE_OUTPUT( Input, o );
 			float3 ase_worldPos = mul( unity_ObjectToWorld, v.vertex );
-			float3 worldToObj64 = mul( unity_WorldToObject, float4( ( ase_worldPos + ( ( _Courbure * pow( ( ase_worldPos - _WorldSpaceCameraPos ).z , 2.0 ) ) * _VECTOR ) ), 1 ) ).xyz;
+			float clampResult69 = clamp( ( ( ase_worldPos - _WorldSpaceCameraPos ).z + _Distance ) , 0.0 , 90000.0 );
+			float3 worldToObj64 = mul( unity_WorldToObject, float4( ( ase_worldPos + ( ( _Courbure * pow( clampResult69 , 2.0 ) ) * _VECTOR ) ), 1 ) ).xyz;
 			v.vertex.xyz = worldToObj64;
 			v.vertex.w = 1;
 		}
@@ -210,17 +213,13 @@ Node;AmplifyShaderEditor.SimpleAddOpNode;42;-1499.162,-625.9973;Inherit;False;2;
 Node;AmplifyShaderEditor.SimpleTimeNode;41;-1749.161,-464.9974;Inherit;False;1;0;FLOAT;-1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;35;-774.964,-812.8619;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;51;-575.9124,-703.6516;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;52;-749.9124,-660.6516;Inherit;False;Property;_FoamAmount;Foam Amount;5;0;Create;True;0;0;0;False;0;False;2;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;52;-749.9124,-660.6516;Inherit;False;Property;_FoamAmount;Foam Amount;6;0;Create;True;0;0;0;False;0;False;2;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SaturateNode;53;-199.9124,-409.6516;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.ColorNode;47;-331.9349,-704.7936;Inherit;False;Property;_FoamColor;Foam Color;4;0;Create;True;0;0;0;False;0;False;0.8349056,1,0.9750453,0;0.8349056,1,0.9750453,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.VoronoiNode;27;-985.6635,-1044.17;Inherit;True;0;0;1;0;1;False;1;False;False;False;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;0.5;False;3;FLOAT;0;False;3;FLOAT;0;FLOAT2;1;FLOAT2;2
 Node;AmplifyShaderEditor.VoronoiNode;32;-982.9642,-780.862;Inherit;True;1;0;1;0;1;False;1;False;False;False;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;0.5;False;3;FLOAT;0;False;3;FLOAT;0;FLOAT2;1;FLOAT2;2
 Node;AmplifyShaderEditor.NegateNode;55;-1893.912,-581.6516;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;54;-2081.912,-741.6516;Inherit;False;Property;_Foamspeed;Foam speed;6;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleSubtractOpNode;56;-1455.424,963.7175;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.BreakToComponentsNode;57;-1280.424,963.7175;Inherit;False;FLOAT3;1;0;FLOAT3;0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
-Node;AmplifyShaderEditor.WorldPosInputsNode;58;-1855.425,904.7175;Inherit;True;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.WorldSpaceCameraPos;59;-1869.839,1085.099;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.RangedFloatNode;54;-2081.912,-741.6516;Inherit;False;Property;_Foamspeed;Foam speed;7;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.PowerNode;60;-1090.423,1075.718;Inherit;False;False;2;0;FLOAT;0;False;1;FLOAT;2;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;61;-869.3178,937.0817;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;62;-727.9148,937.4943;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
@@ -228,6 +227,13 @@ Node;AmplifyShaderEditor.SimpleAddOpNode;63;-546.0847,863.682;Inherit;True;2;2;0
 Node;AmplifyShaderEditor.TransformPositionNode;64;-299.3838,862.3519;Inherit;False;World;Object;False;Fast;True;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.RangedFloatNode;65;-1071.317,931.9451;Inherit;False;Property;_Courbure;Courbure;1;0;Create;True;0;0;0;False;0;False;0.001;0.001;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.Vector3Node;66;-892.8428,1035.329;Inherit;False;Property;_VECTOR;VECTOR;3;0;Create;True;0;0;0;False;0;False;2,2,0;2,2,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.SimpleSubtractOpNode;56;-1750.424,939.7175;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.BreakToComponentsNode;57;-1575.424,939.7175;Inherit;False;FLOAT3;1;0;FLOAT3;0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
+Node;AmplifyShaderEditor.WorldPosInputsNode;58;-2150.425,880.7175;Inherit;True;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.WorldSpaceCameraPos;59;-2164.839,1061.099;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.SimpleAddOpNode;67;-1382.066,1091.089;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;68;-1593.066,1209.089;Inherit;False;Property;_Distance;Distance;5;0;Create;True;0;0;0;False;0;False;10;10;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ClampOpNode;69;-1256.566,1089.089;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;90000;False;1;FLOAT;0
 WireConnection;7;0;5;0
 WireConnection;7;1;23;0
 WireConnection;11;0;10;0
@@ -271,10 +277,7 @@ WireConnection;27;2;31;0
 WireConnection;32;0;37;0
 WireConnection;32;2;33;0
 WireConnection;55;0;54;0
-WireConnection;56;0;58;0
-WireConnection;56;1;59;0
-WireConnection;57;0;56;0
-WireConnection;60;0;57;2
+WireConnection;60;0;69;0
 WireConnection;61;0;65;0
 WireConnection;61;1;60;0
 WireConnection;62;0;61;0
@@ -282,5 +285,11 @@ WireConnection;62;1;66;0
 WireConnection;63;0;58;0
 WireConnection;63;1;62;0
 WireConnection;64;0;63;0
+WireConnection;56;0;58;0
+WireConnection;56;1;59;0
+WireConnection;57;0;56;0
+WireConnection;67;0;57;2
+WireConnection;67;1;68;0
+WireConnection;69;0;67;0
 ASEEND*/
-//CHKSM=786E178EE424DE9B5832EED85433710E99ACF348
+//CHKSM=5F704D9EFC4D5984CCB32387B70C867E7968CBD3
