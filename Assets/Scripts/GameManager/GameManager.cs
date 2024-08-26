@@ -13,8 +13,17 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     
-    [BoxGroup("Camera")] 
-    public CinemachineVirtualCamera _virtualCamera;
+    [SerializeField][BoxGroup("Camera")]
+    private CinemachineVirtualCamera _virtualMainCamera;
+    
+    [SerializeField][BoxGroup("Camera")]
+    private CinemachineVirtualCamera _virtualSartCamera;
+    
+    [SerializeField][BoxGroup("Camera")]
+    private CinemachineVirtualCamera _virtualMilestoneCamera;
+    
+    [SerializeField][BoxGroup("Camera")]
+    private ECamToUse _camToUse = ECamToUse.Main;
     
     [SerializeField][BoxGroup("Start Parameters")]
     private float _startImpulsionForce = 10;
@@ -51,14 +60,7 @@ public class GameManager : MonoBehaviour
     public TileCardGenerator TileManager {
         
         get => _tileManager;
-        set
-        {
-            if (_tileManager != null) {
-                Debug.LogErrorFormat("there is already a tileManager in the GameManager");
-                return;
-            }
-            _tileManager = value;
-        }
+        set => _tileManager = value;
     }
     
     private void OnEnable()
@@ -95,6 +97,7 @@ public class GameManager : MonoBehaviour
         UIManager.enabled = true;
         
         LoadData();
+        ChangeCam(_camToUse);
     }
 
     private void LoadData()
@@ -128,7 +131,48 @@ public class GameManager : MonoBehaviour
         MySceneManager.UnloadGameScene();
         GameStateManager.SetGameState(EGameState.GS_StartMenu);
     }
+
+    public void ChangeCam(ECamToUse camToUse)
+    {
+        _camToUse = camToUse;
+        switch (_camToUse) {
+            case ECamToUse.Main:
+                _virtualMainCamera.Priority = 1;
+                _virtualSartCamera.Priority = 0;
+                _virtualMilestoneCamera.Priority = 0;
+                break;
+            case ECamToUse.Start:
+                _virtualMainCamera.Priority = 0;
+                _virtualSartCamera.Priority = 1;
+                _virtualMilestoneCamera.Priority = 0;
+                break;
+            case ECamToUse.MileStone:
+                _virtualMainCamera.Priority = 0;
+                _virtualSartCamera.Priority = 0;
+                _virtualMilestoneCamera.Priority = 1;
+                break;
+        }
+    }
     
-    
-    
+    public void SetParametersForCamera(Transform lookAt, Transform follow)
+    {
+        // Main Camera
+        _virtualMainCamera.LookAt = lookAt;
+        _virtualMainCamera.Follow = follow;
+        
+        // start Camera
+        _virtualSartCamera.LookAt = lookAt;
+        _virtualSartCamera.Follow = follow;
+        
+        // mileStone Camera
+        _virtualMilestoneCamera.LookAt = lookAt;
+        _virtualMilestoneCamera.Follow = follow;
+    }
+
+    public enum ECamToUse 
+    {
+        Main,
+        Start,
+        MileStone
+    }
 }

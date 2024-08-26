@@ -96,7 +96,7 @@ public class MilestoneBehaviour : MonoBehaviour
     {
         _carController?.StopMovement(true);
         GameManager.Instance.ActionManager.InvokeMilestoneEvent(_luggageHandler.LuggageLibrary.GetTotalLuggageCount());
-        // TODO : Start Change of The camera
+        GameManager.Instance.ChangeCam(GameManager.ECamToUse.MileStone);
         SpawnSplinePoint(_carController.transform.position, _carController.transform.rotation);
         StartFollowSpline();
     }
@@ -138,6 +138,7 @@ public class MilestoneBehaviour : MonoBehaviour
         }
         // TODO : Play Animation for gain of luggages
         _splineAnimate?.Play();
+        GameManager.Instance.ChangeCam(GameManager.ECamToUse.Main);
     }
     
     private void ExitTheMilestone()

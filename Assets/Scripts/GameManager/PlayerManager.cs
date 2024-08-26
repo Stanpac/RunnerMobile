@@ -19,8 +19,7 @@ public class PlayerManager
         }
         
         CurrentCarController = GameObject.Instantiate<GameObject>(CarPrefab.gameObject, position, rotation).GetComponent<CarController>();
-        GameManager.Instance._virtualCamera.LookAt = CurrentCarController.transform;
-        GameManager.Instance._virtualCamera.Follow = CurrentCarController.transform;
+        GameManager.Instance.SetParametersForCamera(CurrentCarController.transform, CurrentCarController.transform);
     }
     
     public void GiveStartImpulsionToPlayer(Vector3 direction, float force)
