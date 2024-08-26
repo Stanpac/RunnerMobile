@@ -168,13 +168,19 @@ public class CarController : MonoBehaviour
     public void StartMovement()
     {
         _stopMovement = false;
-        // TODO 
+        CarRigidbody.useGravity = true;
+        foreach (RaycastSuspension raycastSuspension in _wheels) {
+            raycastSuspension.StopMovement = false;
+        }
     }
     
-    public void StopMovement()
+    public void StopMovement(bool stopGravity = false)
     {
         _stopMovement = true;
-        // TODO 
+        if (stopGravity) CarRigidbody.useGravity = false;
+        foreach (RaycastSuspension raycastSuspension in _wheels) {
+            raycastSuspension.StopMovement = true;
+        }
     }
 
     private void OnEnable()

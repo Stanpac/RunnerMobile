@@ -117,8 +117,7 @@ GameObject:
   - component: {fileID: 6734584780313791360}
   - component: {fileID: 4605304461896292591}
   - component: {fileID: 7349604485144632063}
-  - component: {fileID: 9176775427085342965}
-  - component: {fileID: 769492854802278994}
+  - component: {fileID: 8319778981819755042}
   m_Layer: 0
   m_Name: Test
   m_TagString: Untagged
@@ -154,11 +153,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f04430a009a47b7bc71f022e1b2fb7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _entryCollider: {fileID: 9176775427085342965}
-  _exitCollider: {fileID: 769492854802278994}
+  _collider: {fileID: 8319778981819755042}
   _colliderSizeY: 4
   _colliderSizeZ: 1
-  _speed: 10
+  _speed: 5
+  _timeGainluggage: 0.5
+  _nbrOfLuggageToGenerate: 3
 --- !u!114 &7349604485144632063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,7 +189,7 @@ MonoBehaviour:
     m_Knots:
     - Position:
         x: -0.04
-        y: 1
+        y: 0.69
         z: -23.36
       TangentIn:
         x: 0
@@ -207,7 +207,7 @@ MonoBehaviour:
           w: 0.9996408
     - Position:
         x: -5.29
-        y: 1
+        y: 0.69
         z: 0.67
       TangentIn:
         x: 0
@@ -225,7 +225,7 @@ MonoBehaviour:
           w: 1
     - Position:
         x: 0
-        y: 1
+        y: 0.69
         z: 31.7
       TangentIn:
         x: 0
@@ -243,7 +243,7 @@ MonoBehaviour:
           w: 1
     - Position:
         x: 0
-        y: 1
+        y: 0.69
         z: 44.8
       TangentIn:
         x: 0
@@ -279,7 +279,7 @@ MonoBehaviour:
       m_Data: []
   m_Knots:
     m_KnotsLink: []
---- !u!65 &9176775427085342965
+--- !u!65 &8319778981819755042
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -300,24 +300,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 30, y: 4, z: 1}
   m_Center: {x: -0, y: -0, z: -45}
---- !u!65 &769492854802278994
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8764203237783146665}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 30, y: 4, z: 1}
-  m_Center: {x: 0, y: 0, z: 45}

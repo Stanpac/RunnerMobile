@@ -33,6 +33,8 @@ public class RaycastSuspension : MonoBehaviour
     
     private bool _debugMode = false;
     
+    public bool StopMovement {get; set;}
+    
     private string DataPath => "ScriptableObject/SO_RaycastSuspension";
     
     public void SetUpSpeedFactor(float speedFactor, float carTopSpeed, AnimationCurve powerCurve, bool debug = false)
@@ -61,6 +63,7 @@ public class RaycastSuspension : MonoBehaviour
     
     private void FixedUpdate()
     {
+        if (StopMovement) return;
         if (Physics.Raycast(_tireTransform.position + _tireTransform.up * _raycastUpOffset, -_tireTransform.up, out _tireRay, _data.suspensionRestDist + _raycastUpOffset + 0.1f, _data._layerMask)) {
             _rayDidHit = true;
         } else {

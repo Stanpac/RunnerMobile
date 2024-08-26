@@ -14,49 +14,47 @@ public class MilestoneBehaviour : MonoBehaviour
 {
     // TODO : test to now if this works 
     
-    [SerializeField][BoxGroup("Colliders")][ReadOnly]
-    private BoxCollider _entryCollider;
-    [SerializeField][BoxGroup("Colliders")][ReadOnly]
-    private BoxCollider _exitCollider;
+    [SerializeField][BoxGroup("Collider")][ReadOnly]
+    private BoxCollider _collider;
     
-    [SerializeField][BoxGroup("Colliders")]
+    [SerializeField][BoxGroup("Collider Settings")]
     private float _colliderSizeY = 4;
-    [SerializeField][BoxGroup("Colliders")]
+    [SerializeField][BoxGroup("Collider Settings")]
     private float _colliderSizeZ = 1;
     
-    private SplineContainer _splineContainer;
-    private EMilestoneState _milestoneState = EMilestoneState.Entry;
+    [SerializeField][BoxGroup("Spline Settings")]
+    private float _speed = 10;
     
-    // Timer keys
-    private string _timerFollowSplineKey;
-    CarController _carController = null;
-    SplineAnimate _splineAnimate = null;
-    LuggageHandler _luggageHandler = null;
+    [SerializeField][BoxGroup("Spline Settings")][Min(0)][MaxValue(1)]
+    [Tooltip("normalized time on the spline to gain the luggage")]
+    private float _timeGainluggage = 0.5f;
     
-    // luggage
+    [SerializeField][BoxGroup("Luggage")]
+    private int _nbrOfLuggageToGenerate = 3;
+    
+    // private references to certain components needed
+    private SplineContainer _splineContainer = null;
+    private SplineAnimate _splineAnimate = null;
+    private CarController _carController = null;
+    private LuggageHandler _luggageHandler = null;
+    
+    // Contains the luggages the milestone will give to the player
     Luggage[] _luggages;
     
-    
-    // Parmeters for Spline Lerp
-    public float _speed = 10;
-    public int _nbrOfLuggageToGenerate = 3;
-    
+    private bool _onMilestone = false;
+    private bool _luggageGain = false;
     private void Awake()
     {
-        if (_entryCollider == null || _exitCollider == null) {
-            SpawnColliders();
+        if (_collider == null) {
+            SpawnCollider();
         }
-        _milestoneState = EMilestoneState.Entry;
+        
         TryGetComponent(out _splineContainer);
     }
 
     private void Start()
     {
-        GenerateLuggages();
-    }
-
-    private void GenerateLuggages()
-    {
+        // Generate the luggages for the milestone
         _luggages = GameManager.Instance.LuggageCategories.PickLuggagesInRandomCategory(_nbrOfLuggageToGenerate);
     }
 
@@ -69,30 +67,38 @@ public class MilestoneBehaviour : MonoBehaviour
                 return;
             }
         }
+        
         _luggageHandler = _carController.GetComponent<LuggageHandler>();
-        switch (_milestoneState) {
-            case EMilestoneState.Entry:
-                OnEntry();
-                break;
-            case EMilestoneState.Pause:
-                OnPause();
-                break;
-            case EMilestoneState.Exit:
-                OnExit();
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
+        if (_luggageHandler == null) {
+            Debug.LogErrorFormat("No LuggageHandler found in the object {0}", _carController.gameObject.name);
+            return;
+        }
+        
+        EnterTheMileStone();
+    }
+
+    private void Update()
+    {
+        if (!_onMilestone) return;
+        
+        if (_splineAnimate) {
+            if (_splineAnimate.NormalizedTime >= _timeGainluggage && !_luggageGain) {
+                GainTheLuggage();
+            }
+            
+            if (_splineAnimate.NormalizedTime >= 0.99) {
+                ExitTheMilestone();
+            }
         }
     }
-    
-    private void OnEntry()
+
+    private void EnterTheMileStone()
     {
-        _carController.StopMovement();
+        _carController?.StopMovement(true);
         GameManager.Instance.ActionManager.InvokeMilestoneEvent(_luggageHandler.LuggageLibrary.GetTotalLuggageCount());
         // TODO : Start Change of The camera
         SpawnSplinePoint(_carController.transform.position, _carController.transform.rotation);
         StartFollowSpline();
-        _milestoneState = EMilestoneState.Pause;
     }
     
     // Spawn a spline point with position and rotation and add it to the spline
@@ -109,38 +115,41 @@ public class MilestoneBehaviour : MonoBehaviour
         if (!_carController.TryGetComponent(out _splineAnimate)) {
             _splineAnimate = _carController.AddComponent<SplineAnimate>();
         }
+        
+        if (_splineAnimate == null) {
+            Debug.LogErrorFormat("No SplineAnimate found in the object {0}", _carController.gameObject.name);
+            return;
+        }
+        
         _splineAnimate.Container = _splineContainer;
         _splineAnimate.AnimationMethod = SplineAnimate.Method.Time;
         _splineAnimate.Duration = _speed;
         _splineAnimate.Loop = SplineAnimate.LoopMode.Once;
-        _splineAnimate.Play();
+        _splineAnimate.Restart(true);
+        _onMilestone = true;
     }
     
-    private void OnPause()
+    private void GainTheLuggage()
     {
+        _luggageGain = true;
         _splineAnimate?.Pause();
-         AddLuggages();
-        _splineAnimate?.Play();
-        // TODO : Change the camera to the player Camera
-    }
-    
-    private void AddLuggages()
-    {
         foreach (var luggage in _luggages) {
             _luggageHandler.AddLuggage(luggage, 1);
         }
         // TODO : Play Animation for gain of luggages
+        _splineAnimate?.Play();
     }
     
-    private void OnExit()
+    private void ExitTheMilestone()
     {
         _splineAnimate?.Pause();
-        _carController.StartMovement();
+        _carController?.StartMovement();
+        _onMilestone = false;
     }
     
-    // Generate the colliders for the milestone with good position and size
+    // Generate the collider for the milestone with good position and size
     [Button]
-    private void SpawnColliders()
+    private void SpawnCollider()
     {
         MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
         if (meshRenderer == null) {
@@ -157,25 +166,11 @@ public class MilestoneBehaviour : MonoBehaviour
         
         Vector3 pos = meshRenderer.bounds.center + new Vector3(0, 0, meshRenderer.bounds.size.z / 2);
         
-        if (_entryCollider == null) {
-            _entryCollider = gameObject.AddComponent<BoxCollider>();
-            _entryCollider.isTrigger = true;
-            _entryCollider.size = size;
-            _entryCollider.center = -pos;
+        if (_collider == null) {
+            _collider = gameObject.AddComponent<BoxCollider>();
+            _collider.isTrigger = true;
+            _collider.size = size;
+            _collider.center = -pos;
         }
-        
-        if (_exitCollider == null) {
-            _exitCollider = gameObject.AddComponent<BoxCollider>();
-            _exitCollider.isTrigger = true;
-            _exitCollider.size = size;
-            _exitCollider.center = pos;
-        }
-    }
-    
-    private enum EMilestoneState
-    {
-        Entry,
-        Pause,
-        Exit
     }
 }
