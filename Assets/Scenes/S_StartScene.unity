@@ -274,8 +274,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 110054647}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.22652018, y: -0.2603484, z: 0.06289178, w: -0.93645716}
-  m_LocalPosition: {x: -11.133011, y: 11.08167, z: -18.473024}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -819,8 +819,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 449524676}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.22652018, y: -0.2603484, z: 0.06289178, w: -0.93645716}
-  m_LocalPosition: {x: -11.133011, y: 11.08167, z: -18.473024}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -993,8 +993,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 701161778}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.248138, y: 8.071683, z: -15.724655}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2323,7 +2323,7 @@ Transform:
   m_GameObject: {fileID: 1595408671}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.248138, y: -8.071683, z: 15.724655}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2379,8 +2379,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 0, z: -10}
-  m_XDamping: 1
+  m_FollowOffset: {x: 10, y: 0, z: 0}
+  m_XDamping: 0
   m_YDamping: 1
   m_ZDamping: 1
   m_AngularDampingMode: 0
@@ -3143,7 +3143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _virtualMainCamera: {fileID: 701161779}
   _virtualSartCamera: {fileID: 449524678}
-  _virtualMilestoneCamera: {fileID: 0}
+  _virtualMilestoneCamera: {fileID: 110054649}
   _camToUse: 0
   _startImpulsionForce: 100
   _player: {fileID: 7112361200019964721, guid: 2c9126dedfb62354c9b24fba7b56b866, type: 3}
