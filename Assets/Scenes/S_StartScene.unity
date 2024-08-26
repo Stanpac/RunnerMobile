@@ -2407,8 +2407,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 750, y: 1330}
+  m_AnchoredPosition: {x: 0, y: 102}
+  m_SizeDelta: {x: 1284, y: 2535}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1878114471
 MonoBehaviour:
@@ -2773,10 +2773,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b714d2b552e3ba4b923fb96550eba06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _virtualCamera: {fileID: 701161779}
+  _virtualMainCamera: {fileID: 701161779}
+  _virtualSartCamera: {fileID: 701161779}
+  _virtualMilestoneCamera: {fileID: 701161779}
+  _camToUse: 0
   _startImpulsionForce: 100
   _player: {fileID: 7112361200019964721, guid: 2c9126dedfb62354c9b24fba7b56b866, type: 3}
   _luggageCategories: {fileID: 11400000, guid: 2ee3af78fa20a0041bbeaf1ed33cadf2, type: 2}
+  _scenes:
+  - _sceneType: 0
+    _scene: S_StartScene
+  - _sceneType: 1
+    _scene: S_GameScene
   _newGame: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
