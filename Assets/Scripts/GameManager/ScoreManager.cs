@@ -1,45 +1,86 @@
 ﻿using System;
 using UnityEngine;
 using NaughtyAttributes;
+using ScriptableObjects;
+using Unity.VisualScripting;
+
 
 public class ScoreManager 
 {
-    private float _score = 0;
+    // Score
+    private float _globalscore = 0;
+    private float _milestoneScore = 0;
     
+    // Action value
     private float _actionValue = 0;
-    private float _avForNextMileStone = 1000;
+    private float _avForNextMileStone = 0;
     
-    private float _luggageAv = 0;
+    // MileStone 
+    private int _mileStoneIndex = 1;
     
-    private int _mileStoneIndex = 0;
-    private float _coefficientDiffiCulty = 2f;
+    // Data
+    private SO_ScoreManager _data;
     
-    private LuggageHandler _luggageHandler;
+    private string DataPath => "ScriptableObject/SO_ScoreManager";
     
-    // TODO : reset _ActionValue when the player is at a MileStone (After Update the Score)
-    // TODO : Update _mileStoneIndex 
-    // TODO : Update Finish Calculate the _avForNextMileStone ? 
-    
-    public float GetScore() => _score;
+    public float GetGlobalScore() => _globalscore;
     public int GetMileStoneIndex() => _mileStoneIndex;
+    public float GetCoefDifficulty() => Mathf.Pow(_data._baseCoefficientDiffiCulty, _mileStoneIndex);
+    public void ResetActionValue() => _actionValue = 0;
+    public void ResetMileStoneIndex() => _mileStoneIndex = 0;
+    public void UpdateAvForNextMileStone() =>_avForNextMileStone += _avForNextMileStone * _data._avNextMilestoneCoef;
+    public void UpdateMileStoneIndex() => _mileStoneIndex++;
     
-    public float GetCoefDifficulty() => Mathf.Pow(_coefficientDiffiCulty, _mileStoneIndex);
+    // TODO : Event call a each milestone for update MilestoneScore
     
+    public ScoreManager()
+    {
+        // Subscribe to the event
+        GameManager.Instance.ActionManager.PlayerMove += UpdateActionValue;
+        GameManager.Instance.ActionManager.MilestoneEvent += UpdateMileStoneScore;
+        
+        if (_data == null) 
+            _data = Resources.Load<SO_ScoreManager>(DataPath);
+        
+        if (GameManager.Instance.NewGame) {
+            _avForNextMileStone = _data._avForNextMileStoneBase;
+        } else {
+            // TODO : Load Score and data from save
+        }
+    }
+    
+    ~ScoreManager()
+    {
+        // Unsubscribe to the event
+        if (GameManager.Instance == null) return;
+        GameManager.Instance.ActionManager.PlayerMove -= UpdateActionValue;
+        GameManager.Instance.ActionManager.MilestoneEvent -= UpdateMileStoneScore;
+    }
+    
+    // Update the global score
     public void UpdateScore()
     {
-        if (_luggageHandler== null) {
-            _luggageHandler = GameManager.Instance.playerManager._currentCarController.GetComponent<LuggageHandler>();
-        }
-        
-        // TODO : Update the Calcul when the Weight is Add To the LuggageHandler (Now 1 luggage = 1 weight)
-        _score = _score + _actionValue + (_luggageAv * _luggageHandler.GetCurrentWeightInstead);
-        
-        // TODO : Event For Update Score on UI
+        _globalscore = _actionValue + _milestoneScore;
+        GameManager.Instance.ActionManager.InvokeScoreUpdate(_globalscore);
     }
     
-    public void UpdateAvForNextMileStone()
+    // Update the action value 
+    public void UpdateActionValue(float playerPosZ, float playerPosLastFrameZ, bool isOnRoad)
     {
-        _avForNextMileStone += _avForNextMileStone * _mileStoneIndex;
+        _actionValue += (playerPosZ - playerPosLastFrameZ) * (isOnRoad ? _data._avRoadScoreMultiplier : 1);
+        if (_actionValue >= _avForNextMileStone) {
+            GameManager.Instance.ActionManager.InvokeAvForNextMilestoneReached(_avForNextMileStone);
+            UpdateAvForNextMileStone();
+            UpdateMileStoneIndex();
+        }
+        UpdateScore();
     }
     
+    // Update the milestone score
+    public void UpdateMileStoneScore(int luggageCount)
+    {
+        _milestoneScore += _data._milestoneScoreCoef * luggageCount * _mileStoneIndex;
+        Debug.LogFormat("Update Milestone Score : {0}", _milestoneScore);
+        UpdateScore();
+    }
 }

@@ -11,14 +11,14 @@ public class InputManager
     private  List<LeanFinger> _filteredFingers = new List<LeanFinger>();
     
     
-    public bool IsFingerOnScreen(bool CountFingerOverGUI = false)
+    public bool IsFingerOnScreen(bool countFingerOverGUI = false)
     {
         _filteredFingers.Clear();
         
         foreach (var finger in _allFingers) {
             
             // Skip fingers that Start over any GUI elements ?
-            if (CountFingerOverGUI && finger.StartedOverGui) {
+            if (countFingerOverGUI && finger.StartedOverGui) {
                continue;
             }
             
@@ -28,14 +28,14 @@ public class InputManager
         return _filteredFingers.Count > 0;
     }
     
-    public int GetFingerCount(bool CountFingerOverGUI = false)
+    public int GetFingerCount(bool countFingerOverGUI = false)
     {
         _filteredFingers.Clear();
         
         foreach (var finger in _allFingers) {
             
             // Skip fingers that Start over any GUI elements ?
-            if (CountFingerOverGUI && finger.StartedOverGui) {
+            if (countFingerOverGUI && finger.StartedOverGui) {
                continue;
             }
             
@@ -50,16 +50,16 @@ public class InputManager
     {
         _allFingers.Remove(finger);
         if (GetFingerCount(true) == 0)
-            GameManager.Instance.actionManager.LastFingerUp(finger);
+            GameManager.Instance.ActionManager.InvokeLastFingerUp(finger);
     }
 
     private void HandleFingerDown(LeanFinger finger)
     {
         _allFingers.Add(finger);
         if (GetFingerCount(true) == 0) {
-            GameManager.Instance.actionManager.FirstFingerDown(finger);
+            GameManager.Instance.ActionManager.InvokeFirstFingerDown(finger);
         } else {
-            GameManager.Instance.actionManager.FingerDown(finger);
+            GameManager.Instance.ActionManager.InvokeFingerDown(finger);
         }
     }
     public InputManager()

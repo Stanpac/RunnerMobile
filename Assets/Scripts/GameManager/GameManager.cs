@@ -13,46 +13,54 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     
-    [BoxGroup("Camera")] 
-    public CinemachineVirtualCamera _virtualCamera;
+    [SerializeField][BoxGroup("Camera")]
+    private CinemachineVirtualCamera _virtualMainCamera;
     
-    [SerializeField, BoxGroup("StartParameters")]
+    [SerializeField][BoxGroup("Camera")]
+    private CinemachineVirtualCamera _virtualSartCamera;
+    
+    [SerializeField][BoxGroup("Camera")]
+    private CinemachineVirtualCamera _virtualMilestoneCamera;
+    
+    [SerializeField][BoxGroup("Camera")]
+    private ECamToUse _camToUse = ECamToUse.Main;
+    
+    [SerializeField][BoxGroup("Start Parameters")]
     private float _startImpulsionForce = 10;
     
-    [SerializeField, BoxGroup("Player")]
+    [SerializeField][BoxGroup("Player")]
     private CarController _player;
     
-    [SerializeField, BoxGroup("AllLuggage")]
+    [SerializeField][BoxGroup("All Luggages")]
     private LuggageCategories _luggageCategories;
     
-    [SerializeField, ReadOnly]
+    [SerializeField][BoxGroup("Scene")]
+    [Tooltip("The scenes of the game")]
+    private FSceneData[] _scenes;
+    
+    [SerializeField][ReadOnly]
     private bool _newGame = true;
+    
     public bool NewGame => _newGame;
     public LuggageCategories LuggageCategories => _luggageCategories;
+    public FSceneData[] Scenes => _scenes;
     
     // Manager for the game
-    public ActionManager actionManager {get; private set;}
-    public UIManager uiManager {get; private set;}
-    public InputManager inputManager {get; private set;}
-    public GameStateManager gameStateManager {get; private set;}
-    public MySceneManager mySceneManager {get; private set;}
-    public PlayerManager playerManager {get; private set;}
-    public TimerManager timerManager {get; private set;}
-    public ScoreManager scoreManager {get; private set;}
+    public ActionManager ActionManager {get; private set;}
+    public UIManager UIManager {get; private set;}
+    public InputManager InputManager {get; private set;}
+    public GameStateManager GameStateManager {get; private set;}
+    public MySceneManager MySceneManager {get; private set;}
+    public PlayerManager PlayerManager {get; private set;}
+    public TimerManager TimerManager {get; private set;}
+    public ScoreManager ScoreManager {get; private set;}
     
     // Tile Generator 
-    private TileCardGenerator tileManager;
+    private TileCardGenerator _tileManager;
     public TileCardGenerator TileManager {
         
-        get => tileManager;
-        set
-        {
-            if (tileManager != null) {
-                Debug.LogErrorFormat("there is already a tileManager in the GameManager");
-                return;
-            }
-            tileManager = value;
-        }
+        get => _tileManager;
+        set => _tileManager = value;
     }
     
     private void OnEnable()
@@ -75,25 +83,27 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         // Init Managers
-        actionManager = new ActionManager();
-        inputManager = new InputManager();
-        gameStateManager = new GameStateManager();
-        mySceneManager = new MySceneManager();
-        playerManager = new PlayerManager();
-        scoreManager = new ScoreManager();
+        ActionManager = new ActionManager();
+        InputManager = new InputManager();
+        GameStateManager = new GameStateManager();
+        MySceneManager = new MySceneManager();
+        PlayerManager = new PlayerManager();
         
-        timerManager = gameObject.AddComponent<TimerManager>();
+        // TODO : load when the Game Start 
+        ScoreManager = new ScoreManager();
+        TimerManager = gameObject.AddComponent<TimerManager>();
         
-        uiManager = FindObjectOfType<UIManager>();
-        uiManager.enabled = true;
+        UIManager = FindObjectOfType<UIManager>();
+        UIManager.enabled = true;
         
         LoadData();
+        ChangeCam(_camToUse);
     }
 
     private void LoadData()
     {
-        playerManager._carPrefab = _player;
-        gameStateManager.SetGameState(EGameState.GS_StartMenu);
+        PlayerManager.CarPrefab = _player;
+        GameStateManager.SetGameState(EGameState.GS_StartMenu);
     }
     
     public void StartGame()
@@ -102,10 +112,10 @@ public class GameManager : MonoBehaviour
         // Idee : Menu Demarage du jeu  avec la voiture qu'on va jouer,
         // Ecran de demarrage au debut histoire de tous charger avant 
         // Au start fade du menu, mouvement de Camera et hop ça start le jeu
-        if (mySceneManager.loadGameScene()) { 
-            gameStateManager.SetGameState(EGameState.GS_Game);
-            playerManager.InstantiatePlayer(Vector3.up * 2, Quaternion.identity);
-            playerManager.GiveStartImpulsionToPlayer(Vector3.forward, _startImpulsionForce);
+        if (MySceneManager.LoadGameScene()) { 
+            GameStateManager.SetGameState(EGameState.GS_Game);
+            PlayerManager.InstantiatePlayer(Vector3.up * 2, Quaternion.identity);
+            PlayerManager.GiveStartImpulsionToPlayer(Vector3.forward, _startImpulsionForce);
         } else {
             Debug.LogError("Game Scene not found");
         }
@@ -118,10 +128,51 @@ public class GameManager : MonoBehaviour
     
     public void ReturnToMainMenu()
     {
-        mySceneManager.UnloadGameScene();
-        gameStateManager.SetGameState(EGameState.GS_StartMenu);
+        MySceneManager.UnloadGameScene();
+        GameStateManager.SetGameState(EGameState.GS_StartMenu);
+    }
+
+    public void ChangeCam(ECamToUse camToUse)
+    {
+        _camToUse = camToUse;
+        switch (_camToUse) {
+            case ECamToUse.Main:
+                _virtualMainCamera.Priority = 1;
+                _virtualSartCamera.Priority = 0;
+                _virtualMilestoneCamera.Priority = 0;
+                break;
+            case ECamToUse.Start:
+                _virtualMainCamera.Priority = 0;
+                _virtualSartCamera.Priority = 1;
+                _virtualMilestoneCamera.Priority = 0;
+                break;
+            case ECamToUse.MileStone:
+                _virtualMainCamera.Priority = 0;
+                _virtualSartCamera.Priority = 0;
+                _virtualMilestoneCamera.Priority = 1;
+                break;
+        }
     }
     
-    
-    
+    public void SetParametersForCamera(Transform lookAt, Transform follow)
+    {
+        // Main Camera
+        _virtualMainCamera.LookAt = lookAt;
+        _virtualMainCamera.Follow = follow;
+        
+        // start Camera
+        _virtualSartCamera.LookAt = lookAt;
+        _virtualSartCamera.Follow = follow;
+        
+        // mileStone Camera
+        _virtualMilestoneCamera.LookAt = lookAt;
+        _virtualMilestoneCamera.Follow = follow;
+    }
+
+    public enum ECamToUse 
+    {
+        Main,
+        Start,
+        MileStone
+    }
 }

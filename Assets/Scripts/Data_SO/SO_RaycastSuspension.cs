@@ -26,5 +26,8 @@ namespace ScriptableObjects
         [Tooltip(" The mass of the tire.")]
         public float tireMass = 1f;
         
+        [SerializeField][BoxGroup("Layer Settings")]
+        [Tooltip("LayerToHit.")]
+        public LayerMask _layerMask = 1 << 8;
     }
 }

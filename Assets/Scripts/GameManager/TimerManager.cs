@@ -33,11 +33,14 @@ public class TimerManager : MonoBehaviour
         Coroutine coroutine = GetTimer(key);
         if (coroutine != null) {
             StopCoroutine(coroutine);
-        } else {
-            Debug.LogWarning("No coroutine found with the key: " + key);
         }
         
         _coroutines.Remove(key);
+    }
+    
+    public void PauseTimer(string key)
+    {
+        
     }
     
     public void StopAllTimers()

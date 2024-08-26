@@ -8,60 +8,88 @@ using NaughtyAttributes;
 public class ActionManager 
 {
     // Finger
-    public Action<LeanFinger> OnLastFingerUp;
-    public Action<LeanFinger> OnFirstFingerDown;
-    public Action<LeanFinger> OnFingerDown;
+    public Action<LeanFinger> LastFingerUp;
+    public Action<LeanFinger> FirstFingerDown;
+    public Action<LeanFinger> FingerDown;
     
     // Game State
-    public Action<EGameState, EGameState> OnGameStateChange;
+    public Action<EGameState, EGameState> GameStateUpdate;
     
     // Stability
-    public Action <float> OnStabilityChange;
-    public Action <bool> OnUnstableChange;
+    public Action <float> StabilityUpdate;
+    public Action <bool> UnstableUpdate;
     
     // Luggage
-    public Action<float> OnLuggageChange;
+    public Action<float> LuggageUpdate;
     
     // Player
-    public Action OnPlayerDeath;
+    public Action PlayerDeath;
+    public Action<float, float, bool> PlayerMove;
     
-    public void PlayerDeath()
+    // Score
+    public Action<float> ScoreUpdate;
+    
+    // Milestone
+    public Action<int> MilestoneEvent;
+    public Action<float> AvForNextMilestoneReached;
+    
+    public void InvokeLastFingerUp(LeanFinger finger)
     {
-        OnPlayerDeath?.Invoke();
+        LastFingerUp?.Invoke(finger);
     }
     
-    public void LastFingerUp(LeanFinger finger)
+    public void InvokeFirstFingerDown(LeanFinger finger)
     {
-        OnLastFingerUp?.Invoke(finger);
+        FirstFingerDown?.Invoke(finger);
     }
     
-    public void FirstFingerDown(LeanFinger finger)
+    public void InvokeFingerDown(LeanFinger finger)
     {
-        OnFirstFingerDown?.Invoke(finger);
+        FingerDown?.Invoke(finger);
     }
     
-    public void FingerDown(LeanFinger finger)
+    public void InvokePlayerDeath()
     {
-        OnFingerDown?.Invoke(finger);
+        PlayerDeath?.Invoke();
     }
     
-    public void GameStateChange(EGameState PreviousGameState ,EGameState NewGameState)
+    public void InvokePlayerMove(float playerPosZ, float playerPosLastFrameZ, bool isOnRoad)
     {
-        OnGameStateChange?.Invoke(PreviousGameState, NewGameState);
+        PlayerMove?.Invoke(playerPosZ, playerPosLastFrameZ, isOnRoad);
     }
     
-    public void StabilityChange(float stability)
+    public void InvokeGameStateUpdate(EGameState previousGameState ,EGameState newGameState)
     {
-        OnStabilityChange?.Invoke(stability);
+        GameStateUpdate?.Invoke(previousGameState, newGameState);
     }
     
-    public void LuggageChange(float luggage)
+    public void InvokeStabilityUpdate(float stability)
     {
-        OnLuggageChange?.Invoke(luggage);
+        StabilityUpdate?.Invoke(stability);
     }
     
-    public void UnstableChange(bool unstable)
+    public void InvokeLuggageUpdate(float luggage)
     {
-        OnUnstableChange?.Invoke(unstable);
+        LuggageUpdate?.Invoke(luggage);
+    }
+    
+    public void InvokeUnstableUpdate(bool unstable)
+    {
+        UnstableUpdate?.Invoke(unstable);
+    }
+    
+    public void InvokeScoreUpdate(float score)
+    {
+        ScoreUpdate?.Invoke(score);
+    }
+    
+    public void InvokeMilestoneEvent(int luggageCount)
+    {
+        MilestoneEvent?.Invoke(luggageCount);
+    }
+    
+    public void InvokeAvForNextMilestoneReached(float avForNextMilestone)
+    {
+        AvForNextMilestoneReached?.Invoke(avForNextMilestone);
     }
 }

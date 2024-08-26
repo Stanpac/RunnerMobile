@@ -27,6 +27,8 @@ public class LuggageHandler : MonoBehaviour
     
     public float GetCurrentWeightInstead => _currentWeight;
     
+    public Luggagelibrary LuggageLibrary => _luggageLibrary;
+    
     private void Awake()
     {
         
@@ -84,7 +86,7 @@ public class LuggageHandler : MonoBehaviour
     private void LuggageIsUpdated()
     {
         UpdateCurrentWeight();
-        GameManager.Instance.actionManager.LuggageChange(_currentWeight);
+        GameManager.Instance.ActionManager.InvokeLuggageUpdate(_luggageLibrary.GetTotalLuggageCount());
     }
     
     public IEnumerator TimerUnstability()
@@ -98,14 +100,14 @@ public class LuggageHandler : MonoBehaviour
     private void OnUnstableChange(bool unstable)
     {
         if (unstable) {
-            if (!GameManager.Instance.timerManager.IsTimerRunning(_timerUnstabilityKey)) {
-                _timerUnstabilityKey = GameManager.Instance.timerManager.StartTimer(TimerUnstability());
+            if (!GameManager.Instance.TimerManager.IsTimerRunning(_timerUnstabilityKey)) {
+                _timerUnstabilityKey = GameManager.Instance.TimerManager.StartTimer(TimerUnstability());
             } else {
                 Debug.LogWarning("Timer already running, he should not be running", this);
             }
         } else {
-            if (GameManager.Instance.timerManager.IsTimerRunning(_timerUnstabilityKey)) {
-                GameManager.Instance.timerManager.StopTimer(_timerUnstabilityKey);
+            if (GameManager.Instance.TimerManager.IsTimerRunning(_timerUnstabilityKey)) {
+                GameManager.Instance.TimerManager.StopTimer(_timerUnstabilityKey);
             } else {
                 Debug.LogWarning("Timer not running, he should be running", this);
             }
@@ -114,12 +116,12 @@ public class LuggageHandler : MonoBehaviour
     
     private void OnEnable()
     {
-        GameManager.Instance.actionManager.OnUnstableChange += OnUnstableChange;
+        GameManager.Instance.ActionManager.UnstableUpdate += OnUnstableChange;
     }
 
     private void OnDisable()
     {
         if (GameManager.Instance == null) return;
-        GameManager.Instance.actionManager.OnUnstableChange -= OnUnstableChange;
+        GameManager.Instance.ActionManager.UnstableUpdate -= OnUnstableChange;
     }
 }

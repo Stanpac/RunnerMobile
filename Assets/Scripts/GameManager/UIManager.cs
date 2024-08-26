@@ -103,8 +103,9 @@ public class UIManager : MonoBehaviour
     
     private void LuggageChange(float luggage)
     {
-        _debugLuggage.text = "Luggage: " + luggage.ToString();
+        _debugLuggage.text = "Luggages: " + luggage.ToString();
     }
+    
     private void OnUnstableChange(bool unstable)
     {
         _debugUnstable.SetActive(unstable);
@@ -112,19 +113,19 @@ public class UIManager : MonoBehaviour
     
     private void OnEnable()
     {
-        GameManager.Instance.actionManager.OnGameStateChange += GameStateChange;
-        GameManager.Instance.actionManager.OnStabilityChange += StabilityChange;
-        GameManager.Instance.actionManager.OnLuggageChange += LuggageChange;
-        GameManager.Instance.actionManager.OnUnstableChange += OnUnstableChange;
+        GameManager.Instance.ActionManager.GameStateUpdate += GameStateChange;
+        GameManager.Instance.ActionManager.StabilityUpdate += StabilityChange;
+        GameManager.Instance.ActionManager.LuggageUpdate += LuggageChange;
+        GameManager.Instance.ActionManager.UnstableUpdate += OnUnstableChange;
     }
 
 
     private void OnDisable()
     {
         if (GameManager.Instance == null) return;
-        GameManager.Instance.actionManager.OnGameStateChange -= GameStateChange;
-        GameManager.Instance.actionManager.OnStabilityChange -= StabilityChange;
-        GameManager.Instance.actionManager.OnLuggageChange -= LuggageChange;
-        GameManager.Instance.actionManager.OnUnstableChange -= OnUnstableChange;
+        GameManager.Instance.ActionManager.GameStateUpdate -= GameStateChange;
+        GameManager.Instance.ActionManager.StabilityUpdate -= StabilityChange;
+        GameManager.Instance.ActionManager.LuggageUpdate -= LuggageChange;
+        GameManager.Instance.ActionManager.UnstableUpdate -= OnUnstableChange;
     }
 }

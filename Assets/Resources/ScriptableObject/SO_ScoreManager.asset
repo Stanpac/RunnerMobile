@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7ec1a53f4b6464191bb1fe1e9655389, type: 3}
-  m_Name: ArakaCube2
+  m_Script: {fileID: 11500000, guid: 978a415b6c2a4ffdae6c7685adc05a9d, type: 3}
+  m_Name: SO_ScoreManager
   m_EditorClassIdentifier: 
-  _prefab: {fileID: 3511086335058394465, guid: 76ddec7f96ac9fd49b9bece402560504, type: 3}
-  _name: ArakaCube2
-  _weight: 1
-  _stability: 2
+  _avForNextMileStoneBase: 100
+  _avRoadScoreMultiplier: 2
+  _avNextMilestoneCoef: 1.1
+  _milestoneScoreCoef: 2
+  _baseCoefficientDiffiCulty: 2

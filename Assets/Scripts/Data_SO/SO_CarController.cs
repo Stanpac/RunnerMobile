@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "SO_CarController", menuName = "RoadTrip/ScriptableObjects/CarController", order = 0)]
+    [CreateAssetMenu(fileName = "SO_CarController", menuName = "RoadTrip/ScriptableObjects/CarController")]
     public class SO_CarController : ScriptableObject
     {
         [SerializeField, BoxGroup("Speed Settings")]

@@ -13,7 +13,7 @@ public class GameStateManager
     {
         EGameState previousGameState = CurrentGameState;
         CurrentGameState = gameState;
-        GameManager.Instance.actionManager.GameStateChange(previousGameState,gameState);
+        GameManager.Instance.ActionManager.InvokeGameStateUpdate(previousGameState,gameState);
     }
 }
 
