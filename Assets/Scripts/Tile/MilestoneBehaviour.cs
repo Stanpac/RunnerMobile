@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using NaughtyAttributes;
 using Unity.Mathematics;
 using Unity.VisualScripting;
@@ -12,7 +13,7 @@ using UnityEngine.Splines;
 [RequireComponent(typeof(SplineContainer))]
 public class MilestoneBehaviour : MonoBehaviour
 {
-    // TODO : test to now if this works 
+    // TODO Resolve Problem at the end of the Milestone 
     
     [SerializeField][BoxGroup("Collider")][ReadOnly]
     private BoxCollider _collider;
@@ -99,6 +100,7 @@ public class MilestoneBehaviour : MonoBehaviour
         GameManager.Instance.ChangeCam(GameManager.ECamToUse.MileStone);
         SpawnSplinePoint(_carController.transform.position, _carController.transform.rotation);
         StartFollowSpline();
+        GameManager.Instance.CinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.LateUpdate;
     }
     
     // Spawn a spline point with position and rotation and add it to the spline
@@ -146,6 +148,7 @@ public class MilestoneBehaviour : MonoBehaviour
         _splineAnimate?.Pause();
         _carController?.StartMovement();
         _onMilestone = false;
+        GameManager.Instance.CinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.FixedUpdate;
     }
     
     // Generate the collider for the milestone with good position and size

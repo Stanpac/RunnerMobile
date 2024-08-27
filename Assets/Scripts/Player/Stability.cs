@@ -124,7 +124,7 @@ public class Stability : MonoBehaviour
     {
         if (!_stabilityEvent) return 0;
         
-        // TODO: Implement this with create trigger box for events
+        // TODO: Calculate the stability from the events 
         return 0;
     }
     

@@ -77,6 +77,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _data: {fileID: 11400000, guid: f4bad4123f0c2c14787bb69906921bf7, type: 2}
+  _collisionLayer:
+    serializedVersion: 2
+    m_Bits: 768
+  _obstacleLayer: 9
+  _luaggageLostOnCollision: 1
+  _impulseMinimum: 40
+  _impulseMaximum: 60
+  _debugImpulseSettings: 2
+  _invincibleTime: 5
   _wheelsToRotate:
     Wheels:
     - {fileID: 4880756959424967256}

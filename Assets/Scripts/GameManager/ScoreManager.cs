@@ -31,8 +31,6 @@ public class ScoreManager
     public void UpdateAvForNextMileStone() =>_avForNextMileStone += _avForNextMileStone * _data._avNextMilestoneCoef;
     public void UpdateMileStoneIndex() => _mileStoneIndex++;
     
-    // TODO : Event call a each milestone for update MilestoneScore
-    
     public ScoreManager()
     {
         // Subscribe to the event
