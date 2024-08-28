@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 4376867485294383219}
   - component: {fileID: 7060973113891943144}
   - component: {fileID: 4358874672515052767}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MurDroite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -471,7 +471,7 @@ GameObject:
   - component: {fileID: 8211544803479687817}
   - component: {fileID: 6892509475126864991}
   - component: {fileID: 2377366174983708604}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MurGauche
   m_TagString: Untagged
   m_Icon: {fileID: 0}

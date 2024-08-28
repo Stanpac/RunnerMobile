@@ -3120,6 +3120,7 @@ MonoBehaviour:
   - _sceneType: 1
     _scene: S_GameScene
   _newGame: 1
+  _cinemachineBrain: {fileID: 0}
 --- !u!1 &2114176796
 GameObject:
   m_ObjectHideFlags: 0

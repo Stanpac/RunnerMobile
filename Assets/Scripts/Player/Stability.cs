@@ -101,7 +101,7 @@ public class Stability : MonoBehaviour
     
     private float CalculateRotationStability()
     {
-        if (_stabilityRotation) return 0;
+        if (!_stabilityRotation) return 0;
         
         if (_carController == null) {
             Debug.LogError("No Car Controller found");
@@ -122,9 +122,9 @@ public class Stability : MonoBehaviour
     
     private float CalculateEvents()
     {
-        if (_stabilityEvent) return 0;
+        if (!_stabilityEvent) return 0;
         
-        // TODO: Implement this with create trigger box for events
+        // TODO: Calculate the stability from the events 
         return 0;
     }
     

@@ -101,7 +101,7 @@ public class UIManager : MonoBehaviour
         _debugStability.text = "Stability: "  + stability.ToString();
     }
     
-    private void LuggageChange(float luggage)
+    private void LuggageChange(float luggage, float weight)
     {
         _debugLuggage.text = "Luggages: " + luggage.ToString();
     }

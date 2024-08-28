@@ -41,6 +41,11 @@ public class GameManager : MonoBehaviour
     [SerializeField][ReadOnly]
     private bool _newGame = true;
     
+    [SerializeField][ReadOnly]
+    private CinemachineBrain _cinemachineBrain;
+    
+    public CinemachineBrain CinemachineBrain => _cinemachineBrain;
+    
     public bool NewGame => _newGame;
     public LuggageCategories LuggageCategories => _luggageCategories;
     public FSceneData[] Scenes => _scenes;
@@ -79,7 +84,6 @@ public class GameManager : MonoBehaviour
         
         Instance = null;
     }
-    
     private void Start()
     {
         // Init Managers
@@ -98,6 +102,7 @@ public class GameManager : MonoBehaviour
         
         LoadData();
         ChangeCam(_camToUse);
+        _cinemachineBrain = FindObjectOfType<CinemachineBrain>();
     }
 
     private void LoadData()
