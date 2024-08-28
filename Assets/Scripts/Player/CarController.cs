@@ -36,7 +36,7 @@ public class CarController : MonoBehaviour
     private EDebugImpulseSettings _debugImpulseSettings = EDebugImpulseSettings.None;
     
     [SerializeField][BoxGroup("Invinvibility")]
-    private float _invincibleTime = 5;
+    private float _invincibleTime = 3;
     
     //wheels
     [SerializeField][BoxGroup("Wheels")]
@@ -71,11 +71,12 @@ public class CarController : MonoBehaviour
     private LeanFinger _currentfinger;
     private LuggageHandler _luggageHandler;
     
+    // PowerUp
+    private string _powerUpTimerKey;
+    private float _powerUpStabilityMultiplicator = 1;
     
     // Data Path
     private string DataPath => "ScriptableObject/SO_PlayerController";
-    
-    
     
     private void Reset()
     {
@@ -150,9 +151,9 @@ public class CarController : MonoBehaviour
         return _rotationAngle;
     }
     
-    private void UpdateWeightMultiplicator(float luggage)
+    private void UpdateWeightMultiplicator(float luggage, float weight)
     {
-        float normalizedLuaggage = luggage > _data.wheightMaxForCurve ? 1 : luggage / _data.wheightMaxForCurve;
+        float normalizedLuaggage = weight > _data.wheightMaxForCurve ? 1 : weight / _data.wheightMaxForCurve;
         _weightmultiplicator = _data.wheightCurve.Evaluate(normalizedLuaggage);
     }
 
@@ -192,8 +193,15 @@ public class CarController : MonoBehaviour
         if (impulse.magnitude < _impulseMinimum) {
             impulse = impulse.normalized * _impulseMinimum;
         } 
+        
+        // Debug the impulse
+        if (_debugImpulseSettings == EDebugImpulseSettings.Minimal) {
+            impulse = impulse.normalized * _impulseMinimum;
+        } else if (_debugImpulseSettings == EDebugImpulseSettings.Maximal) {
+            impulse = impulse.normalized * _impulseMaximum;
+        }
+        
         CarRigidbody.AddForce(impulse, ForceMode.Impulse);
-
         if (!_isInvincible) {
             _luggageHandler.RemoveLowestStabilityLuggages(_luaggageLostOnCollision);
             StartInvincibility();
@@ -246,6 +254,18 @@ public class CarController : MonoBehaviour
             raycastSuspension.StopMovement = true;
         }
     }
+    
+    public void ApplyPowerUp(float time, float stabilityMultiplicator)
+    {
+        _powerUpStabilityMultiplicator = stabilityMultiplicator;
+        _powerUpTimerKey = GameManager.Instance.TimerManager.StartTimer(PowerUpTimer(time));
+    }
+    
+    private IEnumerator PowerUpTimer(float time)
+    {
+        yield return new WaitForSeconds(time);
+        _powerUpStabilityMultiplicator = 1;
+    }
 
     private void OnEnable()
     {
@@ -270,17 +290,16 @@ public class CarController : MonoBehaviour
         Minimal,
         Maximal
     }
-    
 }
 
 [Serializable]
 public struct WheelsToRotate
 {
-    [SerializeField] private List<RaycastSuspension> Wheels;
+    [SerializeField] private List<RaycastSuspension> _wheels;
     
     public void RotateWheels(float rotation)
     {
-        foreach (var wheel in Wheels) {
+        foreach (var wheel in _wheels) {
             wheel.transform.rotation = Quaternion.Euler(0, rotation, 0);
         }
     }

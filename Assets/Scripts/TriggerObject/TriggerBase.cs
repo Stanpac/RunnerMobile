@@ -9,48 +9,55 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(BoxCollider))]
 public class TriggerBase : MonoBehaviour
 {
-    private BoxCollider _boxCollider;
-    private bool _triggered;
+    protected BoxCollider BoxCollider;
+    protected bool Triggered;
+    protected GameObject TriggeredBy;
     
     [SerializeField][BoxGroup("Parameters")]
-    private bool _canBeTriggerMultipleTime = false;
+    protected bool _canBeTriggerMultipleTime = false;
     
     [SerializeField][BoxGroup("layer")]
-    private bool _useLayer;
+    protected bool _useLayer;
     
     [SerializeField][BoxGroup("layer")][ShowIf("_useLayer")]
-    private LayerMask _collisionLayer;
+    protected LayerMask _collisionLayer;
     
     [SerializeField][BoxGroup("Tag")]
-    private bool _useTag;
+    protected bool _useTag;
     
-    [SerializeField][BoxGroup("Tag")][ShowIf("_useTag")]
-    private string _tagToCompare;
+    [SerializeField][BoxGroup("Tag")][ShowIf("_useTag")][Tag]
+    protected string _tagToCompare;
     
     [SerializeField][BoxGroup("Debug")]
-    private Color _debugColor = Color.red;
+    protected Color _debugColor = Color.red;
     
     [SerializeField][BoxGroup("Event")]
-    private bool _triggerEvent;
+    protected bool _triggerEvent;
     
     [Space(10)]
     [SerializeField][BoxGroup("Event")][ShowIf("_triggerEvent")]
-    private UnityEvent _trigger;
-    
-    private void Awake()
+    protected UnityEvent _trigger;
+
+    protected virtual void Reset()
     {
-        _boxCollider = GetComponent<BoxCollider>();
-        _boxCollider.isTrigger = true;
+        BoxCollider = GetComponent<BoxCollider>();
+        BoxCollider.isTrigger = true;
+    }
+
+    protected virtual void Awake() 
+    {
+        BoxCollider = GetComponent<BoxCollider>();
+        BoxCollider.isTrigger = true;
     }
     
-    protected virtual void Behavior(Collider other)
+    protected virtual void Behavior()
     {
-        Debug.LogFormat("{0} is Triggered by {1}", gameObject.name, other.name);
+        Debug.LogFormat("{0} is Triggered by {1}", gameObject.name, TriggeredBy.name);
     }
     
     protected void OnTriggerEnter(Collider other)
     {
-        if (!_canBeTriggerMultipleTime && _triggered) return;
+        if (!_canBeTriggerMultipleTime && Triggered) return;
         
         // If we use layer and the layer is not the one we want to compare
         if ( _useLayer && (_collisionLayer.value & (1 << other.transform.gameObject.layer)) == 0) {
@@ -62,18 +69,24 @@ public class TriggerBase : MonoBehaviour
             return;
         }
         
-        Behavior(other);
-        _triggered = true;
+        TriggeredBy = other.gameObject;
+        Triggered = true;
         
         if (_triggerEvent)
             _trigger?.Invoke();
+        
+        Behavior();
     }
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
+        if (BoxCollider == null) {
+            BoxCollider = GetComponent<BoxCollider>();
+        }
+        
         Gizmos.color = _debugColor;
-        Gizmos.DrawWireCube(transform.position, _boxCollider.size);
+        Gizmos.DrawWireCube(transform.position, BoxCollider.size);
     }
 #endif
 }

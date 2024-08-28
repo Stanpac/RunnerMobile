@@ -11,13 +11,13 @@ using UnityEngine.Serialization;
 public class RaycastSuspension : MonoBehaviour
 {
     
-    [SerializeField, BoxGroup("Debug"), EnableIf("DebugMode")] 
+    [SerializeField, BoxGroup("Debug")][EnableIf("_debugMode")][ShowIf("_debugMode")]
     Rigidbody _carRigidbody;
     
-    [SerializeField, BoxGroup("Debug"), EnableIf("DebugMode")] 
+    [SerializeField, BoxGroup("Debug")][EnableIf("_debugMode")][ShowIf("_debugMode")]
     Transform _tireTransform;
     
-    [SerializeField, BoxGroup("Debug"), EnableIf("DebugMode")] 
+    [SerializeField, BoxGroup("Debug")][EnableIf("_debugMode")][ShowIf("_debugMode")]
     Transform _carTransform;
     
     [SerializeField, BoxGroup("Data Settings")]
