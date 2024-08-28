@@ -88,8 +88,8 @@ MonoBehaviour:
   _invincibleTime: 5
   _wheelsToRotate:
     _wheels:
-    - {fileID: 1640351686160164378}
-    - {fileID: 5233700311153092104}
+    - {fileID: 4880756959424967256}
+    - {fileID: 1707627931852572705}
   _roadTag: Road
   _showDebug: 1
   _raylength: 2

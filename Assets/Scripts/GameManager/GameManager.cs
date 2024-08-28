@@ -103,6 +103,7 @@ public class GameManager : MonoBehaviour
         LoadData();
         ChangeCam(_camToUse);
         _cinemachineBrain = FindObjectOfType<CinemachineBrain>();
+        _cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.FixedUpdate;
     }
 
     private void LoadData()
