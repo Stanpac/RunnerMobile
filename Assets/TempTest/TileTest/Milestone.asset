@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 172ae52d6f0044a1ac2eb9b2e17cd595, type: 3}
   m_Name: Milestone
   m_EditorClassIdentifier: 
-  _prefab: {fileID: 8764203237783146665, guid: 64ccfc5c8f9061f48a93a7e1348e6fa3, type: 3}
+  _prefab: {fileID: 5266926660552598123, guid: 5d6da9f19d761af4383837a574cccfef, type: 3}
   _creditsCount: 0
   _weight: 0
