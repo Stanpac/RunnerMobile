@@ -918,11 +918,11 @@ MonoBehaviour:
     - Position:
         x: 6
         y: 0.7
-        z: -25
+        z: -26.3
       TangentIn:
         x: 0
         y: 0
-        z: -1
+        z: -10
       TangentOut:
         x: 0
         y: 0
