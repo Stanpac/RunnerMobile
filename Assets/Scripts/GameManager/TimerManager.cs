@@ -69,7 +69,6 @@ public class TimerManager : MonoBehaviour
             return _coroutines[key];
         }
         
-        Debug.LogWarning("No coroutine found with the key: " + key);
         return null;
     }
     

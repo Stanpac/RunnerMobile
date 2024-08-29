@@ -128,6 +128,11 @@ MonoBehaviour:
   _timeBeforeLosingBaggage: 1
   _nbrOfLuggageAtStart: 10
   _currentWeight: 0
+  _throwLuggagePrefab: {fileID: 7845201440342147986, guid: 17c60e15a3b4f0949965f0fd1aeb0cdd,
+    type: 3}
+  _throwForceX: 5
+  _throwForceY: 3
+  _lifeTime: 2
 --- !u!1 &1480764931501347498
 GameObject:
   m_ObjectHideFlags: 0
