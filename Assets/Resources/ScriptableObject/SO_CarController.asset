@@ -42,8 +42,8 @@ MonoBehaviour:
   timeForMaxRotation: 0.5
   rotationCenterTreshold: 0.4
   timeForReachTreshold: 1
-  angleUpMaxRotation: 20
-  speedOfTheRotation: 5
+  angleUpMaxRotation: 15
+  speedOfTheRotation: 20
   wheightCurve:
     serializedVersion: 2
     m_Curve:

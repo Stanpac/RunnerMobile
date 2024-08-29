@@ -95,6 +95,7 @@ public class LuggageHandler : MonoBehaviour
             yield return new WaitForSeconds(_timeBeforeLosingBaggage);
             RemoveLowestStabilityLuggages(1);
         }
+        GameManager.Instance.TimerManager.StopTimer(_timerUnstabilityKey);
     }
     
     private void OnUnstableChange(bool unstable)

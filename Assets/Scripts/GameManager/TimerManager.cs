@@ -7,8 +7,17 @@ using UnityEngine;
 public class TimerManager : MonoBehaviour
 {
     private readonly Dictionary<string, Coroutine> _coroutines = new Dictionary<string, Coroutine>();
-    
-    
+
+    private void LateUpdate()
+    {
+        // Remove all null coroutines, Safe check
+        foreach (var variable in _coroutines) {
+            if (variable.Value == null) {
+                _coroutines.Remove(variable.Key);
+            }
+        }
+    }
+
     private string GenerateKey()
     {
         return Guid.NewGuid().ToString();
@@ -69,6 +78,10 @@ public class TimerManager : MonoBehaviour
         if (key == null) 
             return false;
         
+        if (_coroutines.ContainsKey(key) && _coroutines[key] == null) {
+            _coroutines.Remove(key);
+            return false;
+        }
         return _coroutines.ContainsKey(key);
     }
 }

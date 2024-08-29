@@ -25,6 +25,7 @@ public class InputManager
             _filteredFingers.Add(finger);
         }
         
+        Debug.Log(_filteredFingers.Count);
         return _filteredFingers.Count > 0;
     }
     

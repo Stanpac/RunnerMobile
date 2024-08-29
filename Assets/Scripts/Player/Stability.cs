@@ -30,7 +30,7 @@ public class Stability : MonoBehaviour
     private float _timerFingerOnScreen = 0;
     private LeanFinger _currentfinger;
 
-    private float _timeForReachMaxInputInstability;
+    // private float _timeForReachMaxInputInstability;
     
     // Reference to Car
     private CarController _carController;
@@ -179,7 +179,8 @@ public class Stability : MonoBehaviour
             _timerFingerOnScreen += Time.deltaTime;
             _timerFingerOnScreen = Mathf.Clamp(_timerFingerOnScreen, 0 , _data.timeForReachMaxInputInstability);
             yield return new WaitForEndOfFrame();
-        } 
+        }
+        GameManager.Instance.TimerManager.StopTimer(_timerFingerOnScreenKey);
     }  
     
     private IEnumerator TimerFingerOffScreen()
@@ -189,6 +190,7 @@ public class Stability : MonoBehaviour
             _timerFingerOnScreen = Mathf.Clamp(_timerFingerOnScreen, 0 , _data.timeForReachMaxInputInstability); 
             yield return new WaitForEndOfFrame();
         } 
+        GameManager.Instance.TimerManager.StopTimer(_timerFingerOffScreenKey);
     }
     
     private void OnFingerDown(LeanFinger finger)

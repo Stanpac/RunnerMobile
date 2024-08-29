@@ -84,6 +84,9 @@ public class LuggageCategories : ScriptableObject
         [Tooltip("A name to help identify this category")]
         public string name;
         
+        [Tooltip("The icon of this category")]
+        public Texture2D icon;
+        
         [Tooltip("The luggage in this category")]
         public Luggage[] luggages;
         

@@ -1,7 +1,5 @@
 ﻿using System;
 using Unity.VisualScripting;
-using UnityEditor;
-using UnityEditor.ShortcutManagement;
 using UnityEngine;
 
 
@@ -20,6 +18,9 @@ public class Luggage : ScriptableObject
     
     [SerializeField]
     private LuggageStability _stability;
+    
+    [SerializeField]
+    private Texture2D _icon;
     
     // Voicelines when the luggage is picked up
     // Voicelines when the luggage is dropped

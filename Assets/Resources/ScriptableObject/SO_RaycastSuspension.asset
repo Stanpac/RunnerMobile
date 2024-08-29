@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dfefb4297f14e8fa9a50b32bcf1b8b6, type: 3}
   m_Name: SO_RaycastSuspension
   m_EditorClassIdentifier: 
-  suspensionRestDist: 0.6
-  springStrength: 400
+  suspensionRestDist: 0.5
+  springStrength: 500
   springDamper: 40
   tireGripFactor: 0.5
   tireMass: 1
