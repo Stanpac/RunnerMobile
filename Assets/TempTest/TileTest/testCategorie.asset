@@ -18,14 +18,5 @@ MonoBehaviour:
   - name: test
     weight: 1
     cards:
-    - {fileID: 11400000, guid: 82fab80455272364c9387414a22cb106, type: 2}
-    - {fileID: 11400000, guid: 82fab80455272364c9387414a22cb106, type: 2}
-  - name: test
-    weight: 1
-    cards:
-    - {fileID: 11400000, guid: 82fab80455272364c9387414a22cb106, type: 2}
-  - name: test
-    weight: 1
-    cards:
-    - {fileID: 11400000, guid: 82fab80455272364c9387414a22cb106, type: 2}
-  _globalWeight: 3
+    - {fileID: 11400000, guid: 1a91321cb6e45504290fd1416c8b189e, type: 2}
+  _globalWeight: 1
