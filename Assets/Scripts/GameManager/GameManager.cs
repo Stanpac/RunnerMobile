@@ -31,6 +31,13 @@ public class GameManager : MonoBehaviour
     [SerializeField][BoxGroup("Player")]
     private CarController _player;
     
+    // C pas bon de mettre ça ici, mais on a pas le temps de faire un truc propre
+    [SerializeField][BoxGroup("PowerUps Parameters")]
+    private int _tileMinBeforeOtherPowerUp = 5;
+    private int _tileCount = 0;
+    public bool CanSpawnPowerUp => _tileCount >= _tileMinBeforeOtherPowerUp;
+    public void PowerUpSpawned() => _tileCount = 0;
+    
     [SerializeField][BoxGroup("All Luggages")]
     private LuggageCategories _luggageCategories;
     
@@ -43,7 +50,6 @@ public class GameManager : MonoBehaviour
     
     [SerializeField][ReadOnly]
     private CinemachineBrain _cinemachineBrain;
-    
     public CinemachineBrain CinemachineBrain => _cinemachineBrain;
     
     public bool NewGame => _newGame;
@@ -173,6 +179,11 @@ public class GameManager : MonoBehaviour
         // mileStone Camera
         _virtualMilestoneCamera.LookAt = lookAt;
         _virtualMilestoneCamera.Follow = follow;
+    }
+    
+    public void TileSpawned()
+    {
+        _tileCount++;
     }
 
     public enum ECamToUse 

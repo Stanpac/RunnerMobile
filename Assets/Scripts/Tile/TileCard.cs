@@ -25,6 +25,7 @@ public class TileCard : ScriptableObject
     protected void Spawn(Vector3 position, Quaternion rotation, ref TileCard.SpawnResult spawnResult, Transform parent = null)
     {
         GameObject gameObject = Instantiate<GameObject>(_prefab, position, rotation, parent);
+        GameManager.Instance.TileSpawned();
         spawnResult.position = position;
         spawnResult.rotation = rotation;
         spawnResult.spawnedInstance = gameObject;
