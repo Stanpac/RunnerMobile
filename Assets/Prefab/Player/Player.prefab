@@ -82,10 +82,10 @@ MonoBehaviour:
     m_Bits: 768
   _obstacleLayer: 9
   _luaggageLostOnCollision: 1
-  _impulseMinimum: 40
-  _impulseMaximum: 60
-  _debugImpulseSettings: 2
-  _invincibleTime: 5
+  _impulseMinimum: 50
+  _impulseMaximum: 75
+  _debugImpulseSettings: 0
+  _invincibleTime: 3
   _wheelsToRotate:
     _wheels:
     - {fileID: 4880756959424967256}
@@ -130,8 +130,7 @@ MonoBehaviour:
   _currentWeight: 0
   _throwLuggagePrefab: {fileID: 7845201440342147986, guid: 17c60e15a3b4f0949965f0fd1aeb0cdd,
     type: 3}
-  _throwForceX: 5
-  _throwForceY: 3
+  _throwForce: {x: 1.5, y: 1, z: 0}
   _lifeTime: 2
 --- !u!1 &1480764931501347498
 GameObject:

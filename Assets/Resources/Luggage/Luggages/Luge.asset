@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7ec1a53f4b6464191bb1fe1e9655389, type: 3}
-  m_Name: ArakaCube2
+  m_Name: Luge
   m_EditorClassIdentifier: 
-  _prefab: {fileID: 3511086335058394465, guid: 76ddec7f96ac9fd49b9bece402560504, type: 3}
-  _name: ArakaCube2
-  _weight: 1
+  _prefab: {fileID: 922073992522716837, guid: a641083b63999c940b08bc6c6f2c72a7, type: 3}
+  _name: Luge
+  _weight: 3
   _stability: 2
+  _icon: {fileID: 0}
