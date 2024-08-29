@@ -221,6 +221,7 @@ public class CarController : MonoBehaviour
         yield return new WaitForSeconds( _invincibleTime);
         CarRigidbody.excludeLayers  = 0;
         _isInvincible = false;
+        GameManager.Instance.TimerManager.StopTimer(_invincibleTimerkey);
     }
     
     private void OnFingerDown(LeanFinger finger)
@@ -265,6 +266,7 @@ public class CarController : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         _powerUpStabilityMultiplicator = 1;
+        GameManager.Instance.TimerManager.StopTimer(_powerUpTimerKey);
     }
 
     private void OnEnable()

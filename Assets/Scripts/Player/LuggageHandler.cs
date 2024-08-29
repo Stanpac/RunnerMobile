@@ -5,6 +5,7 @@ using NaughtyAttributes;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = Unity.Mathematics.Random;
 
 
 public class LuggageHandler : MonoBehaviour
@@ -21,6 +22,15 @@ public class LuggageHandler : MonoBehaviour
     
     [SerializeField][BoxGroup("Parameters")][ReadOnly]
     private float _currentWeight = 0;
+    
+    [SerializeField][BoxGroup("Throw Luggage")]
+    private GameObject _throwLuggagePrefab;
+    
+    [SerializeField][BoxGroup("Throw force")]
+    private Vector3 _throwForce = new Vector3(1.5f, 1, 0);
+    
+    [SerializeField][BoxGroup("Throw Luggage")]
+    private float _lifeTime = 2;
     
     // Timer key
     private string _timerUnstabilityKey;
@@ -43,6 +53,8 @@ public class LuggageHandler : MonoBehaviour
             // TODO : load the luggage library from the save
         }
         LuggageIsUpdated();
+        
+        _luggageLibrary.RemoveLuggageEvent += ThrowLuggage;
     }
 
     // add specific luggage
@@ -95,6 +107,7 @@ public class LuggageHandler : MonoBehaviour
             yield return new WaitForSeconds(_timeBeforeLosingBaggage);
             RemoveLowestStabilityLuggages(1);
         }
+        GameManager.Instance.TimerManager.StopTimer(_timerUnstabilityKey);
     }
     
     private void OnUnstableChange(bool unstable)
@@ -112,6 +125,30 @@ public class LuggageHandler : MonoBehaviour
                 Debug.LogWarning("Timer not running, he should be running", this);
             }
         }
+    }
+    
+    private void ThrowLuggage(Luggage luggage, int count)
+    {
+        if (_throwLuggagePrefab == null) return;
+        
+        GameObject luggagePrefabParent = Instantiate(_throwLuggagePrefab, transform.position, Quaternion.identity, transform);
+        Instantiate(luggage.Prefab, transform.position, Quaternion.identity, luggagePrefabParent.transform);
+        
+        Rigidbody luggageRigidbody = luggagePrefabParent.GetComponent<Rigidbody>();
+        if (luggageRigidbody == null) {
+            luggageRigidbody = luggagePrefabParent.AddComponent<Rigidbody>();
+        }
+        
+        Rigidbody parentRidiBody = GetComponent<Rigidbody>();
+        if (parentRidiBody != null) {
+            luggageRigidbody.velocity = parentRidiBody.velocity;
+        }
+        
+        int randomIndex = UnityEngine.Random.Range(0, 2); // 0 ou 1
+        float result = (randomIndex == 0) ? -1f : 1f; // -1 ou 1
+        
+        luggageRigidbody.AddForce(new Vector3(result * _throwForce.x, 1 * _throwForce.y, 1 * _throwForce.z) , ForceMode.Impulse);
+        Destroy(luggagePrefabParent, _lifeTime);
     }
     
     private void OnEnable()

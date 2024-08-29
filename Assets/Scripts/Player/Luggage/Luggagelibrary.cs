@@ -1,6 +1,7 @@
 ﻿
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 ///  store all the luggage data
@@ -9,6 +10,8 @@ public class Luggagelibrary
 {
     [SerializeField]
     private luggageData[] _luggages;
+    
+    public Action<Luggage, int> RemoveLuggageEvent;
     
     public Luggagelibrary() 
     {
@@ -92,6 +95,7 @@ public class Luggagelibrary
         for (int i = 0; i < _luggages.Length; ++i) {
             if (_luggages[i].Luggage == luggage) {
                 _luggages[i].Count -= count;
+                RemoveLuggageEvent?.Invoke(luggage, count);
                 return;
             }
         }

@@ -2914,7 +2914,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1904458359}
   - component: {fileID: 1904458358}
-  - component: {fileID: 1904458357}
   - component: {fileID: 1904458360}
   m_Layer: 0
   m_Name: Press To Select
@@ -2923,45 +2922,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1904458357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1904458356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 479d695282ba6cf4ba3ab3c4848f05e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deselectWithNothing: 0
-  limit: 0
-  maxSelectables: 0
-  reselect: 3
-  selectables: []
-  onSelected:
-    m_PersistentCalls:
-      m_Calls: []
-  onDeselected:
-    m_PersistentCalls:
-      m_Calls: []
-  onNothing:
-    m_PersistentCalls:
-      m_Calls: []
-  ScreenQuery:
-    Method: 0
-    Layers:
-      serializedVersion: 2
-      m_Bits: 115
-    Search: 1
-    RequiredTag: 
-    Camera: {fileID: 0}
-    Distance: 50
-  deselectWithFingers: 1
-  onSelectedFinger:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1904458358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2980,7 +2940,7 @@ MonoBehaviour:
   onFinger:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1904458357}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: SelectScreenPosition
         m_Mode: 0
@@ -3042,7 +3002,7 @@ MonoBehaviour:
   useTouch: 1
   useHover: 0
   useMouse: 1
-  useSimulator: 1
+  useSimulator: 0
   disableMouseEmulation: 1
   recordFingers: 1
   recordThreshold: 5
@@ -3192,6 +3152,7 @@ MonoBehaviour:
   _camToUse: 0
   _startImpulsionForce: 100
   _player: {fileID: 7112361200019964721, guid: 2c9126dedfb62354c9b24fba7b56b866, type: 3}
+  _tileMinBeforeOtherPowerUp: 5
   _luggageCategories: {fileID: 11400000, guid: 2ee3af78fa20a0041bbeaf1ed33cadf2, type: 2}
   _scenes:
   - _sceneType: 0
