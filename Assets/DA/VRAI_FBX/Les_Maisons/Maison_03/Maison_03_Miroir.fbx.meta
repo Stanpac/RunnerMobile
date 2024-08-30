@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5a693856d62c2664dafbcb88d12fe5f2
+guid: 6e5a1184f6bf2874587dec918159f497
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,7 +7,7 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Herbe
+      name: Maison_03
     second: {fileID: 2100000, guid: b2aa8336668222a4ab805d11f81f6eb4, type: 2}
   materials:
     materialImportMode: 2
