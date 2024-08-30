@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: M5
   m_EditorClassIdentifier: 
   _prefab: {fileID: 5547824398163010290, guid: 34d1fc73563142740b9c0fc4f83b183c, type: 3}
-  _creditsCount: 1
-  _weight: 1
+  _creditsCount: 7
+  _weight: 0.9

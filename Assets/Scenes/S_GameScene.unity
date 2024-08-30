@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.17939748, g: 0.22463036, b: 0.3062967, a: 1}
+  m_IndirectSpecularColor: {r: 0.17939751, g: 0.22463037, b: 0.30629674, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -419,10 +419,10 @@ MonoBehaviour:
   _creditsAvailable: 0
   _initialCredits: 1
   _skipSpawnIfTooCheap: 1
-  _maximumNumberMultiplicatorBeforeConsideredCheap: 6
+  _maximumNumberMultiplicatorBeforeConsideredCheap: 4
   _resetTileCardIfFailed: 1
   _originAtCenter: 1
-  _tileCards: {fileID: 11400000, guid: 093e4bacaed7802488f886120a2b378c, type: 2}
+  _tileCards: {fileID: 11400000, guid: 60ec0e85afaeaa94fb064ff508203f5f, type: 2}
   _currentTileCard: {fileID: 0}
   _nextTileCardIsMilestone: 0
   _previousTileSpawned: {fileID: 0}

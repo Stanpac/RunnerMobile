@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 172ae52d6f0044a1ac2eb9b2e17cd595, type: 3}
-  m_Name: M2_R
+  m_Name: Milestone4
   m_EditorClassIdentifier: 
-  _prefab: {fileID: 7000773869382622231, guid: ca76f6b43f5993748a1310eef4ebbd3c, type: 3}
-  _creditsCount: 6
-  _weight: 1
+  _prefab: {fileID: 5266926660552598123, guid: f059f795c65ef734facf729df0eab76c, type: 3}
+  _creditsCount: 0
+  _weight: 0
