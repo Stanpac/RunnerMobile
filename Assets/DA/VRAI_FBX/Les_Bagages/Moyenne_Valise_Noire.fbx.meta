@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1f739ee4f8c936b40b8a5d579236bec0
+guid: baa27b78fa5e2ae44ba74482bf20b4bd
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,7 +7,7 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: ALL
+      name: M_Atlas
     second: {fileID: 2100000, guid: b2aa8336668222a4ab805d11f81f6eb4, type: 2}
   materials:
     materialImportMode: 2

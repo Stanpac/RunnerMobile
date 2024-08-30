@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e357401bf2ca37140b1d07fa197c969b
+guid: 1923472558ccb9d47993b60ba5725832
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,7 +7,7 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: ALL
+      name: "Valise_\xE0_Main"
     second: {fileID: 2100000, guid: b2aa8336668222a4ab805d11f81f6eb4, type: 2}
   materials:
     materialImportMode: 2
