@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a517a152814cd6644b02a2b0afea6546
+guid: 3ed8d65afed06a748827f822a0d2ce06
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,12 +7,7 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Groupe_Bagage_025
-    second: {fileID: 2100000, guid: b2aa8336668222a4ab805d11f81f6eb4, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Groupe_Bagage_20
+      name: Groupe_Bagage_35
     second: {fileID: 2100000, guid: b2aa8336668222a4ab805d11f81f6eb4, type: 2}
   materials:
     materialImportMode: 2
