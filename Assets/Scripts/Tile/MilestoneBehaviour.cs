@@ -13,8 +13,6 @@ using UnityEngine.Splines;
 [RequireComponent(typeof(SplineContainer))]
 public class MilestoneBehaviour : MonoBehaviour
 {
-    // TODO Resolve Problem at the end of the Milestone 
-    
     [SerializeField][BoxGroup("Collider")][ReadOnly]
     private BoxCollider _collider;
     
@@ -24,7 +22,7 @@ public class MilestoneBehaviour : MonoBehaviour
     private float _colliderSizeZ = 1;
     
     [SerializeField][BoxGroup("Spline Settings")]
-    private float _speed = 10;
+    private float _duration = 6;
     
     [SerializeField][BoxGroup("Spline Settings")][Min(0)][MaxValue(1)]
     [Tooltip("normalized time on the spline to gain the luggage")]
@@ -32,6 +30,9 @@ public class MilestoneBehaviour : MonoBehaviour
     
     [SerializeField][BoxGroup("Luggage")]
     private int _nbrOfLuggageToGenerate = 3;
+    
+    [SerializeField][BoxGroup("Luggage")]
+    private String _luggageCategory;
     
     // private references to certain components needed
     private SplineContainer _splineContainer = null;
@@ -56,7 +57,7 @@ public class MilestoneBehaviour : MonoBehaviour
     private void Start()
     {
         // Generate the luggages for the milestone
-        _luggages = GameManager.Instance.LuggageCategories.PickLuggagesInRandomCategory(_nbrOfLuggageToGenerate);
+        _luggages = GameManager.Instance.LuggageCategories.PickLuggagesInCategory(_nbrOfLuggageToGenerate, _luggageCategory);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -125,7 +126,7 @@ public class MilestoneBehaviour : MonoBehaviour
         
         _splineAnimate.Container = _splineContainer;
         _splineAnimate.AnimationMethod = SplineAnimate.Method.Time;
-        _splineAnimate.Duration = _speed;
+        _splineAnimate.Duration = _duration;
         _splineAnimate.Loop = SplineAnimate.LoopMode.Once;
         _splineAnimate.Restart(true);
         _onMilestone = true;

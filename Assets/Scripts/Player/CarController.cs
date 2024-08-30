@@ -74,6 +74,7 @@ public class CarController : MonoBehaviour
     // PowerUp
     private string _powerUpTimerKey;
     private float _powerUpStabilityMultiplicator = 1;
+    public float PowerUpStabilityMultiplicator => _powerUpStabilityMultiplicator;
     
     // Data Path
     private string DataPath => "ScriptableObject/SO_PlayerController";
@@ -135,9 +136,9 @@ public class CarController : MonoBehaviour
        
         if (GameManager.Instance.InputManager.IsFingerOnScreen() && _currentfinger != null) {
             if (_currentfinger.ScreenPosition.x > Screen.width / 2) {
-                rotation =  Mathf.Clamp(rotation + Time.deltaTime / _data.timeForMaxRotation * _data.maxRotation * _weightmultiplicator, -_data.maxRotation, _data.maxRotation);
+                rotation =  Mathf.Clamp(rotation + Time.deltaTime / _data.timeForMaxRotation * _data.maxRotation * _weightmultiplicator * _powerUpStabilityMultiplicator, -_data.maxRotation, _data.maxRotation);
             } else {
-                rotation =  Mathf.Clamp(rotation - Time.deltaTime / _data.timeForMaxRotation * _data.maxRotation * _weightmultiplicator, -_data.maxRotation, _data.maxRotation);
+                rotation =  Mathf.Clamp(rotation - Time.deltaTime / _data.timeForMaxRotation * _data.maxRotation * _weightmultiplicator * _powerUpStabilityMultiplicator, -_data.maxRotation, _data.maxRotation);
             }
         } else {
             if (rotation > 0)
@@ -210,8 +211,7 @@ public class CarController : MonoBehaviour
     
     private void StartInvincibility()
     {
-        //_collisionLayer &= ~(1 << _obstacleLayer);
-        CarRigidbody.excludeLayers  = (1 << _obstacleLayer);
+        CarRigidbody.excludeLayers = (1 << _obstacleLayer);
         _isInvincible = true;
         _invincibleTimerkey = GameManager.Instance.TimerManager.StartTimer(InvincibilityTimer());
     }
@@ -221,7 +221,9 @@ public class CarController : MonoBehaviour
         yield return new WaitForSeconds( _invincibleTime);
         CarRigidbody.excludeLayers  = 0;
         _isInvincible = false;
-        GameManager.Instance.TimerManager.StopTimer(_invincibleTimerkey);
+        if (GameManager.Instance.TimerManager.IsTimerRunning(_invincibleTimerkey)) {
+            GameManager.Instance.TimerManager.StopTimer(_invincibleTimerkey);
+        }
     }
     
     private void OnFingerDown(LeanFinger finger)

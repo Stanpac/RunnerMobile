@@ -70,7 +70,7 @@ public class Stability : MonoBehaviour
     
     private void Update()
     {
-        _stability = CalculateInputInstability() + CalculateRotationStability() + CalculateEvents();
+        _stability = (CalculateInputInstability() + CalculateRotationStability() + CalculateEvents()) * _carController.PowerUpStabilityMultiplicator;
         _stability = Mathf.Clamp(_stability, _minStability, _maxStability);
         
         CheckifUnstable();

@@ -12,7 +12,7 @@ public class PowerUp : TriggerBase
     private float _powerUpDuration = 5;
     
     [SerializeField][BoxGroup("PowerUp")]
-    private float _stabilityMultiplicator = 0.5f;
+    private float _stabilityMultiplicator = 0.7f;
     
     [SerializeField][BoxGroup("Animation")]
     private bool _useAnimation;
