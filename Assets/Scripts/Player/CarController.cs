@@ -38,6 +38,12 @@ public class CarController : MonoBehaviour
     [SerializeField][BoxGroup("Invinvibility")]
     private float _invincibleTime = 3;
     
+    [SerializeField][BoxGroup("Invinvibility")]
+    private float _tickTime = 0.1f;
+    
+    [SerializeField][BoxGroup("Invinvibility")]
+    private GameObject _gameObjectToTick;
+    
     //wheels
     [SerializeField][BoxGroup("Wheels")]
     WheelsToRotate _wheelsToRotate;
@@ -67,6 +73,7 @@ public class CarController : MonoBehaviour
     private bool _stopMovement = false;
     private bool _isInvincible = false;
     private string _invincibleTimerkey; 
+    private string _invincibleTickGameobjectTimerKey;
     
     private LeanFinger _currentfinger;
     private LuggageHandler _luggageHandler;
@@ -74,6 +81,7 @@ public class CarController : MonoBehaviour
     // PowerUp
     private string _powerUpTimerKey;
     private float _powerUpStabilityMultiplicator = 1;
+    public float PowerUpStabilityMultiplicator => _powerUpStabilityMultiplicator;
     
     // Data Path
     private string DataPath => "ScriptableObject/SO_PlayerController";
@@ -135,9 +143,9 @@ public class CarController : MonoBehaviour
        
         if (GameManager.Instance.InputManager.IsFingerOnScreen() && _currentfinger != null) {
             if (_currentfinger.ScreenPosition.x > Screen.width / 2) {
-                rotation =  Mathf.Clamp(rotation + Time.deltaTime / _data.timeForMaxRotation * _data.maxRotation * _weightmultiplicator, -_data.maxRotation, _data.maxRotation);
+                rotation =  Mathf.Clamp(rotation + Time.deltaTime / _data.timeForMaxRotation * _data.maxRotation * _weightmultiplicator * _powerUpStabilityMultiplicator, -_data.maxRotation, _data.maxRotation);
             } else {
-                rotation =  Mathf.Clamp(rotation - Time.deltaTime / _data.timeForMaxRotation * _data.maxRotation * _weightmultiplicator, -_data.maxRotation, _data.maxRotation);
+                rotation =  Mathf.Clamp(rotation - Time.deltaTime / _data.timeForMaxRotation * _data.maxRotation * _weightmultiplicator * _powerUpStabilityMultiplicator, -_data.maxRotation, _data.maxRotation);
             }
         } else {
             if (rotation > 0)
@@ -210,10 +218,10 @@ public class CarController : MonoBehaviour
     
     private void StartInvincibility()
     {
-        //_collisionLayer &= ~(1 << _obstacleLayer);
-        CarRigidbody.excludeLayers  = (1 << _obstacleLayer);
+        CarRigidbody.excludeLayers = (1 << _obstacleLayer);
         _isInvincible = true;
         _invincibleTimerkey = GameManager.Instance.TimerManager.StartTimer(InvincibilityTimer());
+        _invincibleTickGameobjectTimerKey = GameManager.Instance.TimerManager.StartTimer(TickGameObject());
     }
     
     IEnumerator InvincibilityTimer()
@@ -221,7 +229,21 @@ public class CarController : MonoBehaviour
         yield return new WaitForSeconds( _invincibleTime);
         CarRigidbody.excludeLayers  = 0;
         _isInvincible = false;
-        GameManager.Instance.TimerManager.StopTimer(_invincibleTimerkey);
+        if (GameManager.Instance.TimerManager.IsTimerRunning(_invincibleTimerkey)) {
+            GameManager.Instance.TimerManager.StopTimer(_invincibleTimerkey);
+        }
+    }
+    
+    IEnumerator TickGameObject()
+    {
+        while (_isInvincible) {
+            _gameObjectToTick.SetActive(!_gameObjectToTick.activeSelf);
+            yield return new WaitForSeconds(_tickTime);
+        }
+        _gameObjectToTick.SetActive(true);
+        if (GameManager.Instance.TimerManager.IsTimerRunning(_invincibleTickGameobjectTimerKey)) {
+            GameManager.Instance.TimerManager.StopTimer(_invincibleTickGameobjectTimerKey);
+        }
     }
     
     private void OnFingerDown(LeanFinger finger)

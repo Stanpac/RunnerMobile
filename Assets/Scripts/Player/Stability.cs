@@ -36,7 +36,7 @@ public class Stability : MonoBehaviour
     private CarController _carController;
     
     // Instability Variables
-    public float _stability = 0;
+    private float _stability = 0;
     private float _previousStability = 0;
     private float _maxStability = 1;
     private float _minStability = -1;
@@ -70,7 +70,7 @@ public class Stability : MonoBehaviour
     
     private void Update()
     {
-        _stability = CalculateInputInstability() + CalculateRotationStability() + CalculateEvents();
+        _stability = (CalculateInputInstability() + CalculateRotationStability() + CalculateEvents()) * _carController.PowerUpStabilityMultiplicator;
         _stability = Mathf.Clamp(_stability, _minStability, _maxStability);
         
         CheckifUnstable();
