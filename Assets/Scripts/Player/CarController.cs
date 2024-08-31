@@ -38,6 +38,12 @@ public class CarController : MonoBehaviour
     [SerializeField][BoxGroup("Invinvibility")]
     private float _invincibleTime = 3;
     
+    [SerializeField][BoxGroup("Invinvibility")]
+    private float _tickTime = 0.1f;
+    
+    [SerializeField][BoxGroup("Invinvibility")]
+    private GameObject _gameObjectToTick;
+    
     //wheels
     [SerializeField][BoxGroup("Wheels")]
     WheelsToRotate _wheelsToRotate;
@@ -67,6 +73,7 @@ public class CarController : MonoBehaviour
     private bool _stopMovement = false;
     private bool _isInvincible = false;
     private string _invincibleTimerkey; 
+    private string _invincibleTickGameobjectTimerKey;
     
     private LeanFinger _currentfinger;
     private LuggageHandler _luggageHandler;
@@ -214,6 +221,7 @@ public class CarController : MonoBehaviour
         CarRigidbody.excludeLayers = (1 << _obstacleLayer);
         _isInvincible = true;
         _invincibleTimerkey = GameManager.Instance.TimerManager.StartTimer(InvincibilityTimer());
+        _invincibleTickGameobjectTimerKey = GameManager.Instance.TimerManager.StartTimer(TickGameObject());
     }
     
     IEnumerator InvincibilityTimer()
@@ -223,6 +231,18 @@ public class CarController : MonoBehaviour
         _isInvincible = false;
         if (GameManager.Instance.TimerManager.IsTimerRunning(_invincibleTimerkey)) {
             GameManager.Instance.TimerManager.StopTimer(_invincibleTimerkey);
+        }
+    }
+    
+    IEnumerator TickGameObject()
+    {
+        while (_isInvincible) {
+            _gameObjectToTick.SetActive(!_gameObjectToTick.activeSelf);
+            yield return new WaitForSeconds(_tickTime);
+        }
+        _gameObjectToTick.SetActive(true);
+        if (GameManager.Instance.TimerManager.IsTimerRunning(_invincibleTickGameobjectTimerKey)) {
+            GameManager.Instance.TimerManager.StopTimer(_invincibleTickGameobjectTimerKey);
         }
     }
     
