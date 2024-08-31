@@ -88,11 +88,11 @@ public class WeightedSelection<T>
     }
     
     
-    public T Evaluate() => Choices[EvaluateToChoiceIndex()].value;
+    public T Evaluate(float normalizedIndex) => Choices[EvaluateToChoiceIndex(normalizedIndex)].value;
 
-    public int EvaluateToChoiceIndex() => EvaluateToChoiceIndex(null);
+    public int EvaluateToChoiceIndex(float normalizedIndex) => EvaluateToChoiceIndex( normalizedIndex, null);
 
-    public int EvaluateToChoiceIndex(int[] ignoreIndices)
+    public int EvaluateToChoiceIndex(float normalizedIndex, int[] ignoreIndices)
     {
         if (Count == 0)
             throw new InvalidOperationException("Cannot call Evaluate without available choices.");
@@ -103,7 +103,7 @@ public class WeightedSelection<T>
                 totalWeight -= Choices[ignoreIndex].weight;
         }
 
-        float num1 = totalWeight;
+        float num1 = normalizedIndex * totalWeight;
         float num2 = 0.0f;
 
         for (int toChoiceIndex = 0; toChoiceIndex < Count; ++toChoiceIndex) {

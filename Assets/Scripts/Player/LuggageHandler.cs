@@ -32,6 +32,20 @@ public class LuggageHandler : MonoBehaviour
     [SerializeField][BoxGroup("Throw Luggage")]
     private float _lifeTime = 2;
     
+    [SerializeField][BoxGroup("Luggages")]
+    [Tooltip("The number of luggage to have to update the luggage group")]
+    private int _luggageGrpNbr = 5;
+    
+    [SerializeField][BoxGroup("Luggages")]
+    private GameObject[] _luggageGrpPrefab;
+    
+    [SerializeField][BoxGroup("Luggages")]
+    private ParticleSystem _luggageGrpUpdateParticleSystem;
+    
+    private GameObject _currentLuggageGrp;
+    private int _currentLuggageGrpIndex = 0;
+    
+    
     // Timer key
     private string _timerUnstabilityKey;
     
@@ -53,7 +67,7 @@ public class LuggageHandler : MonoBehaviour
             // TODO : load the luggage library from the save
         }
         LuggageIsUpdated();
-        
+        CheckIfLuggageGrpNeedUpdate();
         _luggageLibrary.RemoveLuggageEvent += ThrowLuggage;
     }
 
@@ -99,8 +113,32 @@ public class LuggageHandler : MonoBehaviour
     {
         UpdateCurrentWeight();
         GameManager.Instance.ActionManager.InvokeLuggageUpdate(_luggageLibrary.GetTotalLuggageCount(), _luggageLibrary.GetTotalWeight());
+        CheckIfLuggageGrpNeedUpdate();
     }
-    
+
+    private void CheckIfLuggageGrpNeedUpdate()
+    {
+        if (_luggageGrpPrefab.Length == 0) return;
+        int quotient = _luggageLibrary.GetTotalLuggageCount() / _luggageGrpNbr;
+        
+        if (quotient == _currentLuggageGrpIndex) { 
+            return;
+        }
+        
+        if (_currentLuggageGrp != null) {
+            _currentLuggageGrp.SetActive(false);
+        }
+        
+        if (quotient < _luggageGrpPrefab.Length) {
+            if (_luggageGrpUpdateParticleSystem != null) {
+                _luggageGrpUpdateParticleSystem.Play();
+            }
+            _currentLuggageGrp = _luggageGrpPrefab[quotient];
+            _currentLuggageGrp.SetActive(true);
+            _currentLuggageGrpIndex = quotient;
+        }
+    }
+
     public IEnumerator TimerUnstability()
     {
         while (true) {

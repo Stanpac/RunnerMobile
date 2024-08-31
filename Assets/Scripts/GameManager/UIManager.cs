@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using NaughtyAttributes;
 using TMPro;
 using UnityEngine.UI;
@@ -11,29 +12,35 @@ public class UIManager : MonoBehaviour
     // Start Menu
     [SerializeField, BoxGroup("StartMenu")]
     private GameObject _startMenu;
-    
     [SerializeField, BoxGroup("StartMenu")] 
     private GameObject _startMenuFond;
-    
     [SerializeField, BoxGroup("StartMenu")] 
     private GameObject _startMenuButton;
     
     // Game UI
     [SerializeField, BoxGroup("Gameplay")] 
     private GameObject _gameUI;
-    
     [SerializeField, BoxGroup("Gameplay")] 
     private GameObject _menuButton;
     
-    // debug
-    [SerializeField, BoxGroup("Debug")] 
-    private TMP_Text _debugStability;
+    // Bonus UI 
+    [SerializeField, BoxGroup("RoadBonus")]
+    private RawImage _roadBonus;
+    [SerializeField, BoxGroup("PowerUpBonus")]
+    private RawImage _powerUpBonus;
     
-    [SerializeField, BoxGroup("Debug")]
-    private TMP_Text _debugLuggage;
+    // Stability UI
+    [SerializeField, BoxGroup("Stability")]
+    private RectTransform _aiguille;
     
-    [SerializeField, BoxGroup("Debug")]
-    private GameObject _debugUnstable;
+    // Score UI
+    [SerializeField, BoxGroup("Score")]
+    private TextMeshProUGUI _score;
+    
+    // Luggage UI
+    [SerializeField, BoxGroup("Luggage")]
+    private TextMeshProUGUI _nbrLuggage;
+    
     
     private void Awake()
     {
@@ -49,19 +56,18 @@ public class UIManager : MonoBehaviour
     
     private void SetStartMenuActive(bool active)
     {
-        _startMenu.SetActive(active);
-        _startMenuFond.SetActive(active); 
-        _startMenuButton.SetActive(active);
+        _startMenu?.SetActive(active);
+        _startMenuFond?.SetActive(active); 
+        _startMenuButton?.SetActive(active);
     }
     
     private void SetGameUIActive(bool active)
     {
-        _gameUI.SetActive(active);
-        _menuButton.SetActive(active);
-        //_WheelController.SetActive(active);
+        _gameUI?.SetActive(active);
+        _menuButton?.SetActive(active);
     }
     
-    private void GameStateChange(EGameState PreviousGameState ,EGameState NewGameState)
+    private void OnGameStateChange(EGameState PreviousGameState ,EGameState NewGameState)
     {
         switch (PreviousGameState) {
             case EGameState.GS_loadding:
@@ -96,36 +102,66 @@ public class UIManager : MonoBehaviour
         }
     }
     
-    private void StabilityChange(float stability)
+    private void OnStabilityChange(float stability)
     {
-        _debugStability.text = "Stability: "  + stability.ToString();
+        if (_aiguille == null) return;
+        _aiguille.localRotation = Quaternion.Euler(0, 0, stability * -90);
     }
     
-    private void LuggageChange(float luggage, float weight)
+    private void OnLuggageChange(float luggage, float weight)
     {
-        _debugLuggage.text = "Luggages: " + luggage.ToString();
+        if (_nbrLuggage == null) return;
+        _nbrLuggage.text = luggage.ToString();
     }
     
-    private void OnUnstableChange(bool unstable)
+    private void OnScoreChange(float score)
     {
-        _debugUnstable.SetActive(unstable);
+        if (_score == null) return;
+        _score.text = ((int)score).ToString();
+    }
+    private void OnPlayerMove(float playerPosZ, float playerPosLastFrameZ, bool isOnRoad)
+    {
+        if (_roadBonus == null) return;
+        if (_roadBonus.enabled != isOnRoad) {
+            _roadBonus.enabled = isOnRoad;
+        }
+    }
+    private void OnPowerUpStart(float duration)
+    {
+        if (_powerUpBonus == null) return;
+        _powerUpBonus.enabled = true;
+        StartCoroutine(PowerUpDuration(duration));
+    }
+    
+    IEnumerator PowerUpDuration(float duration)
+    {
+        yield return new WaitForSeconds(duration * 0.8f);
+        _powerUpBonus.enabled = !_powerUpBonus.enabled;
+        for (int i = 0; i < 10; i++) {
+            yield return new WaitForSeconds(duration * 0.02f);
+            _powerUpBonus.enabled = !_powerUpBonus.enabled;
+        }
+        _powerUpBonus.enabled = false;
     }
     
     private void OnEnable()
     {
-        GameManager.Instance.ActionManager.GameStateUpdate += GameStateChange;
-        GameManager.Instance.ActionManager.StabilityUpdate += StabilityChange;
-        GameManager.Instance.ActionManager.LuggageUpdate += LuggageChange;
-        GameManager.Instance.ActionManager.UnstableUpdate += OnUnstableChange;
+        GameManager.Instance.ActionManager.GameStateUpdate += OnGameStateChange;
+        GameManager.Instance.ActionManager.StabilityUpdate += OnStabilityChange;
+        GameManager.Instance.ActionManager.LuggageUpdate += OnLuggageChange;
+        GameManager.Instance.ActionManager.ScoreUpdate += OnScoreChange;
+        GameManager.Instance.ActionManager.PlayerMove += OnPlayerMove;
+        GameManager.Instance.ActionManager.PowerUpStartEvent += OnPowerUpStart;
     }
-
-
+    
     private void OnDisable()
     {
         if (GameManager.Instance == null) return;
-        GameManager.Instance.ActionManager.GameStateUpdate -= GameStateChange;
-        GameManager.Instance.ActionManager.StabilityUpdate -= StabilityChange;
-        GameManager.Instance.ActionManager.LuggageUpdate -= LuggageChange;
-        GameManager.Instance.ActionManager.UnstableUpdate -= OnUnstableChange;
+        GameManager.Instance.ActionManager.GameStateUpdate -= OnGameStateChange;
+        GameManager.Instance.ActionManager.StabilityUpdate -= OnStabilityChange;
+        GameManager.Instance.ActionManager.LuggageUpdate -= OnLuggageChange;
+        GameManager.Instance.ActionManager.ScoreUpdate -= OnScoreChange;
+        GameManager.Instance.ActionManager.PlayerMove -= OnPlayerMove;
+        GameManager.Instance.ActionManager.PowerUpStartEvent -= OnPowerUpStart;
     }
 }

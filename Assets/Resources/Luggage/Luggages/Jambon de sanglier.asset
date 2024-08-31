@@ -16,4 +16,4 @@ MonoBehaviour:
   _name: Jambon de sanglier
   _weight: 3
   _stability: 1
-  _icon: {fileID: 0}
+  _icon: {fileID: 2800000, guid: a0c38dedb33dc364cbbe55cdbcaad624, type: 3}

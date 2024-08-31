@@ -71,7 +71,7 @@ TrailRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_StaticShadowCaster: 0
   m_MotionVectors: 0
   m_LightProbeUsage: 0
@@ -81,7 +81,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0a285bd7a9424d0e8f5f9cc1bddf2231, type: 2}
+  - {fileID: 2100000, guid: 098caa094285d394d9bf485413dd1dbf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -133,11 +133,11 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.9433962, g: 0.8621393, b: 0.20914915, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0.9926069, g: 1, b: 0, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 0}
       key2: {r: 1, g: 1, b: 1, a: 1}
       key3: {r: 1, g: 1, b: 1, a: 1}
-      key4: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 1, g: 1, b: 1, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
@@ -145,7 +145,7 @@ TrailRenderer:
       ctime1: 65535
       ctime2: 65535
       ctime3: 65535
-      ctime4: 0
+      ctime4: 65535
       ctime5: 0
       ctime6: 0
       ctime7: 0

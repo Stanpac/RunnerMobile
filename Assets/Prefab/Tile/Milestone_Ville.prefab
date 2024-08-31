@@ -1227,6 +1227,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 153050824107557439}
+    - targetCorrespondingSourceObject: {fileID: 7227870716385708482, guid: 91d4425bfde25084a86a36f9d572c9d2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5741299781689483516}
   m_SourcePrefab: {fileID: 100100000, guid: 91d4425bfde25084a86a36f9d572c9d2, type: 3}
 --- !u!4 &797968989760402286 stripped
 Transform:
@@ -1372,12 +1376,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f04430a009a47b7bc71f022e1b2fb7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collider: {fileID: 0}
-  _colliderSizeY: 4
+  _collider: {fileID: 5741299781689483516}
+  _colliderSizeY: 6
   _colliderSizeZ: 1
-  _speed: 10
+  _duration: 6
   _timeGainluggage: 0.5
   _nbrOfLuggageToGenerate: 3
+  _luggageCategory: Ville
+--- !u!65 &5741299781689483516
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5266926660552598123}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 29.999998, y: 6, z: 1}
+  m_Center: {x: -0, y: -0.24003644, z: -44.999996}
 --- !u!1001 &4503720773635594450
 PrefabInstance:
   m_ObjectHideFlags: 0

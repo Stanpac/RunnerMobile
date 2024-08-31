@@ -427,7 +427,7 @@ MonoBehaviour:
   _nextTileCardIsMilestone: 0
   _previousTileSpawned: {fileID: 0}
   _allSpawnedTilesSpawned: []
-  _baseDistanceOfGeneration: 300
+  _baseDistanceOfGeneration: 200
   _safeCounterMax: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

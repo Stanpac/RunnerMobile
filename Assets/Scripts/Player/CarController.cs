@@ -209,6 +209,8 @@ public class CarController : MonoBehaviour
             impulse = impulse.normalized * _impulseMaximum;
         }
         
+        // TODO : Add Particule Effect on Collision of Specific Tag (Tree, Barrier, Rock)
+        
         CarRigidbody.AddForce(impulse, ForceMode.Impulse);
         if (!_isInvincible) {
             _luggageHandler.RemoveLowestStabilityLuggages(_luaggageLostOnCollision);
@@ -281,7 +283,11 @@ public class CarController : MonoBehaviour
     public void ApplyPowerUp(float time, float stabilityMultiplicator)
     {
         _powerUpStabilityMultiplicator = stabilityMultiplicator;
+        if (GameManager.Instance.TimerManager.IsTimerRunning(_powerUpTimerKey)) {
+            GameManager.Instance.TimerManager.StopTimer(_powerUpTimerKey);
+        }
         _powerUpTimerKey = GameManager.Instance.TimerManager.StartTimer(PowerUpTimer(time));
+        GameManager.Instance.ActionManager.InvokePowerUpStartEvent(time);
     }
     
     private IEnumerator PowerUpTimer(float time)

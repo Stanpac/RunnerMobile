@@ -33,6 +33,9 @@ public class ActionManager
     public Action<int> MilestoneEvent;
     public Action<float> AvForNextMilestoneReached;
     
+    // PowerUp
+    public Action<float> PowerUpStartEvent;
+    
     public void InvokeLastFingerUp(LeanFinger finger)
     {
         LastFingerUp?.Invoke(finger);
@@ -91,5 +94,10 @@ public class ActionManager
     public void InvokeAvForNextMilestoneReached(float avForNextMilestone)
     {
         AvForNextMilestoneReached?.Invoke(avForNextMilestone);
+    }
+    
+    public void InvokePowerUpStartEvent(float duration)
+    {
+        PowerUpStartEvent?.Invoke(duration);
     }
 }

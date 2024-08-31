@@ -16,4 +16,4 @@ MonoBehaviour:
   _name: "Jeu de p\xE9tanque"
   _weight: 3
   _stability: 1
-  _icon: {fileID: 0}
+  _icon: {fileID: 2800000, guid: 511aa8bcd06a5514daa3ae0d3644a87a, type: 3}

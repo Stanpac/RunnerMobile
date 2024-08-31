@@ -5,6 +5,7 @@ using NaughtyAttributes;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 
 public class TileCardGenerator : MonoBehaviour
@@ -137,7 +138,7 @@ public class TileCardGenerator : MonoBehaviour
     {
         int safeCounter = 0;
         while ((_previousTileSpawned == null || _previousTileSpawned.transform.position.z < CurrentdistanceOfGeneration) && safeCounter <_safeCounterMax) {
-            PrepareNewTileCard(_tileCardsSelection.Evaluate());
+            PrepareNewTileCard(_tileCardsSelection.Evaluate(Random.Range(0.0f, 1.0f)));
             GenerateTileCard();
             safeCounter++;
         }
@@ -200,7 +201,7 @@ public class TileCardGenerator : MonoBehaviour
                 if (FinalTileCardsSelection == null ) {
                     return false;
                 }
-                PrepareNewTileCard(FinalTileCardsSelection.Evaluate());
+                PrepareNewTileCard(FinalTileCardsSelection.Evaluate(Random.Range(0.0f, 1.0f)));
             }
         
             if (_creditsAvailable < _currentTileCard.CreditsCount) {
@@ -241,6 +242,7 @@ public class TileCardGenerator : MonoBehaviour
         _nextTileCardIsMilestone = false;
         _creditsAvailable -= _currentTileCard.CreditsCount;
         _consecutiveCheapSkips = 0;
+        _currentTileCard = null;
         AddCreditsAfterSpawn();
         GenerateWeightedSelectionWeCanBuy();
         return true;

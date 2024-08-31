@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _categories:
   - name: Camping
-    icon: {fileID: 0}
+    icon: {fileID: 2800000, guid: f7e88ccf07db3514f921845fecac372e, type: 3}
     luggages:
     - {fileID: 11400000, guid: bd80bc52a8b5bed499adee39a9c2a27d, type: 2}
     - {fileID: 11400000, guid: 263bcf06b758d334ab209155291e7fd4, type: 2}
@@ -22,8 +22,9 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 7128c34e4697a674ab5adaa7bf37eb12, type: 2}
     - {fileID: 11400000, guid: b62afdd9b880b75488063b515d6092c7, type: 2}
     - {fileID: 11400000, guid: ef8acda6a98ab8442b99e5369de8d3d2, type: 2}
+    - {fileID: 11400000, guid: 8ba260f4d978b144194e5e545a0a5fdc, type: 2}
   - name: Ville
-    icon: {fileID: 0}
+    icon: {fileID: 2800000, guid: 55ba7b0c9fd997e4d8a727b1391de89e, type: 3}
     luggages:
     - {fileID: 11400000, guid: 55e9e4569c8872748bcc6b47fe9c610d, type: 2}
     - {fileID: 11400000, guid: 1fa19d325e51a274a99030475025f051, type: 2}
@@ -33,7 +34,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 928a7415c6d44654d9793422544218b4, type: 2}
     - {fileID: 11400000, guid: b18ac588b95e54f4386d73404c4b1c00, type: 2}
   - name: Plage
-    icon: {fileID: 0}
+    icon: {fileID: 2800000, guid: 331a1a4b98549a04d8566f80e4237b29, type: 3}
     luggages:
     - {fileID: 11400000, guid: 5d0e0c9d2eab4cf438a96c735e921d7d, type: 2}
     - {fileID: 11400000, guid: b82767ceb499a754ba1ef28c379e99e2, type: 2}
@@ -42,7 +43,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 972cf7d830304f549b554c578533daa3, type: 2}
     - {fileID: 11400000, guid: eb1cfe70620acdc42bf7dce318455a77, type: 2}
   - name: Montagne
-    icon: {fileID: 0}
+    icon: {fileID: 2800000, guid: d88c9f2b5fd81d64c9140a9dadf386f4, type: 3}
     luggages:
     - {fileID: 11400000, guid: 06f1f9712cd891a409d23dc9126bbfef, type: 2}
     - {fileID: 11400000, guid: add3c9cdfab228943a77bedb9c900ba7, type: 2}

@@ -38,15 +38,14 @@ public class PowerUp : TriggerBase
         base.Awake();
     }
 
-    private void Start()
-    {
-        Behavior();
-    }
-
     protected override void Behavior()
     {
         if (TriggeredBy != null) {
             CarController carController = TriggeredBy.GetComponent<CarController>();
+            if (carController == null) {
+                carController = TriggeredBy.GetComponentInParent<CarController>();
+            }
+            
             if (carController != null) {
                 carController.ApplyPowerUp(_powerUpDuration, _stabilityMultiplicator);
             }

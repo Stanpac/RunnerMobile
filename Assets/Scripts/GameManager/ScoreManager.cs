@@ -16,7 +16,7 @@ public class ScoreManager
     private float _avForNextMileStone = 0;
     
     // MileStone 
-    private int _mileStoneIndex = 1;
+    private int _mileStoneIndex = 0;
     
     // Data
     private SO_ScoreManager _data;

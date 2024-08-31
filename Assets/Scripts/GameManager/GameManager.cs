@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
         UIManager.enabled = true;
         
         LoadData();
-        ChangeCam(_camToUse);
+        ChangeCam(ECamToUse.Main);
         _cinemachineBrain = FindObjectOfType<CinemachineBrain>();
         _cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.FixedUpdate;
     }
@@ -128,6 +128,7 @@ public class GameManager : MonoBehaviour
             GameStateManager.SetGameState(EGameState.GS_Game);
             PlayerManager.InstantiatePlayer(Vector3.up * 2, Quaternion.identity);
             PlayerManager.GiveStartImpulsionToPlayer(Vector3.forward, _startImpulsionForce);
+            ChangeCam(ECamToUse.Main);
         } else {
             Debug.LogError("Game Scene not found");
         }
