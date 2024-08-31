@@ -13,7 +13,41 @@ MonoBehaviour:
   m_Name: LuggagesCategories
   m_EditorClassIdentifier: 
   _categories:
-  - name: test1
+  - name: Camping
+    icon: {fileID: 0}
     luggages:
+    - {fileID: 11400000, guid: bd80bc52a8b5bed499adee39a9c2a27d, type: 2}
+    - {fileID: 11400000, guid: 263bcf06b758d334ab209155291e7fd4, type: 2}
+    - {fileID: 11400000, guid: cb8ff806ecab8d043ac41cde304d0a3b, type: 2}
+    - {fileID: 11400000, guid: 7128c34e4697a674ab5adaa7bf37eb12, type: 2}
+    - {fileID: 11400000, guid: b62afdd9b880b75488063b515d6092c7, type: 2}
+    - {fileID: 11400000, guid: ef8acda6a98ab8442b99e5369de8d3d2, type: 2}
+  - name: Ville
+    icon: {fileID: 0}
+    luggages:
+    - {fileID: 11400000, guid: 55e9e4569c8872748bcc6b47fe9c610d, type: 2}
+    - {fileID: 11400000, guid: 1fa19d325e51a274a99030475025f051, type: 2}
+    - {fileID: 11400000, guid: ddb4204d2731fb0478292f23d4528bba, type: 2}
     - {fileID: 11400000, guid: 10aee64d1c1dad5449a00bcc321d22b6, type: 2}
-    - {fileID: 11400000, guid: 57430447969a4874db195344aa1af940, type: 2}
+    - {fileID: 11400000, guid: 47f29aa78652f1e478b567cdaf38cb3f, type: 2}
+    - {fileID: 11400000, guid: 928a7415c6d44654d9793422544218b4, type: 2}
+    - {fileID: 11400000, guid: b18ac588b95e54f4386d73404c4b1c00, type: 2}
+  - name: Plage
+    icon: {fileID: 0}
+    luggages:
+    - {fileID: 11400000, guid: 5d0e0c9d2eab4cf438a96c735e921d7d, type: 2}
+    - {fileID: 11400000, guid: b82767ceb499a754ba1ef28c379e99e2, type: 2}
+    - {fileID: 11400000, guid: 22da3c934e577904cbca7cd468c40682, type: 2}
+    - {fileID: 11400000, guid: 7600b74c4caa76b43846a3a2a24b0faa, type: 2}
+    - {fileID: 11400000, guid: 972cf7d830304f549b554c578533daa3, type: 2}
+    - {fileID: 11400000, guid: eb1cfe70620acdc42bf7dce318455a77, type: 2}
+  - name: Montagne
+    icon: {fileID: 0}
+    luggages:
+    - {fileID: 11400000, guid: 06f1f9712cd891a409d23dc9126bbfef, type: 2}
+    - {fileID: 11400000, guid: add3c9cdfab228943a77bedb9c900ba7, type: 2}
+    - {fileID: 11400000, guid: f2416a11ac7c38845afbde672a08b4aa, type: 2}
+    - {fileID: 11400000, guid: 60cee3a529fdd0346b11408e02120db3, type: 2}
+    - {fileID: 11400000, guid: 33156912a0fbcb4479b2a35d81ed6f50, type: 2}
+    - {fileID: 11400000, guid: 6e5e2e269be138b4d9cad4eb0fc146c2, type: 2}
+    - {fileID: 11400000, guid: 5809fbfacc4b70048bfe1e77cc67c99c, type: 2}

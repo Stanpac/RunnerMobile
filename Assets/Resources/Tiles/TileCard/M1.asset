@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: M1
   m_EditorClassIdentifier: 
   _prefab: {fileID: 3932055428459135117, guid: c2fb7699380d78941802e2daea8616ff, type: 3}
-  _creditsCount: 1
+  _creditsCount: 4
   _weight: 1

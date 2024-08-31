@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7ec1a53f4b6464191bb1fe1e9655389, type: 3}
+  m_Name: Bouteille de vin
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 922073992522716837, guid: 77a4049180be8964ea30ff064f22d141, type: 3}
+  _name: Bouteille de vin
+  _weight: 1
+  _stability: 1
+  _icon: {fileID: 0}

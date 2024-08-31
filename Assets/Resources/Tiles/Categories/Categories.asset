@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e48427cf10274dc5b5c7b6d86122ff2c, type: 3}
+  m_Name: Categories
+  m_EditorClassIdentifier: 
+  _milesStonesCards:
+  - {fileID: 11400000, guid: 408a26cbfcccf814b9e652a75dae3919, type: 2}
+  - {fileID: 11400000, guid: 25eb0ba488c916a45a3d1b5ed7c75cab, type: 2}
+  - {fileID: 11400000, guid: e42ef94f763822949bfe674124122e1d, type: 2}
+  - {fileID: 11400000, guid: 9a79b6444f2236e47b351a2a8d5572b7, type: 2}
+  _categories:
+  - name: Easy
+    weight: 1
+    cards:
+    - {fileID: 11400000, guid: 232322774854ede4196101d620871798, type: 2}
+    - {fileID: 11400000, guid: d680460d9369a954fb97797acf0d23eb, type: 2}
+    - {fileID: 11400000, guid: 1a91321cb6e45504290fd1416c8b189e, type: 2}
+    - {fileID: 11400000, guid: 7214eb76cd804214e8db035c73ea26ef, type: 2}
+    - {fileID: 11400000, guid: 7418719c166e8b54caa58cd5a124ccaf, type: 2}
+    - {fileID: 11400000, guid: 8c7bb84ad30687248bcdf7671fa42b1c, type: 2}
+    - {fileID: 11400000, guid: 8258310a7f15d0b498bf6f31d740720f, type: 2}
+    - {fileID: 11400000, guid: 853dbe318e6fa594598d77d3234e2fcc, type: 2}
+    - {fileID: 11400000, guid: 0b27b1fb5134e314bb18646e5a95a56c, type: 2}
+    - {fileID: 11400000, guid: 4a1f697306bc2904780235bc02dab762, type: 2}
+  - name: Medium
+    weight: 1
+    cards:
+    - {fileID: 11400000, guid: 3bb5fc2961196b547b5d9f29acdc936f, type: 2}
+    - {fileID: 11400000, guid: 15632cd5f4a4bb043851f4d928b33ac1, type: 2}
+    - {fileID: 11400000, guid: fb2209f9fcd43784f99215820916b17e, type: 2}
+    - {fileID: 11400000, guid: 2973300a6525bd34982fe2f24abcfc30, type: 2}
+    - {fileID: 11400000, guid: 9e30718d179542142bd79bbf32f57f58, type: 2}
+    - {fileID: 11400000, guid: fb4eb86bdfc305a46995cc854d9f0a7e, type: 2}
+    - {fileID: 11400000, guid: c12bc35c9eff0434a95c809c06202f67, type: 2}
+    - {fileID: 11400000, guid: 19be1896bae9f30438dac6b1154d6ae7, type: 2}
+    - {fileID: 11400000, guid: d3fe1990f82519946ae8c55d065b27cb, type: 2}
+    - {fileID: 11400000, guid: 13ea306d3937dd04d894061e07cf0346, type: 2}
+    - {fileID: 11400000, guid: 7f1d4eaa7e55dec4eb0744b3701c9d1e, type: 2}
+    - {fileID: 11400000, guid: 55a673637fae1d544b93d7e0061f8313, type: 2}
+    - {fileID: 11400000, guid: 48bc1688637b08941a49b26b9a6a98fd, type: 2}
+    - {fileID: 11400000, guid: 0e55294f20254e7468a05fb6cafdae6d, type: 2}
+  - name: Hard
+    weight: 1
+    cards:
+    - {fileID: 11400000, guid: ddc1bbfed2e24b143b6adf2e7e378738, type: 2}
+    - {fileID: 11400000, guid: 104b47d05723c3a46b029f64332ae05d, type: 2}
+    - {fileID: 11400000, guid: 5e74f4ea9aab6774387c42fe17600735, type: 2}
+    - {fileID: 11400000, guid: 6d8455c9d7523bb488cdd990ce91af1f, type: 2}
+    - {fileID: 11400000, guid: dce13164b13a3174d8b9707e69253917, type: 2}
+    - {fileID: 11400000, guid: e10d2a12f0cc624499c2c7a91d59fa58, type: 2}
+  _globalWeight: 3
