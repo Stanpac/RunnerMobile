@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using DG.Tweening;
 using NaughtyAttributes;
 using TMPro;
 using UnityEngine.UI;
@@ -42,7 +43,13 @@ public class UIManager : MonoBehaviour
     private TextMeshProUGUI _nbrLuggage;
     
     [SerializeField, BoxGroup("Luggage")]
-    private GameObject _luggagePickUp;
+    private CanvasGroup _luggagePickUp;
+
+    [SerializeField, BoxGroup("Luggage")] 
+    private Ease _easeIn = Ease.OutBack;
+    
+    [SerializeField, BoxGroup("Luggage")] 
+    private Ease _easeOut = Ease.InBack;
     
     [SerializeField, BoxGroup("Luggage")]
     private float _luggagePickUpDuration = 2;
@@ -155,17 +162,35 @@ public class UIManager : MonoBehaviour
     private void OnGainLuggage(Texture2D[] arg2)
     {
         if (_luggagePickUp == null) return;
-        _luggagePickUp.SetActive(true);
+        _luggagePickUp.gameObject.SetActive(true);
+        PopUpEffect(_luggagePickUp);
         for (int i = 0; i < _luggageIcons.Length; i++) {
             _luggageIcons[i].texture = arg2[i];
         }
         StartCoroutine(StopLuggagePickUp());
     }
+
+    private void PopUpEffect(CanvasGroup canvasGroup)
+    {
+        canvasGroup.alpha = 0;
+        canvasGroup.DOFade(1f, _luggagePickUpDuration / 3);
+        canvasGroup.transform.localScale = new Vector3(.1f, .1f, .1f);
+        canvasGroup.transform.DOScale(Vector3.one, _luggagePickUpDuration / 3).SetEase(_easeIn);
+    }
+
+    private void HidePopUpEffect(CanvasGroup canvasGroup)
+    {
+        canvasGroup.DOFade(0f, _luggagePickUpDuration / 3);
+        canvasGroup.transform.DOScale(new Vector3(.1f, .1f, .1f), _luggagePickUpDuration / 3).SetEase(_easeOut).OnComplete(() =>
+        {
+            _luggagePickUp.gameObject.SetActive(false);
+        });
+    }
     
     IEnumerator StopLuggagePickUp()
     {
-        yield return new WaitForSeconds(_luggagePickUpDuration);
-        _luggagePickUp.SetActive(false);
+        yield return new WaitForSeconds(_luggagePickUpDuration / 3 * 2);
+        HidePopUpEffect(_luggagePickUp);
     }
     
     private void OnEnable()
