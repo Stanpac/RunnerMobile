@@ -1,0 +1,205 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6518896626167438300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Musique
+  m_EditorClassIdentifier: 
+  Path: event:/Musique
+  Guid:
+    Data1: 691507442
+    Data2: 1149575892
+    Data3: -1321076336
+    Data4: 175805309
+  Banks:
+  - {fileID: 4388816621981390105}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -4029173901624832515}
+  - {fileID: 1954885866811229243}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 736342
+--- !u!114 &-4255828274135644982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: ../2DRunnerMobile/RoadTripFmod/Build/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 638608287854407478
+  FileSizes:
+  - Name: Desktop
+    Value: 850
+  Exists: 1
+--- !u!114 &-4029173901624832515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Musique/Type
+  m_EditorClassIdentifier: 
+  Name: Type
+  StudioPath: 
+  Min: 0
+  Max: 3
+  Default: 0
+  ID:
+    data1: 2031773241
+    data2: 419580135
+  Type: 2
+  IsGlobal: 1
+  Labels:
+  - Camping
+  - Plage
+  - Montagne
+  - Ville
+  Exists: 1
+--- !u!114 &-2834824948486158509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Intro
+  m_EditorClassIdentifier: 
+  Name: Intro
+  StudioPath: parameter:/Intro
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 1894293565
+    data2: 1915010320
+  Type: 2
+  IsGlobal: 1
+  Labels:
+  - true
+  - false
+  Exists: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
+  m_Name: FMODStudioCache
+  m_EditorClassIdentifier: 
+  EditorBanks:
+  - {fileID: -4255828274135644982}
+  - {fileID: 4388816621981390105}
+  EditorEvents:
+  - {fileID: -6518896626167438300}
+  EditorParameters:
+  - {fileID: 7246379201901284242}
+  - {fileID: -2834824948486158509}
+  MasterBanks:
+  - {fileID: 4388816621981390105}
+  StringsBanks:
+  - {fileID: -4255828274135644982}
+  cacheTime: 638608287854407478
+  cacheVersion: 131619
+--- !u!114 &1954885866811229243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Musique/Intro
+  m_EditorClassIdentifier: 
+  Name: Intro
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 1894293565
+    data2: 1915010320
+  Type: 2
+  IsGlobal: 1
+  Labels:
+  - true
+  - false
+  Exists: 1
+--- !u!114 &4388816621981390105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: ../2DRunnerMobile/RoadTripFmod/Build/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 638608287854407478
+  FileSizes:
+  - Name: Desktop
+    Value: 7054368
+  Exists: 1
+--- !u!114 &7246379201901284242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Type
+  m_EditorClassIdentifier: 
+  Name: Type
+  StudioPath: parameter:/Type
+  Min: 0
+  Max: 3
+  Default: 0
+  ID:
+    data1: 2031773241
+    data2: 419580135
+  Type: 2
+  IsGlobal: 1
+  Labels:
+  - Camping
+  - Plage
+  - Montagne
+  - Ville
+  Exists: 1

@@ -45,7 +45,6 @@ public class LuggageHandler : MonoBehaviour
     private GameObject _currentLuggageGrp;
     private int _currentLuggageGrpIndex = 0;
     
-    
     // Timer key
     private string _timerUnstabilityKey;
     
@@ -113,7 +112,18 @@ public class LuggageHandler : MonoBehaviour
     {
         UpdateCurrentWeight();
         GameManager.Instance.ActionManager.InvokeLuggageUpdate(_luggageLibrary.GetTotalLuggageCount(), _luggageLibrary.GetTotalWeight());
+        if (_luggageLibrary.GetTotalLuggageCount() <= 0) {
+            GameManager.Instance.ActionManager.InvokePlayerDeath();
+        }
+        // Update musique
+        
         CheckIfLuggageGrpNeedUpdate();
+    }
+
+    // TODO Avoir le bon nom entré comme value  (Camping, Ville, Plage, Montagne)
+    private void ChangeGlobalMusicParam(string category)
+    {
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByNameWithLabel("Type", category); 
     }
 
     private void CheckIfLuggageGrpNeedUpdate()
@@ -146,7 +156,6 @@ public class LuggageHandler : MonoBehaviour
             RemoveLowestStabilityLuggages(1);
             // TODO : need to chekc if always unstable 
         }
-        GameManager.Instance.TimerManager.StopTimer(_timerUnstabilityKey);
     }
     
     private void OnUnstableChange(bool unstable)

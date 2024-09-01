@@ -65,14 +65,14 @@ public class MilestoneBehaviour : MonoBehaviour
         if (!other.gameObject.TryGetComponent(out _carController)) {
             _carController = other.gameObject.GetComponentInParent<CarController>();
             if (_carController == null) {
-                Debug.LogErrorFormat("No CarController found in the object {0}", other.gameObject.name);
+                // Debug.LogErrorFormat("No CarController found in the object {0}", other.gameObject.name);
                 return;
             }
         }
         
         _luggageHandler = _carController.GetComponent<LuggageHandler>();
         if (_luggageHandler == null) {
-            Debug.LogErrorFormat("No LuggageHandler found in the object {0}", _carController.gameObject.name);
+            // Debug.LogErrorFormat("No LuggageHandler found in the object {0}", _carController.gameObject.name);
             return;
         }
         
@@ -110,6 +110,7 @@ public class MilestoneBehaviour : MonoBehaviour
         // Set local position
         position -= this.transform.position;
         BezierKnot knot = new BezierKnot(position,10 ,10, rotation);
+        // TODO modifs Tangent mode 
         _splineContainer.Spline.Insert(0, knot, TangentMode.AutoSmooth);
     }
     
@@ -120,7 +121,7 @@ public class MilestoneBehaviour : MonoBehaviour
         }
         
         if (_splineAnimate == null) {
-            Debug.LogErrorFormat("No SplineAnimate found in the object {0}", _carController.gameObject.name);
+            // Debug.LogErrorFormat("No SplineAnimate found in the object {0}", _carController.gameObject.name);
             return;
         }
         
@@ -167,7 +168,7 @@ public class MilestoneBehaviour : MonoBehaviour
         }
         
         if (meshRenderer == null) {
-            Debug.LogErrorFormat("No MeshRenderer found");
+            // Debug.LogErrorFormat("No MeshRenderer found");
             return;
         }
         

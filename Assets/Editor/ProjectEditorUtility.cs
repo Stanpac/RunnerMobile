@@ -32,19 +32,4 @@ public static class ProjectEditorUtility
             return obj.ToString();
         }
     }
-    
-    
-    // TODO : Clean if not used otherwise finish the implementation
-    /*[MenuItem("GameObject/RoadTrip/TriggerBase", false, priority = 0)]
-    private static void CreateTriggerBase(MenuCommand menuCommand)
-    {
-        GameObject go = new GameObject("TriggerBase");
-        go.AddComponent<TriggerBase>();
-        go.AddComponent<BoxCollider>();
-        
-        GameObjectUtility.SetParentAndAlign(go, menuCommand.context as GameObject);
-       
-        Undo.RegisterCreatedObjectUndo(go, "Create " + go.name);
-        Selection.activeObject = go;
-    }*/
 }

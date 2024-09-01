@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
     public PlayerManager PlayerManager {get; private set;}
     public TimerManager TimerManager {get; private set;}
     public ScoreManager ScoreManager {get; private set;}
+    public AudioManager AudioManager { get; private set;}
     
     // Tile Generator 
     private TileCardGenerator _tileManager;
@@ -102,12 +103,14 @@ public class GameManager : MonoBehaviour
         // TODO : load when the Game Start 
         ScoreManager = new ScoreManager();
         TimerManager = gameObject.AddComponent<TimerManager>();
-        
+
+        AudioManager = FindObjectOfType<AudioManager>();
         UIManager = FindObjectOfType<UIManager>();
         UIManager.enabled = true;
         
         LoadData();
         ChangeCam(ECamToUse.Main);
+        ActionManager.PlayerDeath += ReturnToMainMenu;
         _cinemachineBrain = FindObjectOfType<CinemachineBrain>();
         _cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.FixedUpdate;
     }
@@ -129,6 +132,7 @@ public class GameManager : MonoBehaviour
             PlayerManager.InstantiatePlayer(Vector3.up * 2, Quaternion.identity);
             PlayerManager.GiveStartImpulsionToPlayer(Vector3.forward, _startImpulsionForce);
             ChangeCam(ECamToUse.Main);
+            FMODUnity.RuntimeManager.StudioSystem.setParameterByNameWithLabel("Intro", "false");
         } else {
             Debug.LogError("Game Scene not found");
         }
@@ -142,7 +146,9 @@ public class GameManager : MonoBehaviour
     public void ReturnToMainMenu()
     {
         MySceneManager.UnloadGameScene();
-        GameStateManager.SetGameState(EGameState.GS_StartMenu);
+        // GameStateManager.SetGameState(EGameState.GS_StartMenu);
+        // Temp because save data is not Finish 
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void ChangeCam(ECamToUse camToUse)

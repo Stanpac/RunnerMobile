@@ -10,7 +10,7 @@ public class PlayerManager
     public void InstantiatePlayer(Vector3 position, Quaternion rotation) 
     {
         if (CarPrefab == null) {
-            Debug.LogError("Player Prefab is not set");
+            // Debug.LogError("Player Prefab is not set");
             return;
         }
         
@@ -25,7 +25,7 @@ public class PlayerManager
     public void GiveStartImpulsionToPlayer(Vector3 direction, float force)
     {
         if (CurrentCarController == null) {
-            Debug.LogError("No Player to give impulsion");
+            // Debug.LogError("No Player to give impulsion");
             return;
         }
         

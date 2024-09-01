@@ -218,8 +218,6 @@ public class CarController : MonoBehaviour
             impulse = impulse.normalized * _impulseMaximum;
         }
         
-        // TODO : Add Particule Effect on Collision of Specific Tag (Tree, Barrier, Rock)
-        
         CarRigidbody.AddForce(impulse, ForceMode.Impulse);
         if (!_isInvincible) {
             _luggageHandler.RemoveLowestStabilityLuggages(_luaggageLostOnCollision);

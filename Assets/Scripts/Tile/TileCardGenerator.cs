@@ -185,7 +185,7 @@ public class TileCardGenerator : MonoBehaviour
     
     private void PrepareNewTileCard(TileCard overrideTileCard)
     {
-        Debug.LogFormat("Preparing Tile Card {0}", overrideTileCard.Prefab);
+        // Debug.LogFormat("Preparing Tile Card {0}", overrideTileCard.Prefab);
         _currentTileCard = overrideTileCard;
         LastAttemptedTileCard = _currentTileCard;
     }
@@ -194,10 +194,10 @@ public class TileCardGenerator : MonoBehaviour
     {
         if (_nextTileCardIsMilestone && _tileCards.HasMilestoneCard()) {
             PrepareNewTileCard(_tileCards.GetRandomMilestoneCard());
-            Debug.LogFormat("Next TileCard is a milestone, spawning {0}", _currentTileCard.Prefab);
+            // Debug.LogFormat("Next TileCard is a milestone, spawning {0}", _currentTileCard.Prefab);
         } else {
             if (_currentTileCard == null) {
-                Debug.Log("No TileCard Selected, pick new one.");
+                // Debug.Log("No TileCard Selected, pick new one.");
                 if (FinalTileCardsSelection == null ) {
                     return false;
                 }
@@ -205,7 +205,7 @@ public class TileCardGenerator : MonoBehaviour
             }
         
             if (_creditsAvailable < _currentTileCard.CreditsCount) {
-                Debug.LogFormat("Spawn card {0} is too expensive, aborting spawn.", _currentTileCard.Prefab);
+                // Debug.LogFormat("Spawn card {0} is too expensive, aborting spawn.", _currentTileCard.Prefab);
                 return false;
             }
 
@@ -213,12 +213,11 @@ public class TileCardGenerator : MonoBehaviour
                 && _consecutiveCheapSkips < _maxConsecutiveCheapSkips
                 && _currentTileCard.CreditsCount * _maximumNumberMultiplicatorBeforeConsideredCheap < _creditsAvailable) 
             {
-                Debug.LogFormat("Card {0} seems too cheap. Comparing against most expensive possible ({1})", 
-                    _currentTileCard.Prefab, MostExpensiveTileCostInDeck);
+                // Debug.LogFormat("Card {0} seems too cheap. Comparing against most expensive possible ({1})", _currentTileCard.Prefab, MostExpensiveTileCostInDeck);
             
                 if (MostExpensiveTileCostInDeck > _currentTileCard.CreditsCount) {
                     ++_consecutiveCheapSkips;
-                    Debug.LogFormat("Card {0} is too cheap, skipping.", _currentTileCard.Prefab);
+                    // Debug.LogFormat("Card {0} is too cheap, skipping.", _currentTileCard.Prefab);
                     return false;
                 }
             }
@@ -256,7 +255,7 @@ public class TileCardGenerator : MonoBehaviour
         }
         
         if (meshRenderer == null) {
-            Debug.LogErrorFormat("No MeshRenderer found in the TileCard");
+            // Debug.LogErrorFormat("No MeshRenderer found in the TileCard");
             return -1;
         }
         
@@ -280,7 +279,7 @@ public class TileCardGenerator : MonoBehaviour
         GameObject roadTile = null;
         roadTile = spawnCard.DoSpawn(spawnTarget.position, spawnTarget.rotation, _tileContainer.transform).spawnedInstance;
         if (gameObject == null) {
-            Debug.LogFormat("Spawn card {0} failed to spawn. Aborting cost procedures.", spawnCard);
+            // Debug.LogFormat("Spawn card {0} failed to spawn. Aborting cost procedures.", spawnCard);
             return false;
         }
         _previousTileSpawned = roadTile;
@@ -290,14 +289,14 @@ public class TileCardGenerator : MonoBehaviour
     
     private void AddCreditsAfterSpawn()
     {
-        Debug.LogFormat("Adding Credits after spawn {0}", GameManager.Instance.ScoreManager.GetCoefDifficulty());
+        // Debug.LogFormat("Adding Credits after spawn {0}", GameManager.Instance.ScoreManager.GetCoefDifficulty());
         _creditsAvailable += GameManager.Instance.ScoreManager.GetCoefDifficulty();
-        Debug.LogFormat("Credits Available now : {0}", _creditsAvailable);
+        // Debug.LogFormat("Credits Available now : {0}", _creditsAvailable);
     }
     
     private void OnAvForNextMilestoneReached(float avForthisMilestone)
     {
-        Debug.LogFormat("Setting Next TileCard as Milestone");
+        // Debug.LogFormat("Setting Next TileCard as Milestone");
         _nextTileCardIsMilestone = true;
         // TODO : Use the avForThisMilestone to Show it in the pannel
     }

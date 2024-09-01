@@ -14,6 +14,12 @@ public class Stability : MonoBehaviour
     [SerializeField]
     private SO_Stability _data;
     
+    /*[SerializeField] 
+    public AnimationCurve _instabilityRotationCurve;
+    
+    [SerializeField] 
+    public float _timeForReachMaxRotationInstability;*/
+    
     // Debug Settings
     [SerializeField, BoxGroup("Debug Settings")]
     private bool _stabilityInput = true;
@@ -111,7 +117,6 @@ public class Stability : MonoBehaviour
         // Difference entre la value Z de rotation max et la rotation actuelle Z
         float rotation = _carController.transform.rotation.z;
         float normalizedRotation = Mathf.Clamp01(Mathf.Abs(rotation / _maxRotationZ));
-        
         
         if (rotation > 0) {
             return normalizedRotation * 1 * _multiplicator;
