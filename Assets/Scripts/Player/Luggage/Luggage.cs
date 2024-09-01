@@ -28,6 +28,7 @@ public class Luggage : ScriptableObject
     public GameObject Prefab => _prefab;
     public string Name => _name;
     public float Weight => _weight;
+    public Texture2D Icon => _icon;
     public LuggageStability Stability => _stability;
     
     // Spawn a tile at the given position and rotation 

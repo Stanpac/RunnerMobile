@@ -139,7 +139,12 @@ public class MilestoneBehaviour : MonoBehaviour
         foreach (var luggage in _luggages) {
             _luggageHandler.AddLuggage(luggage, 1);
         }
-        // TODO : Play Animation for gain of luggages
+        
+        Texture2D[] textures = new Texture2D[_luggages.Length];
+        for (int i = 0; i < _luggages.Length; i++) {
+            textures[i] = _luggages[i].Icon;
+        }
+        GameManager.Instance.ActionManager.InvokeGainLuggage(textures);
         _splineAnimate?.Play();
         GameManager.Instance.ChangeCam(GameManager.ECamToUse.Main);
     }

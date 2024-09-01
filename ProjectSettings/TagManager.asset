@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Ground
   - Road
+  - FxTemporaire
+  - Barriere
+  - Tree
+  - Rock
   layers:
   - Default
   - TransparentFX

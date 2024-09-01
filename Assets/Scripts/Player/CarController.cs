@@ -53,6 +53,10 @@ public class CarController : MonoBehaviour
     [SerializeField][BoxGroup("Tags")][Tag]
     private string _roadTag;
     
+    // Obstacles
+    [SerializeField][BoxGroup("Obstacles")]
+    private FParticuleObstacle[] _particuleObstacles;
+    
     // Debug Settings
     [SerializeField][BoxGroup("Debug Settings")]
     private bool _showDebug = false;
@@ -193,6 +197,11 @@ public class CarController : MonoBehaviour
         if ((_collisionLayer.value & (1 << other.transform.gameObject.layer)) == 0) {
            return;
         }
+
+        GameObject particuleToSpawn = GetParticuleSystem(other.transform.tag);
+        if (particuleToSpawn != null) {
+            Instantiate(particuleToSpawn, other.contacts[0].point, Quaternion.identity);
+        }
         
         // Clamp the impulse to a maximum value
         Vector3 impulse = Vector3.ClampMagnitude(other.impulse, _impulseMaximum);
@@ -216,6 +225,16 @@ public class CarController : MonoBehaviour
             _luggageHandler.RemoveLowestStabilityLuggages(_luaggageLostOnCollision);
             StartInvincibility();
         }
+    }
+    
+    private GameObject GetParticuleSystem(string tag)
+    {
+        foreach (FParticuleObstacle particuleObstacle in _particuleObstacles) {
+            if (particuleObstacle.Tag == tag) {
+                return particuleObstacle.ParticuleSystem;
+            }
+        }
+        return null;
     }
     
     private void StartInvincibility()
@@ -320,6 +339,14 @@ public class CarController : MonoBehaviour
         Minimal,
         Maximal
     }
+}
+
+[Serializable]
+struct FParticuleObstacle
+{
+    [Tag]
+    public string Tag;
+    public GameObject ParticuleSystem;
 }
 
 [Serializable]

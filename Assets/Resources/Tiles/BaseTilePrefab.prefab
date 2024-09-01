@@ -274,7 +274,7 @@ GameObject:
   - component: {fileID: 4358874672515052767}
   m_Layer: 8
   m_Name: MurDroite
-  m_TagString: Untagged
+  m_TagString: Barriere
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -522,7 +522,7 @@ GameObject:
   - component: {fileID: 2377366174983708604}
   m_Layer: 8
   m_Name: MurGauche
-  m_TagString: Untagged
+  m_TagString: Barriere
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

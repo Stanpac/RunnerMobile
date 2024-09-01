@@ -94,6 +94,15 @@ MonoBehaviour:
     - {fileID: 4880756959424967256}
     - {fileID: 1707627931852572705}
   _roadTag: Road
+  _particuleObstacles:
+  - Tag: Barriere
+    ParticuleSystem: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 3}
+  - Tag: Tree
+    ParticuleSystem: {fileID: 2353600328335836179, guid: ceec7516237b4104b94300043ca39784,
+      type: 3}
+  - Tag: Rock
+    ParticuleSystem: {fileID: 1040608886635896, guid: a97415c6b57076f41a6621a7b51d63a3,
+      type: 3}
   _showDebug: 1
   _raylength: 2
   _showWheelsDebug: 1

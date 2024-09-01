@@ -41,6 +41,14 @@ public class UIManager : MonoBehaviour
     [SerializeField, BoxGroup("Luggage")]
     private TextMeshProUGUI _nbrLuggage;
     
+    [SerializeField, BoxGroup("Luggage")]
+    private GameObject _luggagePickUp;
+    
+    [SerializeField, BoxGroup("Luggage")]
+    private float _luggagePickUpDuration = 2;
+    
+    [SerializeField, BoxGroup("Luggage")]
+    private RawImage[] _luggageIcons;
     
     private void Awake()
     {
@@ -144,6 +152,22 @@ public class UIManager : MonoBehaviour
         _powerUpBonus.enabled = false;
     }
     
+    private void OnGainLuggage(Texture2D[] arg2)
+    {
+        if (_luggagePickUp == null) return;
+        _luggagePickUp.SetActive(true);
+        for (int i = 0; i < _luggageIcons.Length; i++) {
+            _luggageIcons[i].texture = arg2[i];
+        }
+        StartCoroutine(StopLuggagePickUp());
+    }
+    
+    IEnumerator StopLuggagePickUp()
+    {
+        yield return new WaitForSeconds(_luggagePickUpDuration);
+        _luggagePickUp.SetActive(false);
+    }
+    
     private void OnEnable()
     {
         GameManager.Instance.ActionManager.GameStateUpdate += OnGameStateChange;
@@ -152,8 +176,9 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.ActionManager.ScoreUpdate += OnScoreChange;
         GameManager.Instance.ActionManager.PlayerMove += OnPlayerMove;
         GameManager.Instance.ActionManager.PowerUpStartEvent += OnPowerUpStart;
+        GameManager.Instance.ActionManager.GainLuggage += OnGainLuggage;
     }
-    
+
     private void OnDisable()
     {
         if (GameManager.Instance == null) return;
@@ -163,5 +188,6 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.ActionManager.ScoreUpdate -= OnScoreChange;
         GameManager.Instance.ActionManager.PlayerMove -= OnPlayerMove;
         GameManager.Instance.ActionManager.PowerUpStartEvent -= OnPowerUpStart;
+        GameManager.Instance.ActionManager.GainLuggage -= OnGainLuggage;
     }
 }

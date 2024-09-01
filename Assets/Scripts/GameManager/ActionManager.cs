@@ -32,6 +32,7 @@ public class ActionManager
     // Milestone
     public Action<int> MilestoneEvent;
     public Action<float> AvForNextMilestoneReached;
+    public Action<Texture2D[]> GainLuggage;
     
     // PowerUp
     public Action<float> PowerUpStartEvent;
@@ -89,6 +90,11 @@ public class ActionManager
     public void InvokeMilestoneEvent(int luggageCount)
     {
         MilestoneEvent?.Invoke(luggageCount);
+    }
+    
+    public void InvokeGainLuggage(Texture2D[] luggageTextures)
+    {
+        GainLuggage?.Invoke(luggageTextures);
     }
     
     public void InvokeAvForNextMilestoneReached(float avForNextMilestone)
