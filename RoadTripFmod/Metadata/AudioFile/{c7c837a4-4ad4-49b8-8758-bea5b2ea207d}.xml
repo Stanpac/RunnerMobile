@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{c7c837a4-4ad4-49b8-8758-bea5b2ea207d}">
+		<property name="assetPath">
+			<value>portière.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>96</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>2.2826666666666666</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{047777f2-a7e0-4a8e-8d98-24c56cb05959}</destination>
+		</relationship>
+	</object>
+</objects>

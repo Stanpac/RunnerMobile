@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{5470fdfc-8226-415a-9fbd-e271f494be0e}">
+		<property name="assetPath">
+			<value>Voiture qui avance.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>58.512</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{047777f2-a7e0-4a8e-8d98-24c56cb05959}</destination>
+		</relationship>
+	</object>
+</objects>

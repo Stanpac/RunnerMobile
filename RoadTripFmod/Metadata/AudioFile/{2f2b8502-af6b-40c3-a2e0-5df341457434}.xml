@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{2f2b8502-af6b-40c3-a2e0-5df341457434}">
+		<property name="assetPath">
+			<value>baggage/ajout_bag_ou_ui7.mp3</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>24</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.33600000000000002</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{047777f2-a7e0-4a8e-8d98-24c56cb05959}</destination>
+		</relationship>
+	</object>
+</objects>
