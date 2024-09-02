@@ -307,8 +307,8 @@ MonoBehaviour:
   switchSettingsMigration: 1
   HasSourceProject: 1
   HasPlatforms: 1
-  sourceProjectPath: ../../../Desktop/Prez/2DRunnerMobile/RoadTripFmod/RoadTripFmod.fspro
-  sourceBankPath: ../../../Desktop/Prez/2DRunnerMobile/RoadTripFmod/Build
+  sourceProjectPath: RoadTripFmod/RoadTripFmod.fspro
+  sourceBankPath: RoadTripFmod/Build
   sourceBankPathUnformatted: 
   BankRefreshCooldown: 5
   ShowBankRefreshWindow: 1
